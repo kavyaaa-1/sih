@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/add_case.dart';
+import 'package:sih_project/screens/assign_lawyer.dart';
+import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/select_user_type.dart';
-
 import 'dbHelper/mongodb.dart';
 
 void main() async {
@@ -24,8 +26,13 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Define your initial route
       routes: {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
+
         //'/': (context) => SelectUserTypePage(),
         '/': (context) => SelectUserTypePage(),
+
+        //'/': (context) => CaseInfoForm(),
+        //'/': (context) => CaseInfoDashboard()
+
       },
     );
   }
