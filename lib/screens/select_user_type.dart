@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/family_signin_page.dart';
+import 'package:sih_project/screens/lawyer_homepg.dart';
 
 import 'login_register_page.dart';
 
@@ -27,6 +29,30 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
     setState(() {
       selectedUserType = userType;
     });
+  }
+
+  void navigateToSelectedPage() {
+    if (selectedUserType.isNotEmpty) {
+      // Navigate to the corresponding page based on selectedUserType
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            if (selectedUserType == "Family") {
+              return FamilySignPage();
+            } else if (selectedUserType == "Prison Authority") {
+              return LoginRegisterPage(selectedUserType);
+            } else if (selectedUserType == "Lawyer") {
+              return LawyerHomePage();
+            } else if (selectedUserType == "Judge") {
+              return LoginRegisterPage(selectedUserType);
+            } else {
+              return Container(); // Handle other cases as needed
+            }
+          },
+        ),
+      );
+    }
   }
 
   @override
@@ -64,17 +90,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
                 color: Colors.deepPurple,
               ),
               child: ElevatedButton(
-                onPressed: () {
-                  if (selectedUserType.isNotEmpty) {
-                    // Navigate to the login/register page with the selected user type
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginRegisterPage(selectedUserType),
-                      ),
-                    );
-                  }
-                },
+                onPressed: navigateToSelectedPage,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   elevation: 0,
@@ -102,7 +118,8 @@ class UserTypeGrid extends StatelessWidget {
   final Function(String) onUserTypeSelected;
   final String selectedUserType;
 
-  UserTypeGrid({required this.onUserTypeSelected, required this.selectedUserType});
+  UserTypeGrid(
+      {required this.onUserTypeSelected, required this.selectedUserType});
 
   @override
   Widget build(BuildContext context) {

@@ -26,7 +26,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
   }
 
   bool _isTenDigitNumber(String text) {
-    if (text == null || text.isEmpty) {
+    if (text.isEmpty) {
       return false;
     }
     return int.tryParse(text) != null && text.length == 10;
@@ -68,7 +68,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                 onPressed: isLoginButtonEnabled ? () {} : null,
                 style: ElevatedButton.styleFrom(
                   primary:
-                  isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
+                      isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -91,11 +91,11 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String label,
-      TextInputType keyboardType, {
-        bool isPassword = false,
-      }) {
+    TextEditingController controller,
+    String label,
+    TextInputType keyboardType, {
+    bool isPassword = false,
+  }) {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
@@ -114,5 +114,3 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
     super.dispose();
   }
 }
-
-

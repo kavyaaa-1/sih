@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/family_signin_page.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 
-import '../dbHelper/family_dat_model.dart';
+import '../dbHelper/family_data_model.dart';
 import 'family_login_page.dart';
 
 // Define a list of valid Case IDs
@@ -37,14 +36,14 @@ class _FamilySignPageState extends State<FamilySignPage> {
   }
 
   bool _isTenDigitNumber(String text) {
-    if (text == null || text.isEmpty) {
+    if (text.isEmpty) {
       return false;
     }
     return int.tryParse(text) != null && text.length == 10;
   }
 
   bool _isSixDigitNumber(String text) {
-    if (text == null || text.isEmpty) {
+    if (text.isEmpty) {
       return false;
     }
     return int.tryParse(text) != null && text.length == 6;
@@ -138,8 +137,9 @@ class _FamilySignPageState extends State<FamilySignPage> {
               ElevatedButton(
                 onPressed: isLoginButtonEnabled ? _handleLogin : null,
                 style: ElevatedButton.styleFrom(
-                  primary:
-                  isLoginButtonEnabled ? Colors.deepPurple : Colors.purpleAccent,
+                  primary: isLoginButtonEnabled
+                      ? Colors.deepPurple
+                      : Colors.purpleAccent,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -190,11 +190,11 @@ class _FamilySignPageState extends State<FamilySignPage> {
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String label,
-      TextInputType keyboardType, {
-        bool isPassword = false,
-      }) {
+    TextEditingController controller,
+    String label,
+    TextInputType keyboardType, {
+    bool isPassword = false,
+  }) {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,

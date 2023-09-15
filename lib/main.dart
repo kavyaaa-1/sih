@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/family_login_page.dart';
-import 'package:sih_project/screens/family_signin_page.dart';
-import 'package:sih_project/screens/lawyer_homepg.dart';
 import 'package:sih_project/screens/select_user_type.dart';
-import 'package:sih_project/utils/routes.dart'; // Import the file where SelectUserTypePage is defined
 
-void main() {
+import 'dbHelper/mongodb.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDatabase.connect();
   runApp(const MyApp());
 }
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
         //'/': (context) => SelectUserTypePage(),
-        '/': (context) => FamilySignPage(),
+        '/': (context) => SelectUserTypePage(),
       },
     );
   }
