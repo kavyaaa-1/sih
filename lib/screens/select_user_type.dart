@@ -33,6 +33,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
         title: Text(""),
       ),
       body: Center(

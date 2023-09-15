@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/lawyer_homepg.dart';
 import 'package:sih_project/screens/select_user_type.dart';
 import 'package:sih_project/utils/routes.dart'; // Import the file where SelectUserTypePage is defined
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Define your initial route
       routes: {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
-        '/': (context) => SelectUserTypePage(), // Add this route for the Select User Type page
+        //'/': (context) => SelectUserTypePage(),
+        '/': (context) => LawyerHomePage(),
       },
     );
   }
