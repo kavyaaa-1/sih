@@ -1,0 +1,243 @@
+{"intents": [
+
+    {"tag": "greetings",
+     "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up","Hey"],
+     "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+     "context_set": ""
+    },
+
+    {"tag": "goodbye",
+     "patterns": ["Bye", "See you later", "Goodbye", "I am Leaving", "Have a Good day"],
+     "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"],
+     "context_set": ""
+    },
+  {
+    "tag": "bail",
+    "patterns": [
+      "How can I apply for bail?",
+      "Explain the bail process.",
+      "What factors are considered for granting bail?",
+      "Tell me about bail conditions."
+    ],
+    "responses": [
+      "To apply for bail, you need to submit a bail application to the court through your lawyer. The court will then consider your case based on various factors, including the nature of the offense and your previous criminal record.",
+      "The bail process involves a court hearing where the judge decides whether to grant bail. Your lawyer will present arguments in your favor, and the judge will determine bail conditions, if granted.",
+      "Sure, I can explain the bail process step by step. Would you like me to do that?",
+      "Bail conditions can include surrendering your passport, regular check-ins with the police, and refraining from contacting certain individuals."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "lawyer",
+    "patterns": [
+      "How can I get a lawyer?",
+      "Do you recommend a lawyer?",
+      "Who is my assigned lawyer?",
+      "Tell me about legal representation."
+    ],
+    "responses": [
+      "To get a lawyer, you should contact your local legal aid office or hire a private attorney. If you cannot afford an attorney, you may be eligible for a court-appointed lawyer.",
+      "I can recommend a lawyer, but it's essential to consult with your local legal aid office or research lawyers in your area to find one that suits your needs.",
+      "The assigned lawyer for your case is [Lawyer's Name]. You can contact them at [Contact Information].",
+      "Legal representation is crucial during legal proceedings to ensure your rights are protected and your case is properly presented in court."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "legal_proceedings",
+    "patterns": [
+      "Explain legal proceedings.",
+      "What are the stages of legal proceedings?",
+      "How long does a trial usually take?"
+    ],
+    "responses": [
+      "Legal proceedings involve various stages, such as pre-trial hearings, trial, and post-trial motions. Each stage has specific procedures and may include witness testimonies, evidence presentation, and legal arguments.",
+      "The court process consists of arraignment, plea hearings, discovery, trial, and verdict. The duration of a trial can vary significantly based on the complexity of the case.",
+      "Trial durations can vary, but typically, they range from a few days to several weeks, depending on the case's complexity and court availability."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "basic_legal_info",
+    "patterns": [
+      "What are the basic legal rights of an undertrial prisoner?",
+      "Tell me about legal rights.",
+      "Explain habeas corpus."
+    ],
+    "responses": [
+      "An undertrial prisoner has rights, including the right to a fair trial, the right to remain silent, and the right to legal representation. These rights are protected by the law.",
+      "Legal rights include the right to due process, the right to be informed of the charges, and the right to a lawyer. It's essential to understand and exercise these rights during legal proceedings.",
+      "Habeas corpus is a legal action that allows individuals detained or imprisoned to challenge the legality of their detention in court. It safeguards against unlawful imprisonment."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "case_status",
+    "patterns": [
+      "How can I check the status of my case?",
+      "Tell me about the current case status.",
+      "When is the next court hearing?"
+    ],
+    "responses": [
+      "You can check the case status by contacting your lawyer, visiting the court's website, or calling the court clerk's office. They can provide you with updates on your case.",
+      "The current status of the trial is [Status]. The next hearing is scheduled for [Date]. Your lawyer will represent you in court.",
+      "I don't have real-time updates, but you can check with your lawyer or the court for the most recent case status."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "parole",
+    "patterns": [
+      "Can an undertrial prisoner get parole?",
+      "Explain the parole process.",
+      "What are the conditions for parole?"
+    ],
+    "responses": [
+      "The parole process involves submitting a parole application to the parole board. The board reviews your case, considering factors like behavior in prison and the nature of the offense.",
+      "Conditions for parole include regular check-ins, compliance with parole officers, and avoiding criminal activities. Violating parole conditions can lead to re-incarceration.",
+      "Yes, under certain circumstances, an undertrial prisoner may be eligible for parole. It depends on factors like the offense, behavior in prison, and parole board decisions."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "sentencing",
+    "patterns": [
+      "How is the sentencing determined?",
+      "Explain the sentencing process.",
+      "What factors influence the length of a sentence?"
+    ],
+    "responses": [
+      "Sentencing is determined based on factors like the nature of the offense, previous criminal history, and sentencing guidelines. The judge considers these factors when issuing a sentence.",
+      "The sentencing process involves a court hearing where the judge listens to arguments from both sides and determines an appropriate sentence. It aims to ensure justice and rehabilitation.",
+      "Several factors can influence the length of a sentence, including the severity of the crime, the defendant's criminal record, and any mitigating or aggravating circumstances."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "visitation",
+    "patterns": [
+      "How can family members visit an undertrial prisoner?",
+      "Tell me about prison visitation.",
+      "What are the visitation rules?"
+    ],
+    "responses": [
+      "Family members can visit an undertrial prisoner by following the prison's visitation procedures. They typically need to schedule visits in advance and comply with visitation rules.",
+      "Prison visitation allows family members to meet undertrial prisoners in a controlled environment. It helps maintain family connections during incarceration.",
+      "Visitation rules may include dress code requirements, identification checks, and restrictions on items allowed during visits. It's essential to follow these rules for successful visits."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "rehabilitation",
+    "patterns": [
+      "Is rehabilitation available for undertrial prisoners?",
+      "Explain the rehabilitation programs.",
+      "What types of rehabilitation are offered?"
+    ],
+    "responses": [
+      "Yes, rehabilitation programs are available for undertrial prisoners to help them reintegrate into society. These programs aim to address various needs, such as substance abuse treatment and vocational training.",
+      "Rehabilitation programs include educational classes, job training, counseling, and support groups. They focus on preparing individuals for life after incarceration.",
+      "The types of rehabilitation offered can vary by correctional facility. It's essential to inquire about available programs and participate in those that suit your needs."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "appeals",
+    "patterns": [
+      "How can I appeal a court decision?",
+      "Explain the appeals process.",
+      "Tell me about the appellate court."
+    ],
+    "responses": [
+      "To appeal a court decision, you should consult with your lawyer, who will guide you through the process. Appeals involve reviewing the trial court's decision in a higher court.",
+      "The appeals process includes filing a notice of appeal, submitting legal briefs, and attending appellate court hearings. It allows you to challenge the trial court's rulings.",
+      "Appellate courts are higher-level courts responsible for reviewing decisions made by lower trial courts. They assess whether errors occurred during the trial process."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "reentry",
+    "patterns": [
+      "What support is available for reentry into society?",
+      "Explain the reentry programs.",
+      "How can I prepare for reentry?"
+    ],
+    "responses": [
+      "Support for reentry into society includes access to job placement services, housing assistance, and counseling. These programs aim to reduce recidivism and support successful reintegration.",
+      "Reentry programs offer various services, such as job readiness training, substance abuse treatment, and mental health support. They focus on helping individuals rebuild their lives post-release.",
+      "To prepare for reentry, individuals can participate in reentry programs, acquire job skills, and establish a support network. Planning for reentry is essential for a successful transition."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "juvenile",
+    "patterns": [
+      "Can juveniles be held with adult prisoners?",
+      "Tell me about juvenile detention.",
+      "What are the rights of juvenile offenders?"
+    ],
+    "responses": [
+      "Juveniles are typically held separately from adult prisoners to protect their safety and well-being. Juvenile detention facilities are designed to address the unique needs of young offenders.",
+      "Juvenile detention facilities provide educational and rehabilitative programs to help juveniles reintegrate into society. They focus on education, counseling, and skill-building.",
+      "Juvenile offenders have legal rights, including the right to legal representation, the right to a fair trial, and protection from cruel and unusual punishment."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "solitary_confinement",
+    "patterns": [
+      "What is solitary confinement?",
+      "Tell me about isolation in prison.",
+      "Are there rules for solitary confinement?"
+    ],
+    "responses": [
+      "Solitary confinement is the practice of isolating inmates in a small cell for an extended period. It is used as a disciplinary measure or for inmate protection.",
+      "Isolation in prison involves restrictions on an inmate's social interactions, often due to disciplinary issues. It aims to maintain safety and security within the facility.",
+      "Rules for solitary confinement vary by jurisdiction and facility. They typically include time limits, mental health assessments, and monitoring of inmates in isolation."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "commissary",
+    "patterns": [
+      "How can I access the prison commissary?",
+      "Tell me about the commissary store.",
+      "What can I buy from the commissary?"
+    ],
+    "responses": [
+      "Inmates can access the prison commissary by placing orders through the facility's designated process. Commissary stores offer a variety of items for purchase.",
+      "The commissary store allows inmates to buy personal care products, snacks, writing materials, and other approved items. It helps improve the quality of life during incarceration.",
+      "The specific items available for purchase may vary, but commissaries typically offer a range of goods to meet inmates' basic needs and preferences."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "mental_health",
+    "patterns": [
+      "What mental health services are available in prison?",
+      "Explain mental health support.",
+      "How can I access mental health care?"
+    ],
+    "responses": [
+      "Prisons provide mental health services to inmates, including counseling, therapy, and psychiatric care. Inmates can access these services to address mental health needs.",
+      "Mental health support includes assessments, individual and group therapy, and medication management. It aims to address mental health concerns and promote well-being.",
+      "Inmates can access mental health care by requesting an evaluation or speaking to a mental health professional within the facility. It's important to seek help when needed."
+    ],
+    "context_set": ""
+  },
+  {
+    "tag": "rights_violation",
+    "patterns": [
+      "What should I do if my rights are violated in prison?",
+      "Tell me about reporting rights violations.",
+      "Can I file a complaint about mistreatment?"
+    ],
+    "responses": [
+      "If your rights are violated in prison, you should report the violation to prison authorities, your lawyer, or an external oversight agency. They can help address the issue.",
+      "Reporting rights violations involves documenting the incident, gathering evidence, and notifying the appropriate authorities. It's crucial to seek assistance when facing mistreatment.",
+      "Yes, you can file a complaint about mistreatment or rights violations. Prison facilities have procedures for submitting complaints, and external organizations can also assist in addressing the issue."
+    ],
+    "context_set": ""
+  }
+]
+}

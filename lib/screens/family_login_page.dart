@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/family_homepg.dart';
 
 class FamilyLogInPage extends StatefulWidget {
   @override
@@ -65,7 +66,16 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                   isPassword: true),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: isLoginButtonEnabled ? () {} : null,
+                onPressed: isLoginButtonEnabled
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FamilyHomePage(),
+                          ),
+                        );
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   primary:
                       isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,

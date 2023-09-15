@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/add_case.dart';
-import 'package:sih_project/screens/assign_lawyer.dart';
 import 'package:sih_project/screens/select_user_type.dart';
 
 import 'dbHelper/mongodb.dart';
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
         //'/': (context) => SelectUserTypePage(),
-        '/': (context) => CaseInfoForm(),
+        '/': (context) => SelectUserTypePage(),
       },
     );
   }

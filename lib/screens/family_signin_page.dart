@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 
 import '../dbHelper/family_data_model.dart';
+import 'family_homepg.dart';
 import 'family_login_page.dart';
 
 // Define a list of valid Case IDs
@@ -187,6 +188,12 @@ class _FamilySignPageState extends State<FamilySignPage> {
 
     // Insert data into MongoDB and handle validation
     _insertData(phoneNumber, password, caseID);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FamilyHomePage(),
+      ),
+    );
   }
 
   Widget _buildTextField(
