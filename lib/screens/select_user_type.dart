@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_signin_page.dart';
 import 'package:sih_project/screens/lawyer_homepg.dart';
 
+import 'judge_login_page.dart';
+import 'lawyer_login_page.dart';
 import 'login_register_page.dart';
 import 'prison_login_page.dart';
 
@@ -44,9 +46,9 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
             } else if (selectedUserType == "Prison Authority") {
               return PrisonLogin();
             } else if (selectedUserType == "Lawyer") {
-              return LawyerHomePage();
+              return LawyerLogin();
             } else if (selectedUserType == "Judge") {
-              return LoginRegisterPage(selectedUserType);
+              return JudgeLogin();
             } else {
               return Container(); // Handle other cases as needed
             }
