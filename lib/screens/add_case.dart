@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'assign_lawyer.dart';
+
 class CaseInfoForm extends StatefulWidget {
   @override
   _CaseInfoFormState createState() => _CaseInfoFormState();
@@ -46,10 +48,12 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Enter Case Information'),
+        backgroundColor: Colors.deepPurpleAccent,
+        title: Text('Enter Case Information',
+        style: TextStyle(color: Colors.white),),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(25.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -59,7 +63,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField('Prisoner Full Name', (value) {
                 prisonerName = value;
@@ -74,13 +78,13 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 prisonerID = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "CASE DETAILS",
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField('Type of offense', (value) {
                 offenseType = value;
@@ -96,13 +100,13 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 offenseDesc = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "ARREST INFORMATION",
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField('Date and Time of Arrest', (value) {
                 arrestDateAndTime = value;
@@ -117,13 +121,13 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 arrestwarrantNumber = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "BAIL INFORMATION",
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField('Bail Amount(if applicable)', (value) {
                 bailAmt = value;
@@ -132,13 +136,13 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 bailConditions = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "WITNESS INFORMATION",
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField('Witness Name(if any)', (value) {
                 witnessName = value;
@@ -147,13 +151,13 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 witnessContact = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "EVIDENCE AND DOCUMENTATION",
                 style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField(
                   'List of Evidence and Documents related to the Case',
@@ -161,23 +165,28 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 evidenceInfo = value;
               }),
 
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 40.0),
               const Text(
                 "ADDITIONAL COMMENTS AND NOTES",
                 style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 20.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue),
+                    color: Colors.deepPurpleAccent),
               ),
               _buildTextField(
                   'Additional Information related to the case(if any)',
                   (value) {
                 additionalComments = value;
               }),
-              SizedBox(height: 16.0),
+              SizedBox(height: 35.0),
               ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('SUBMIT'),
+                onPressed: () => _submitForm(),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepPurpleAccent, // Button color
+                  onPrimary: Colors.white, // Text color
+                ),
+                child: Text('SUBMIT',
+                style: TextStyle(fontSize: 20),),
               ),
             ],
           ),
@@ -199,3 +208,17 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
     );
   }
 }
+void _submitForm(BuildContext context, GlobalKey<FormState> formKey) {
+  if (formKey.currentState!.validate()) {
+    // Process and submit the data as needed (e.g., send to a server)
+    // You can access the entered data using the defined variables
+
+    // Navigate to the CaseConfirmationPage
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CaseConfirmationPage(),
+      ),
+    );
+  }
+}
+
