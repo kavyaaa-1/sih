@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/family_signin_page.dart';
 import 'dbHelper/mongodb.dart';
+import 'screens/select_user_type.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,14 +25,11 @@ class MyApp extends StatelessWidget {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
 
         //'/': (context) => SelectUserTypePage(),
-        //'/': (context) => SelectUserTypePage(),
+        '/': (context) => SelectUserTypePage(),
 
         //'/': (context) => CaseInfoForm(),
-        '/': (context) => FamilySignPage()
-
+        //'/': (context) => FamilySignPage()
       },
     );
   }
 }
-
-// Your existing MyHomePage and _MyHomePageState classes.
