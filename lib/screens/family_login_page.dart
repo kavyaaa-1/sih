@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:sih_project/screens/family_homepg.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
-import '../dbHelper/constant.dart';
 
 class FamilyLogInPage extends StatefulWidget {
   @override
@@ -37,21 +37,14 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
 
   // Function to verify user credentials
   Future<bool> _verifyCredentials(String phoneNumber, String password) async {
-    // MongoDB connection setup
-    final db = await mongo_dart.Db.create(MONGO_CONN_URL); // Replace with your MongoDB URL
-    await db.open();
-
-    final collection = await db.collection(USER_COLLECTION);
-
     // Query for admin with matching phone_no and password
-    final query = mongo_dart.where
-        .eq('phone', phoneNumber)
-        .eq('pswd', password);
+    final query =
+        mongo_dart.where.eq('phone', phoneNumber).eq('pswd', password);
 
-    final admins = await collection.find(query).toList();
+    final admins = await MongoDatabase.familyCollection.find(query).toList();
 
     // Close the MongoDB connection
-    await db.close();
+    await MongoDatabase.db.close();
 
     // Return true if valid credentials, false otherwise
     return admins.isNotEmpty;
@@ -124,12 +117,10 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'images/family.png', 
-                width: 130, 
+                'images/family.png',
+                width: 130,
               ),
-
               const SizedBox(height: 20),
-
               const Text(
                 'Family Login',
                 style: TextStyle(
@@ -137,30 +128,25 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               SizedBox(height: 20),
-
               _buildTextField(
                 _phoneNumberController,
                 'Phone Number',
                 TextInputType.phone,
               ),
-
               SizedBox(height: 10),
-
               _buildTextField(
                 _passwordController,
                 'Password',
                 TextInputType.text,
                 isPassword: true,
               ),
-
               SizedBox(height: 40),
-              
               ElevatedButton(
                 onPressed: isLoginButtonEnabled ? _performLogin : null,
                 style: ElevatedButton.styleFrom(
-                  primary: isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
+                  primary:
+                      isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -183,11 +169,11 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String label,
-      TextInputType keyboardType, {
-        bool isPassword = false,
-      }) {
+    TextEditingController controller,
+    String label,
+    TextInputType keyboardType, {
+    bool isPassword = false,
+  }) {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,

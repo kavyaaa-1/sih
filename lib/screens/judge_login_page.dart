@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
 import 'judge_homepg.dart';
 
@@ -19,18 +19,13 @@ class _JudgeLoginState extends State<JudgeLogin> {
   final String userCollection = JUDGE_COLLECTION;
 
   Future<bool> _verifyCredentials(String judgeId, String pin) async {
-    final db = await mongo_dart.Db.create(MONGO_CONN_URL);
-    await db.open();
+    final collection = MongoDatabase.db.collection(userCollection);
 
-    final collection = db.collection(userCollection);
-
-    final query = mongo_dart.where
-        .eq('jid', judgeId)
-        .eq('jpin', pin);
+    final query = mongo_dart.where.eq('jid', judgeId).eq('jpin', pin);
 
     final users = await collection.find(query).toList();
 
-    await db.close();
+    await MongoDatabase.db.close();
 
     return users.isNotEmpty;
   }
@@ -149,5 +144,3 @@ class _JudgeLoginState extends State<JudgeLogin> {
     );
   }
 }
-
-
