@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
-import 'package:sih_project/screens/assign_lawyer.dart';
 import 'package:sih_project/screens/case_dashboard.dart';
 
 class Case {
@@ -188,7 +187,7 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurpleAccent,
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(

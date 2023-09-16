@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_homepg.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
-import 'package:sih_project/screens/case_dashboard.dart';
-import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
 
 class FamilyLogInPage extends StatefulWidget {
@@ -126,31 +124,39 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/images/justice-scale_3122246.png', // Replace with the path to your image asset// Adjust the height as needed
-                width: 130, // Adjust the width as needed
+                'images/family.png', 
+                width: 130, 
               ),
-              SizedBox(height: 20),
-              Text(
+
+              const SizedBox(height: 20),
+
+              const Text(
                 'Family Login',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               SizedBox(height: 20),
+
               _buildTextField(
                 _phoneNumberController,
                 'Phone Number',
                 TextInputType.phone,
               ),
+
               SizedBox(height: 10),
+
               _buildTextField(
                 _passwordController,
                 'Password',
                 TextInputType.text,
                 isPassword: true,
               ),
+
               SizedBox(height: 40),
+              
               ElevatedButton(
                 onPressed: isLoginButtonEnabled ? _performLogin : null,
                 style: ElevatedButton.styleFrom(
@@ -161,7 +167,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                   ),
                   minimumSize: Size(200, 60),
                 ),
-                child: Text(
+                child: const Text(
                   "Log In",
                   style: TextStyle(
                     fontSize: 22,

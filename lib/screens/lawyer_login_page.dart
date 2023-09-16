@@ -57,7 +57,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/justice-scale_3122246.png', // Replace with your image path
+              'images/law_3122321.png', // Replace with your image path
               width: 125.0, // Adjust the image width as needed
             ),
             const SizedBox(

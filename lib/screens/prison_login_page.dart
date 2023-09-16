@@ -70,13 +70,13 @@ class _PrisonLoginState extends State<PrisonLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/justice-scale_3122246.png', // Replace with your image path
+              'images/police_7210669.png', // Replace with your image path
               width: 125.0, // Adjust the image width as needed
             ),
             const SizedBox(
               height: 20.0,
             ),
-            Text(
+            const Text(
               'Prison Login',
               style: TextStyle(
                 fontSize: 24.0,

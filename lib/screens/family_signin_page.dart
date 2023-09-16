@@ -117,24 +117,48 @@ class _FamilySignPageState extends State<FamilySignPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              Image.asset(
+                'images/family.png',
+                width: 130,
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
                 'Enter Details', // Added label "Enter Details"
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 19),
+
+              const SizedBox(height: 19),
+
               _buildTextField(
-                  _phoneNumberController, 'Phone Number', TextInputType.phone),
-              SizedBox(height: 10),
+                _phoneNumberController,
+                'Phone Number',
+                TextInputType.phone,
+              ),
+
+              const SizedBox(height: 10),
+
               _buildTextField(
-                  _passwordController, 'Password', TextInputType.text,
-                  isPassword: true),
-              SizedBox(height: 10),
+                _passwordController,
+                'Password',
+                TextInputType.text,
+                isPassword: true,
+              ),
+
+              const SizedBox(height: 10),
+
               _buildTextField(
-                  _caseIdController, '6 digit Case ID', TextInputType.number),
-              SizedBox(height: 20),
+                _caseIdController,
+                '6 digit Case ID',
+                TextInputType.number,
+              ),
+
+              const SizedBox(height: 20),
+
               ElevatedButton(
                 onPressed: isLoginButtonEnabled ? _handleLogin : null,
                 style: ElevatedButton.styleFrom(
@@ -147,7 +171,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
                   ),
                   minimumSize: Size(200, 60),
                 ),
-                child: Text(
+                child: const Text(
                   "Sign Up",
                   style: TextStyle(
                     fontSize: 22,
@@ -155,7 +179,9 @@ class _FamilySignPageState extends State<FamilySignPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+
+              const SizedBox(height: 10),
+              
               InkWell(
                 onTap: () {
                   // Navigate to the Sign In page
@@ -166,7 +192,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
                     ),
                   );
                 },
-                child: Text(
+                child: const Text(
                   "Already registered? Log In",
                   style: TextStyle(
                     fontSize: 18,
