@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import '../dbHelper/constant.dart';
 import 'judge_homepg.dart';
 
 class JudgeLogin extends StatefulWidget {
@@ -11,23 +13,41 @@ class _JudgeLoginState extends State<JudgeLogin> {
   final TextEditingController pinController = TextEditingController();
   String errorMessage = '';
 
-  final Map<String, String> userData = {
-    'jd123': '123456', // Format: {Prison ID: PIN}
-    'jd656': '456789',
-  };
+  // Define your MongoDB connection URL and collection name
+  final String mongoUrl = MONGO_CONN_URL;
+  final String userCollection = JUDGE_COLLECTION;
 
-  void _login() {
-    final judgeId = judgeIdController.text;
-    final pin = pinController.text;
+  Future<bool> _verifyCredentials(String judgeId, String pin) async {
+    final db = mongo_dart.Db(mongoUrl);
+    await db.open();
 
-    if (pin.length != 6) {
-      setState(() {
-        errorMessage = 'PIN must be 6 digits';
-      });
-      return;
-    }
+    final collection = db.collection(userCollection);
 
-    if (userData.containsKey(judgeId) && userData[judgeId] == pin) {
+    final query = mongo_dart.where
+        .eq('jid', judgeId)
+        .eq('jpin', pin);
+
+    final users = await collection.find(query).toList();
+
+    await db.close();
+
+    return users.isNotEmpty;
+  }
+
+  void _login() async {
+    final jid= judgeIdController.text;
+    final jpin = pinController.text;
+
+    // if (jpin.length != 6) {
+    //   setState(() {
+    //     errorMessage = 'PIN must be 6 digits';
+    //   });
+    //   return;
+    // }
+
+    final isValidCredentials = await _verifyCredentials(jid, jpin);
+
+    if (isValidCredentials) {
       // User authenticated, you can navigate to the next screen
       Navigator.push(
         context,
@@ -48,6 +68,7 @@ class _JudgeLoginState extends State<JudgeLogin> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
+        title: Text('Judge Login'),
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),
@@ -110,3 +131,7 @@ class _JudgeLoginState extends State<JudgeLogin> {
     );
   }
 }
+
+
+
+
