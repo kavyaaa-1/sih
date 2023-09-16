@@ -59,7 +59,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurpleAccent,
         title: Text(""),
       ),
       body: Center(
@@ -87,7 +87,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: Colors.deepPurple,
+                color: Colors.deepPurpleAccent,
               ),
               child: ElevatedButton(
                 onPressed: navigateToSelectedPage,

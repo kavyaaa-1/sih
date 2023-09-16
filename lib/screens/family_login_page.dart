@@ -114,7 +114,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
       body: Center(
