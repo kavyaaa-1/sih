@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_signin_page.dart';
+import 'package:sih_project/screens/select_user_type.dart';
 import 'dbHelper/mongodb.dart';
 
 void main() async {
@@ -17,18 +18,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: true,
       ),
       initialRoute: '/', // Define your initial route
       routes: {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
 
-        //'/': (context) => SelectUserTypePage(),
+        '/': (context) => SelectUserTypePage(),
         //'/': (context) => SelectUserTypePage(),
 
         //'/': (context) => CaseInfoForm(),
-        '/': (context) => FamilySignPage()
+        //'/': (context) => FamilySignPage()
 
       },
     );
