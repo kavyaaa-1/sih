@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import '../dbHelper/constant.dart';
@@ -14,11 +15,11 @@ class _JudgeLoginState extends State<JudgeLogin> {
   String errorMessage = '';
 
   // Define your MongoDB connection URL and collection name
-  final String mongoUrl = MONGO_CONN_URL;
+  //final String mongoUrl = MONGO_CONN_URL;
   final String userCollection = JUDGE_COLLECTION;
 
   Future<bool> _verifyCredentials(String judgeId, String pin) async {
-    final db = mongo_dart.Db(mongoUrl);
+    final db = await mongo_dart.Db.create(MONGO_CONN_URL);
     await db.open();
 
     final collection = db.collection(userCollection);
@@ -35,31 +36,48 @@ class _JudgeLoginState extends State<JudgeLogin> {
   }
 
   void _login() async {
-    final jid= judgeIdController.text;
+    final jid = judgeIdController.text;
     final jpin = pinController.text;
-
-    // if (jpin.length != 6) {
-    //   setState(() {
-    //     errorMessage = 'PIN must be 6 digits';
-    //   });
-    //   return;
-    // }
 
     final isValidCredentials = await _verifyCredentials(jid, jpin);
 
     if (isValidCredentials) {
-      // User authenticated, you can navigate to the next screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => JudgeHomePage(),
+      // Successful login
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Login'),
+          content: const Text('Login successful'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+                // Navigate to the main dashboard or another page as needed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => JudgeHomePage()),
+                );
+              },
+              child: const Text('OK'),
+            ),
+          ],
         ),
       );
-      print('Login successful');
     } else {
-      setState(() {
-        errorMessage = 'Invalid judge ID or PIN';
-      });
+      // Invalid credentials
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Login'),
+          content: const Text('Invalid credentials'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -131,7 +149,5 @@ class _JudgeLoginState extends State<JudgeLogin> {
     );
   }
 }
-
-
 
 
