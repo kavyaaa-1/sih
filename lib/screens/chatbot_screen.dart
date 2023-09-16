@@ -57,7 +57,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
           crossAxisAlignment:
-              message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               message.isMe ? 'You' : 'Bot',
@@ -78,7 +78,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               child: Text(
                 message.text,
                 style: TextStyle(
-                  color: Colors.white, // Text color for the message
+                  fontSize: 18, // Adjust the font size as desired
+                  color: message.isMe
+                      ? Colors.black
+                      : Colors.white, // Text color for the message
                 ),
               ),
             ),
@@ -118,7 +121,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   child: TextField(
                     controller: _textEditingController,
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.all(10.0),
+                      contentPadding: EdgeInsets.all(20.0),
                       hintText: 'Type a Message...',
                       border: InputBorder.none,
                     ),
@@ -126,8 +129,12 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 ),
                 IconButton(
                   onPressed: onSendMessage,
-                  icon: const Icon(Icons.send),
+                  icon: const Icon(
+                    Icons.send,
+                    size: 35, // Adjust the icon size as desired
+                  ),
                 )
+
               ],
             ),
           )

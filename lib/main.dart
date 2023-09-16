@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
 import 'package:sih_project/screens/assign_lawyer.dart';
 import 'package:sih_project/screens/case_dashboard.dart';
+import 'package:sih_project/screens/family_login_page.dart';
+import 'package:sih_project/screens/family_signin_page.dart';
+import 'package:sih_project/screens/judge_login_page.dart';
+import 'package:sih_project/screens/lawyer_login_page.dart';
+import 'package:sih_project/screens/prison_dashboard.dart';
+import 'package:sih_project/screens/prison_login_page.dart';
 import 'package:sih_project/screens/select_user_type.dart';
 import 'dbHelper/mongodb.dart';
 
@@ -28,10 +34,10 @@ class MyApp extends StatelessWidget {
         //'/': (context) => MyHomePage(title: 'Your App Title'), // Your existing home page
 
         //'/': (context) => SelectUserTypePage(),
-        '/': (context) => SelectUserTypePage(),
+        //'/': (context) => SelectUserTypePage(),
 
         //'/': (context) => CaseInfoForm(),
-        //'/': (context) => CaseInfoDashboard()
+        '/': (context) => FamilySignPage()
 
       },
     );

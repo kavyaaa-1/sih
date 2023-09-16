@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
 import 'package:sih_project/screens/assign_lawyer.dart';
+import 'package:sih_project/screens/case_dashboard.dart';
 
 class Case {
   final String id;
@@ -17,22 +18,30 @@ class ListTileWithNavigation extends StatelessWidget {
 
   ListTileWithNavigation(
       {required this.title,
-      required this.subtitle,
-      required this.destinationPage});
+        required this.subtitle,
+        required this.destinationPage});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 4,
       margin: EdgeInsets.symmetric(vertical: 7),
-      color: Color.fromARGB(255, 232, 227, 241),
-      shadowColor: Colors.deepPurple,
+      //color: Color.fromARGB(255, 225, 225, 225),
+      //shadowColor: Colors.deepPurpleAccent,
       child: ListTile(
-        title: Text(title),
-        subtitle: Text(subtitle),
+        title: Text(title,
+        style: TextStyle(
+          fontSize: 20,
+
+        ),),
+        subtitle: Text(subtitle,
+          style: TextStyle(
+          fontSize: 17,
+
+        ),),
         trailing: Icon(
           Icons.arrow_forward,
-          color: Colors.deepPurple,
+          color: Colors.black,
         ), // Arrow icon on the right corner
         onTap: () {
           // Navigate to the destination page when the list tile is tapped
@@ -77,9 +86,8 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
+
+        backgroundColor: Colors.deepPurpleAccent,
       ),
       drawer: Drawer(
         child: ListView(
@@ -87,7 +95,7 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Colors.deepPurpleAccent,
               ),
               child: Text(''),
             ),
@@ -118,80 +126,91 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
           ],
         ),
       ),
-      body: Stack(children: [
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text("View Your Cases Here",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple)),
-              Container(
-                // padding: EdgeInsets.all(8.0),
-                // decoration: const BoxDecoration(
-                //   color: Color.fromARGB(255, 240, 223, 243),
-                // ),
-                child: DropdownButton<String>(
-                  iconEnabledColor: Colors.deepPurple,
-                  value: _selectedFilter,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedFilter = newValue!;
-                    });
-                  },
-                  items: ['All', 'Ongoing', 'Closed']
-                      .map((filter) => DropdownMenuItem<String>(
-                            value: filter,
-                            child: Text(filter),
-                          ))
-                      .toList(),
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(19.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: filteredCases.length,
-                  itemBuilder: (context, index) {
-                    final caseItem = filteredCases[index];
-                    String casestatus =
-                        'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
-                    return ListTileWithNavigation(
-                      title: caseItem.caseName,
-                      subtitle: casestatus,
-                      destinationPage:
-                          CaseConfirmationPage(), //redirect to case PrisonDashboard
-                    );
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CaseInfoForm()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                  ),
-                  child: const Text(
-                    "Add new case",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
+                Container(
+                  child: DropdownButton<String>(
+                    iconEnabledColor: Colors.deepPurpleAccent,
+                    value: _selectedFilter,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedFilter = newValue!;
+                      });
+                    },
+                    items: ['All', 'Ongoing', 'Closed']
+                        .map((filter) => DropdownMenuItem<String>(
+                      value: filter,
+                      child: Text(filter),
+                    ))
+                        .toList(),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 20.0),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredCases.length,
+                    itemBuilder: (context, index) {
+                      final caseItem = filteredCases[index];
+                      String casestatus =
+                          'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
+                      return ListTileWithNavigation(
+                        title: caseItem.caseName,
+                        subtitle: casestatus,
+                        destinationPage:
+                        CaseInfoDashboard(), //redirect to case PrisonDashboard
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CaseInfoForm()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(
+                      "Add new case",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

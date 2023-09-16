@@ -1,11 +1,9 @@
-//import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_homepg.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
-
 
 class FamilyLogInPage extends StatefulWidget {
   @override
@@ -113,7 +111,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Log In',
+          '',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -127,14 +125,19 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Image.asset(
+                'assets/images/justice-scale_3122246.png', // Replace with the path to your image asset// Adjust the height as needed
+                width: 130, // Adjust the width as needed
+              ),
+              SizedBox(height: 20),
               Text(
-                'Enter Details', // Added label "Enter Details"
+                'Family Login',
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
               _buildTextField(
                 _phoneNumberController,
                 'Phone Number',
@@ -149,11 +152,9 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
               ),
               SizedBox(height: 40),
               ElevatedButton(
-
                 onPressed: isLoginButtonEnabled ? _performLogin : null,
                 style: ElevatedButton.styleFrom(
-                  primary:
-                  isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
+                  primary: isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

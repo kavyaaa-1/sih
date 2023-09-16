@@ -27,43 +27,79 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Case Details"),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
-      body: Column(children: [
-        SizedBox(
-          height: 40,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Case Details',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 130,
+              width: double.infinity,
+              child: InfoCard(
+                caseId: '12345',
+                name: 'Julian',
+                status: 'Ongoing',
+              ),
+            ),
+          ],
         ),
-        Container(
-          height: 130, // Adjust the height as desired
-          width: double.infinity, // Takes the full width
-          child: InfoCard(
-            caseId: '12345',
-            name: 'Julian',
-            status: 'Ongoing',
-          ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle,
+                size: 40, // Adjust the icon size
+              ),
+              label: 'Dashboard',
+              // You can customize the label style here
+              // For example, to increase the font size:
+              // labelStyle: TextStyle(fontSize: 18),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.library_books,
+                size: 40, // Adjust the icon size
+              ),
+              label: 'Legal Aid',
+              // You can customize the label style here
+              // For example, to increase the font size:
+              // labelStyle: TextStyle(fontSize: 18),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat,
+                size: 40, // Adjust the icon size
+              ),
+              label: 'Chat with Us',
+              // You can customize the label style here
+              // For example, to increase the font size:
+              // labelStyle: TextStyle(fontSize: 18),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.deepPurple,
+          onTap: _onItemTapped,
         ),
-      ]),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: 'Legal Aid',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat with Us',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.deepPurple,
-        onTap: _onItemTapped,
       ),
     );
   }
@@ -83,7 +119,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 218, 201, 249),
+      color: Color.fromARGB(255, 255,255,255),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
