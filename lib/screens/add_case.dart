@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'assign_lawyer.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CaseInfoForm(),
+    );
+  }
+}
+
 class CaseInfoForm extends StatefulWidget {
   @override
   _CaseInfoFormState createState() => _CaseInfoFormState();
@@ -10,6 +23,10 @@ class CaseInfoForm extends StatefulWidget {
 class _CaseInfoFormState extends State<CaseInfoForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  DateTime datetime = DateTime(2023, 9, 16, 5, 30);
+  DateTime datetimeoffense = DateTime(2023, 9, 16, 5, 30);
+  DateTime datetimearrest = DateTime(2023, 9, 16, 5, 30);
+
   // Define variables to store input data
   String prisonerName = '';
   String prisonerDOB = '';
@@ -17,11 +34,9 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
   int prisonerID = 0;
 
   String offenseType = '';
-  String offenseDateAndTime = '';
   String offenseLocation = '';
   String offenseDesc = '';
 
-  String arrestDateAndTime = '';
   String arrestLoc = '';
   String arrestOfficer = '';
   int arrestwarrantNumber = 0;
@@ -41,16 +56,26 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
       // You can access the entered data using the defined variables
 
       // Navigate to the next page or perform any other action
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CaseConfirmationPage(),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // final hours = datetime.hour.toString().padLeft(2, '0');
+    // final minutes = datetime.minute.toString().padLeft(2, '0');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-        title: Text('Enter Case Information',
-        style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Enter Case Information',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),
@@ -77,7 +102,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               _buildTextField('Inmate ID', (value) {
                 prisonerID = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "CASE DETAILS",
@@ -89,17 +113,84 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               _buildTextField('Type of offense', (value) {
                 offenseType = value;
               }),
-              _buildTextField('Date and Time of offense', (value) {
-                //select using a calendar
-                offenseDateAndTime = value;
-              }),
+              SizedBox(height: 16.0),
+              const Text(
+                'Select Date and Time of Offense',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 109, 108, 108),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () async {
+                        final date = await pickDate();
+                        if (date == null) return;
+
+                        final newDateTime = DateTime(
+                          date.year,
+                          date.month,
+                          date.day,
+                          datetime.hour,
+                          datetime.minute,
+                        );
+
+                        setState(() => {
+                              datetimeoffense = newDateTime,
+                              datetime = newDateTime,
+                            });
+                      },
+                      child: Text(
+                          '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () async {
+                        final time = await pickTime();
+                        if (time == null) return;
+
+                        final newDateTime = DateTime(
+                          datetime.year,
+                          datetime.month,
+                          datetime.day,
+                          time.hour,
+                          time.minute,
+                        );
+                        setState(() => {
+                              datetimeoffense = newDateTime,
+                              datetime = newDateTime,
+                            });
+                      },
+                      child: Text(
+                          '${datetimeoffense.hour}:${datetimeoffense.minute}'),
+                    ),
+                  ),
+                ],
+              ),
+
+              // _buildTextField('Date and Time of offense', (value) {
+              //   //select using a calendar
+              //   offenseDateAndTime = value;
+              // }),
               _buildTextField('Location of alleged offense', (value) {
                 offenseLocation = value;
               }),
               _buildTextField('Description of alleged offense', (value) {
                 offenseDesc = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "ARREST INFORMATION",
@@ -108,9 +199,76 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurpleAccent),
               ),
-              _buildTextField('Date and Time of Arrest', (value) {
-                arrestDateAndTime = value;
-              }),
+              // _buildTextField('Date and Time of Arrest', (value) {
+              //   arrestDateAndTime = value;
+              // }),
+              SizedBox(height: 16.0),
+              const Text(
+                'Select Date and Time of Arrest',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 109, 108, 108),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () async {
+                        final date = await pickDate();
+                        if (date == null) return;
+
+                        final newDateTime = DateTime(
+                          date.year,
+                          date.month,
+                          date.day,
+                          datetime.hour,
+                          datetime.minute,
+                        );
+
+                        setState(() => {
+                              datetimearrest = newDateTime,
+                              datetime = newDateTime,
+                            });
+                      },
+                      child: Text(
+                          '${datetimearrest.year}/${datetimearrest.month}/${datetimearrest.day}'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () async {
+                        final time = await pickTime();
+                        if (time == null) return;
+
+                        final newDateTime = DateTime(
+                          datetime.year,
+                          datetime.month,
+                          datetime.day,
+                          time.hour,
+                          time.minute,
+                        );
+                        setState(() => {
+                              datetimearrest = newDateTime,
+                              datetime = newDateTime,
+                            });
+                      },
+                      child: Text(
+                          '${datetimearrest.hour}:${datetimearrest.minute}'),
+                    ),
+                  ),
+                ],
+              ),
               _buildTextField('Location of Arrest', (value) {
                 arrestLoc = value;
               }),
@@ -120,7 +278,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               _buildTextField('Arrest Warrant Name(if applicable)', (value) {
                 arrestwarrantNumber = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "BAIL INFORMATION",
@@ -135,7 +292,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               _buildTextField('Bail Conditions(if applicable)', (value) {
                 bailConditions = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "WITNESS INFORMATION",
@@ -150,7 +306,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               _buildTextField('Witness Contact(if any)', (value) {
                 witnessContact = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "EVIDENCE AND DOCUMENTATION",
@@ -164,7 +319,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   (value) {
                 evidenceInfo = value;
               }),
-
               const SizedBox(height: 40.0),
               const Text(
                 "ADDITIONAL COMMENTS AND NOTES",
@@ -185,8 +339,10 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   primary: Colors.deepPurpleAccent, // Button color
                   onPrimary: Colors.white, // Text color
                 ),
-                child: Text('SUBMIT',
-                style: TextStyle(fontSize: 20),),
+                child: Text(
+                  'SUBMIT',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
             ],
           ),
@@ -194,6 +350,21 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
       ),
     );
   }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+        context: context,
+        initialDate: datetime,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100),
+      );
+
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(
+          hour: datetime.hour,
+          minute: datetime.minute,
+        ),
+      );
 
   Widget _buildTextField(String labelText, Function(dynamic) onChanged) {
     return TextFormField(
@@ -208,6 +379,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
     );
   }
 }
+
 void _submitForm(BuildContext context, GlobalKey<FormState> formKey) {
   if (formKey.currentState!.validate()) {
     // Process and submit the data as needed (e.g., send to a server)
@@ -221,4 +393,3 @@ void _submitForm(BuildContext context, GlobalKey<FormState> formKey) {
     );
   }
 }
-
