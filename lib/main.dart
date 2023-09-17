@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/hearing_details.dart';
+import 'package:sih_project/screens/judge_homepg.dart';
 import 'package:sih_project/screens/select_user_type.dart';
 import 'dbHelper/mongodb.dart';
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/', // Define your initial route
       routes: {
-        '/': (context) => SelectUserTypePage(),
+        '/': (context) => HearingDetails(),
       },
     );
   }

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'hearing_details.dart';
 
-void main() {
-  runApp(MyApp());
-}
 
 class CaseDetails {
   final String caseNo;
@@ -24,15 +20,6 @@ class CaseDetails {
     required this.caseDescription,
     required this.hearingDates,
   });
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaseDetailsPage(),
-    );
-  }
 }
 
 class CaseDetailsPage extends StatelessWidget {
@@ -68,6 +55,7 @@ class CaseDetailsPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Card(
+                elevation: 4,
                 margin: EdgeInsets.all(16.0),
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
@@ -140,6 +128,7 @@ class CaseDetailsPage extends StatelessWidget {
                 ),
               ),
               Card(
+                color: Colors.white,
                 margin: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,9 +136,9 @@ class CaseDetailsPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
-                        'Hearing Dates:',
+                        'Hearing Details',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -160,54 +149,59 @@ class CaseDetailsPage extends StatelessWidget {
                     ),
                     Column(
                       children: caseInfo.hearingDates.map((date) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                date,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                        return Card(
+                          elevation: 4, // Add elevation for shadow
+                          shadowColor: Colors.grey,
+                          margin: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  date,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    //fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                trailing: Icon(Icons.arrow_forward),
+                                onTap: () {
+                                  // Handle date click action, e.g., show details or navigate to another page
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Hearing Date Details', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                                        content: Text('Selected Date: $date', style: TextStyle(fontSize: 18),),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => HearingDetails(),
+                                                ),
+                                              );
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
-                              onTap: () {
-                                // Handle date click action, e.g., show details or navigate to another page
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('Hearing Date Details'),
-                                      content: Text('Selected Date: $date'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HearingDetails(),
-                                              ),
-                                            );
-                                          },
-                                          child: Text('OK'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                              thickness: 1,
-                            ),
-                          ],
+                              
+                            ],
+                          ),
                         );
                       }).toList(),
                     ),
                   ],
                 ),
               ),
+
+
             ],
           ),
         ),

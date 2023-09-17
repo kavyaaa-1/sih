@@ -192,7 +192,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Invalid Case ID'),
+            title: Text(''),
             content: Text('The entered Case ID is not valid.'),
             actions: <Widget>[
               TextButton(
@@ -200,7 +200,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
                   Navigator.of(context).pop();
                 },
                 child: Text('OK'),
-              ),
+              ),//Invalid Case ID,
             ],
           );
         },
