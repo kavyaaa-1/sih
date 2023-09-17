@@ -1,58 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
-import 'package:sih_project/screens/case_dashboard.dart';
-
-class Case {
-  final String id;
-  final String caseName;
-  final bool isClosed;
-
-  Case(this.id, this.caseName, this.isClosed);
-}
-
-class ListTileWithNavigation extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Widget destinationPage;
-
-  ListTileWithNavigation(
-      {required this.title,
-        required this.subtitle,
-        required this.destinationPage});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 7),
-      //color: Color.fromARGB(255, 225, 225, 225),
-      //shadowColor: Colors.deepPurpleAccent,
-      child: ListTile(
-        title: Text(title,
-        style: TextStyle(
-          fontSize: 20,
-
-        ),),
-        subtitle: Text(subtitle,
-          style: TextStyle(
-          fontSize: 17,
-
-        ),),
-        trailing: Icon(
-          Icons.arrow_forward,
-          color: Colors.black,
-        ), // Arrow icon on the right corner
-        onTap: () {
-          // Navigate to the destination page when the list tile is tapped
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => destinationPage),
-          );
-        },
-      ),
-    );
-  }
-}
+import 'package:sih_project/dbHelper/mongodb.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import '../dbHelper/constant.dart';
+import 'case_dashboard.dart';
 
 class PrisonDashboard extends StatefulWidget {
   @override
@@ -60,33 +11,35 @@ class PrisonDashboard extends StatefulWidget {
 }
 
 class _PrisonDashboardState extends State<PrisonDashboard> {
-  String _selectedFilter = 'All';
+  List<Case> _cases = [];
 
-  final List<Case> _cases = [
-    Case('1', 'Case 1', false),
-    Case('2', 'Case 2', true),
-    Case('3', 'Case 3', false),
-    Case('4', 'Case 4', true),
-  ];
-
-  List<Case> getFilteredCases() {
-    if (_selectedFilter == 'All') {
-      return _cases;
-    } else if (_selectedFilter == 'Ongoing') {
-      return _cases.where((c) => !c.isClosed).toList();
-    } else {
-      return _cases.where((c) => c.isClosed).toList();
-    }
+  @override
+  void initState() {
+    super.initState();
+    fetchCases();
   }
+
+  Future<void> fetchCases() async {
+    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+    final List<Map<String, dynamic>> cases = await caseCollection.find().toList();
+
+    setState(() {
+      _cases = cases.map((Map<String, dynamic> caseData) {
+        final caseId = caseData['case_Id'];
+        final caseType = caseData['type'] ?? ' ';
+        final isClosed = caseData['isClosed'] ?? false;
+        return Case(caseId, caseType, isClosed);
+      }).toList();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final filteredCases = getFilteredCases();
-
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: Colors.deepPurpleAccent,
+        title: Text('Home Page'), // Add a title to the app bar
       ),
       drawer: Drawer(
         child: ListView(
@@ -135,39 +88,34 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: DropdownButton<String>(
-                    iconEnabledColor: Colors.deepPurpleAccent,
-                    value: _selectedFilter,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedFilter = newValue!;
-                      });
-                    },
-                    items: ['All', 'Ongoing', 'Closed']
-                        .map((filter) => DropdownMenuItem<String>(
-                      value: filter,
-                      child: Text(filter),
-                    ))
-                        .toList(),
-                  ),
-                ),
                 SizedBox(height: 20.0),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: filteredCases.length,
+                  child:
+                  ListView.builder(
+                    itemCount: _cases.length,
                     itemBuilder: (context, index) {
-                      final caseItem = filteredCases[index];
+                      final caseItem = _cases[index];
                       String casestatus =
                           'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
-                      return ListTileWithNavigation(
-                        title: caseItem.caseName,
-                        subtitle: casestatus,
-                        destinationPage:
-                        CaseInfoDashboard(), //redirect to case PrisonDashboard
+
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to CaseDashboard and pass the case ID
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CaseInfoDashboard(caseId: caseItem.caseId),
+                            ),
+                          );
+                        },
+                        child: ListTileWithNavigation(
+                          title: 'Case ID: ${caseItem.caseId}', // Display caseId
+                          subtitle: 'Case Type: ${caseItem.caseType}\n Status: ${casestatus}', // Display caseType
+                        ),
                       );
                     },
-                  ),
+                  )
+
                 ),
               ],
             ),
@@ -209,6 +157,50 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class Case {
+  final String caseId;
+  final String caseType;
+  final bool isClosed;
+
+  Case(this.caseId, this.caseType, this.isClosed);
+}
+
+class ListTileWithNavigation extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  ListTileWithNavigation({
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 7),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: 17,
+          ),
+        ),
+        trailing: Icon(
+          Icons.arrow_forward,
+          color: Colors.black,
+        ),
       ),
     );
   }

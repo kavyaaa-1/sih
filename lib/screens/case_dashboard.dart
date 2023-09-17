@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/dbHelper/constant.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-void main() => runApp(MyApp());
+import '../dbHelper/mongodb.dart';
 
 class CaseInfo {
-  final String caseNo;
+  final String caseId;
   final String caseType;
   final String lawyerAssigned;
   final String judgeAssigned;
@@ -12,7 +14,7 @@ class CaseInfo {
   final String caseDescription;
 
   CaseInfo({
-    required this.caseNo,
+    required this.caseId,
     required this.caseType,
     required this.lawyerAssigned,
     required this.judgeAssigned,
@@ -20,46 +22,52 @@ class CaseInfo {
     required this.caseDescription,
   });
 }
-
-Future<CaseInfo> fetchCaseInfoFromDatabase(String caseId) async {
-  // Simulate fetching data from a database based on the caseId
-  // Replace this with actual database query logic
-  await Future.delayed(Duration(seconds: 1));
-  return CaseInfo(
-    caseNo: '12345',
-    caseType: 'Criminal',
-    lawyerAssigned: 'John Doe',
-    judgeAssigned: 'Jane Smith',
-    prisonerName: 'John Smith',
-    caseDescription:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis, justo in euismod egestas, dui orci malesuada enim.',
-  );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaseInfoDashboard(),
-    );
-  }
-}
-
+List<CaseInfo> _cases = [];
 class CaseInfoDashboard extends StatefulWidget {
+  final String caseId;
+
+  CaseInfoDashboard({required this.caseId});
+
   @override
   _CaseInfoDashboardState createState() => _CaseInfoDashboardState();
 }
 
+
+Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String caseId) async {
+
+  try {
+    await MongoDatabase.db.open();
+
+    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+
+    final Map<String, dynamic>? caseData = await caseCollection.findOne(
+      mongo_dart.where.eq('case_Id', caseId),
+    );
+    print(caseData);
+    return caseData;
+  } finally {
+    await MongoDatabase.db.close();
+  }
+}
+
 class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
-  String caseId = 'your_initial_case_id'; // Replace with your initial case ID
   CaseInfo? caseInfo;
+  double bailPrediction = 75; // Replace with actual bail prediction value
 
   void loadCaseInfo() async {
-    final fetchedCaseInfo = await fetchCaseInfoFromDatabase(caseId);
+    final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.caseId);
     setState(() {
-      caseInfo = fetchedCaseInfo;
+      caseInfo = CaseInfo(
+        caseId: fetchedCaseInfo?['case_Id'] ?? ' ',
+        caseType: fetchedCaseInfo?['type'] ?? ' ',
+        lawyerAssigned: fetchedCaseInfo?['lawyer'] ?? ' ',
+        judgeAssigned: fetchedCaseInfo?['judge'] ?? ' ',
+        prisonerName: fetchedCaseInfo?['prisoner_name'] ?? ' ',
+        caseDescription: fetchedCaseInfo?['case_desc'] ?? ' ',
+      );
     });
   }
+
 
   @override
   void initState() {
@@ -73,16 +81,13 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
       ),
-      body:
-      Padding(
-
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Case No. ${caseInfo?.caseNo ?? 'Loading...'}',
+              'Case No. ${caseInfo?.caseId ?? 'Loading...'}',
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
@@ -174,7 +179,7 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
             Container(
               height: 200, // Adjust the height as needed
               child: SpeedometerChart(
-                value: 75,
+                value: bailPrediction,
               ),
             ),
           ],
@@ -182,6 +187,7 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
       ),
     );
   }
+
 }
 
 class SpeedometerChart extends StatelessWidget {
