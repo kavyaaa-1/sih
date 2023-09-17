@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
-
+import '../dbHelper/case_data_model.dart';
+import '../dbHelper/constant.dart';
+import '../dbHelper/mongodb.dart';
 import 'assign_lawyer.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaseInfoForm(),
-    );
-  }
-}
 
 class CaseInfoForm extends StatefulWidget {
   @override
@@ -21,17 +10,18 @@ class CaseInfoForm extends StatefulWidget {
 }
 
 class _CaseInfoFormState extends State<CaseInfoForm> {
+  bool isSubmitButtonEnabled = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  DateTime datetime = DateTime(2023, 9, 16, 5, 30);
-  DateTime datetimeoffense = DateTime(2023, 9, 16, 5, 30);
-  DateTime datetimearrest = DateTime(2023, 9, 16, 5, 30);
+  DateTime datetime = DateTime.now();
+  DateTime datetimeoffense = DateTime.now();
+  DateTime datetimearrest = DateTime.now();
 
   // Define variables to store input data
   String prisonerName = '';
   String prisonerDOB = '';
   String prisonerGender = '';
-  int prisonerID = 0;
+  String prisonerID = '';
 
   String offenseType = '';
   String offenseLocation = '';
@@ -50,10 +40,52 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
   String evidenceInfo = '';
   String additionalComments = '';
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Process and submit the data as needed (e.g., send to a server)
-      // You can access the entered data using the defined variables
+      isSubmitButtonEnabled = true;
+      String case_ID = "123456";
+
+      final data = Case(
+          case_Id: case_ID,
+          case_desc: offenseDesc,
+          type: offenseType,
+          loc: offenseLocation,
+          offense_date: datetimeoffense,
+          inmate_ID: prisonerID,
+          prisoner_name: prisonerName,
+          DOB: prisonerDOB,
+          gender: prisonerGender,
+          date_arrest: datetimearrest,
+          arresting_officer: arrestOfficer,
+          arrest_loc: arrestLoc,
+          evidence: evidenceInfo.split(" ").toList());
+
+      // Insert data into the MongoDB collection
+      await MongoDatabase.db.open();
+      await MongoDatabase.db.collection(CASE_COLLECTION).insert(data.toJson());
+
+      // Close the MongoDB connection
+      await MongoDatabase.db.close();
+
+      // Show a success message or navigate to a success page
+      print('Data inserted successfully.');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('The case has been registered successfully'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
 
       // Navigate to the next page or perform any other action
       Navigator.push(
@@ -61,6 +93,25 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
         MaterialPageRoute(
           builder: (context) => CaseConfirmationPage(),
         ),
+      );
+    } else {
+      // Show an error message to the user
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Empty Field'),
+            content: Text('Some fields are empty'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
   }
@@ -72,6 +123,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
         title: Text(
           'Enter Case Information',
           style: TextStyle(color: Colors.white),
@@ -128,6 +180,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
+                        foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
                         final date = await pickDate();
@@ -157,6 +210,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
+                        foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
                         final time = await pickTime();
@@ -217,6 +271,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
+                        foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
                         final date = await pickDate();
@@ -246,6 +301,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
+                        foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
                         final time = await pickTime();
@@ -376,20 +432,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
         return null;
       },
       onChanged: onChanged,
-    );
-  }
-}
-
-void _submitForm(BuildContext context, GlobalKey<FormState> formKey) {
-  if (formKey.currentState!.validate()) {
-    // Process and submit the data as needed (e.g., send to a server)
-    // You can access the entered data using the defined variables
-
-    // Navigate to the CaseConfirmationPage
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CaseConfirmationPage(),
-      ),
     );
   }
 }

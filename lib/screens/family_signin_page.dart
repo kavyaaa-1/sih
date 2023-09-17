@@ -162,22 +162,29 @@ class _FamilySignPageState extends State<FamilySignPage> {
 
       // Insert data into the MongoDB collection
       await MongoDatabase.familyCollection.insert(family.toJson());
-      // await MongoDatabase.familyCollection.insert({
-      //   'phone': phoneNumber,
-      //   'pswd': password,
-      //   'case_ID': caseID,
-      // });
 
       // Close the MongoDB connection
       await MongoDatabase.db.close();
 
       // Show a success message or navigate to a success page
       print('Data inserted successfully.');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Registered Successfully'),
-        duration: Duration(seconds: 3),
-        backgroundColor: Colors.deepPurple,
-      ));
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Your registration is successful.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
       // Show an error message to the user
       showDialog(
