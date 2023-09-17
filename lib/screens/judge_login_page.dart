@@ -23,8 +23,6 @@ class _JudgeLoginState extends State<JudgeLogin> {
 
     final users = await collection.find(query).toList();
 
-    await MongoDatabase.db.close();
-
     return users.isNotEmpty;
   }
 

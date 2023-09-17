@@ -19,6 +19,10 @@ class Case {
   String arresting_officer;
   String arrest_loc;
   List? evidence;
+  bool isClosed;
+  String? PID;
+  String? LID;
+  String? JID;
 
   Case(
       {required this.case_Id,
@@ -33,7 +37,11 @@ class Case {
       required this.date_arrest,
       required this.arresting_officer,
       required this.arrest_loc,
-      required this.evidence});
+      required this.evidence,
+      required this.isClosed,
+      required this.PID,
+      required this.LID,
+      required this.JID});
 
   factory Case.fromJson(Map<String, dynamic> json) => Case(
         case_Id: json['case_Id'],
@@ -49,6 +57,10 @@ class Case {
         arresting_officer: json['arresting_officer'],
         arrest_loc: json['arrest_loc'],
         evidence: json['evidence'],
+        PID: json['PID'],
+        LID: json['LID'],
+        JID: json['JID'],
+        isClosed: json['isClosed'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +77,9 @@ class Case {
         'arresting_officer': arresting_officer,
         'arrest_loc': arrest_loc,
         'evidence': evidence,
+        'PID': PID,
+        "JID": JID,
+        "LID": LID,
+        "isClosed": isClosed,
       };
 }

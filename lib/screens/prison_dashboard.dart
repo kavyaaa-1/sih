@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import '../dbHelper/constant.dart';
 import 'case_dashboard.dart';
 
 class PrisonDashboard extends StatefulWidget {
+  final String pid;
+  PrisonDashboard({required this.pid});
   @override
   _PrisonDashboardState createState() => _PrisonDashboardState();
 }
@@ -21,7 +22,8 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
 
   Future<void> fetchCases() async {
     final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
-    final List<Map<String, dynamic>> cases = await caseCollection.find().toList();
+    final List<Map<String, dynamic>> cases =
+        await caseCollection.find().toList();
 
     setState(() {
       _cases = cases.map((Map<String, dynamic> caseData) {
@@ -32,7 +34,6 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
       }).toList();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,9 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PrisonDashboard(),
+                    builder: (context) => PrisonDashboard(
+                      pid: widget.pid,
+                    ),
                   ),
                 );
               },
@@ -71,7 +74,10 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CaseInfoForm()),
+                  MaterialPageRoute(
+                      builder: (context) => CaseInfoForm(
+                            pid: widget.pid,
+                          )),
                 );
               },
             ),
@@ -90,33 +96,32 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 ),
                 SizedBox(height: 20.0),
                 Expanded(
-                  child:
-                  ListView.builder(
-                    itemCount: _cases.length,
-                    itemBuilder: (context, index) {
-                      final caseItem = _cases[index];
-                      String casestatus =
-                          'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
+                    child: ListView.builder(
+                  itemCount: _cases.length,
+                  itemBuilder: (context, index) {
+                    final caseItem = _cases[index];
+                    String casestatus =
+                        'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
 
-                      return GestureDetector(
-                        onTap: () {
-                          // Navigate to CaseDashboard and pass the case ID
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CaseInfoDashboard(caseId: caseItem.caseId),
-                            ),
-                          );
-                        },
-                        child: ListTileWithNavigation(
-                          title: 'Case ID: ${caseItem.caseId}', // Display caseId
-                          subtitle: 'Case Type: ${caseItem.caseType}\n Status: ${casestatus}', // Display caseType
-                        ),
-                      );
-                    },
-                  )
-
-                ),
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to CaseDashboard and pass the case ID
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CaseInfoDashboard(caseId: caseItem.caseId),
+                          ),
+                        );
+                      },
+                      child: ListTileWithNavigation(
+                        title: 'Case ID: ${caseItem.caseId}', // Display caseId
+                        subtitle:
+                            'Case Type: ${caseItem.caseType}\n Status: ${casestatus}', // Display caseType
+                      ),
+                    );
+                  },
+                )),
               ],
             ),
           ),
@@ -129,7 +134,10 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CaseInfoForm()),
+                    MaterialPageRoute(
+                        builder: (context) => CaseInfoForm(
+                              pid: widget.pid,
+                            )),
                   );
                 },
                 style: ElevatedButton.styleFrom(

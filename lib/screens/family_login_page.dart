@@ -43,9 +43,6 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
 
     final admins = await MongoDatabase.familyCollection.find(query).toList();
 
-    // Close the MongoDB connection
-    await MongoDatabase.db.close();
-
     // Return true if valid credentials, false otherwise
     return admins.isNotEmpty;
   }

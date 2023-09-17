@@ -24,8 +24,6 @@ class _LawyerLoginState extends State<LawyerLogin> {
 
     final users = await collection.find(query).toList();
 
-    await MongoDatabase.db.close();
-
     return users.isNotEmpty;
   }
 

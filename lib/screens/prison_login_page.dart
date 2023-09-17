@@ -4,7 +4,6 @@ import 'prison_dashboard.dart'; // Import your prison dashboard page
 import '../dbHelper/mongodb.dart'; // Import your MongoDB configuration
 import '../dbHelper/constant.dart';
 
-
 class PrisonLogin extends StatefulWidget {
   @override
   _PrisonLoginState createState() => _PrisonLoginState();
@@ -24,8 +23,6 @@ class _PrisonLoginState extends State<PrisonLogin> {
     final query = mongo_dart.where.eq('pid', prisonId).eq('ppin', pin);
 
     final users = await collection.find(query).toList();
-
-    await MongoDatabase.db.close();
 
     return users.isNotEmpty;
   }
@@ -57,7 +54,10 @@ class _PrisonLoginState extends State<PrisonLogin> {
                 // Navigate to the main dashboard or another page as needed
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PrisonDashboard()),
+                  MaterialPageRoute(
+                      builder: (context) => PrisonDashboard(
+                            pid: prisonIdController.text,
+                          )),
                 );
               },
               child: const Text('OK'),

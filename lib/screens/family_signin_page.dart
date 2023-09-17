@@ -156,9 +156,6 @@ class _FamilySignPageState extends State<FamilySignPage> {
       // Insert data into the MongoDB collection
       await MongoDatabase.familyCollection.insert(family.toJson());
 
-      // Close the MongoDB connection
-      await MongoDatabase.db.close();
-
       // Show a success message or navigate to a success page
       print('Data inserted successfully.');
       showDialog(

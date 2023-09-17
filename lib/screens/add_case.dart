@@ -5,6 +5,8 @@ import '../dbHelper/mongodb.dart';
 import 'assign_lawyer.dart';
 
 class CaseInfoForm extends StatefulWidget {
+  final String pid;
+  CaseInfoForm({required this.pid});
   @override
   _CaseInfoFormState createState() => _CaseInfoFormState();
 }
@@ -55,7 +57,9 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
         arrestLoc != '' &&
         arrestOfficer != '') {
       isSubmitButtonEnabled = true;
-      String case_ID = "123456";
+      String case_ID =
+          (await MongoDatabase.db.collection(CASE_COLLECTION).count() + 1)
+              .toString();
 
       final data = Case(
           case_Id: case_ID,
@@ -70,14 +74,15 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
           date_arrest: datetimearrest,
           arresting_officer: arrestOfficer,
           arrest_loc: arrestLoc,
-          evidence: evidenceInfo.split(",").toList());
+          evidence: evidenceInfo.split(",").toList(),
+          isClosed: false,
+          PID: "",
+          LID: "",
+          JID: "");
 
       // Insert data into the MongoDB collection
       await MongoDatabase.db.open();
       await MongoDatabase.db.collection(CASE_COLLECTION).insert(data.toJson());
-
-      // Close the MongoDB connection
-      await MongoDatabase.db.close();
 
       // Show a success message or navigate to a success page
       print('Data inserted successfully.');
@@ -103,7 +108,10 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CaseConfirmationPage(),
+          builder: (context) => CaseConfirmationPage(
+            pid: widget.pid,
+            caseId: case_ID,
+          ),
         ),
       );
     } else {
@@ -146,7 +154,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-
                 const Text(
                   "PRISONER INFORMATION",
                   style: TextStyle(
@@ -245,7 +252,8 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Select Date and Time of Offense',
-                    hintText: '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
+                    hintText:
+                        '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
                     prefixIcon: Icon(Icons.calendar_today),
                     filled: true,
                     fillColor: Colors.white,
@@ -271,7 +279,8 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Select Time of Offense',
-                    hintText: '${datetimeoffense.hour}:${datetimeoffense.minute}',
+                    hintText:
+                        '${datetimeoffense.hour}:${datetimeoffense.minute}',
                     prefixIcon: Icon(Icons.access_time),
                     filled: true,
                     fillColor: Colors.white,
@@ -318,7 +327,8 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Select Date and Time of Arrest',
-                    hintText: '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
+                    hintText:
+                        '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
                     prefixIcon: Icon(Icons.calendar_today),
                     filled: true,
                     fillColor: Colors.white,
@@ -344,7 +354,8 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Select Time of Offense',
-                    hintText: '${datetimeoffense.hour}:${datetimeoffense.minute}',
+                    hintText:
+                        '${datetimeoffense.hour}:${datetimeoffense.minute}',
                     prefixIcon: Icon(Icons.access_time),
                     filled: true,
                     fillColor: Colors.white,
