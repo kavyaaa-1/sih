@@ -4,19 +4,6 @@ import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
 import 'assign_lawyer.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaseInfoForm(),
-    );
-  }
-}
-
 class CaseInfoForm extends StatefulWidget {
   @override
   _CaseInfoFormState createState() => _CaseInfoFormState();
@@ -159,10 +146,11 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+
                 const Text(
                   "PRISONER INFORMATION",
                   style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.deepPurpleAccent),
                 ),
@@ -173,60 +161,47 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 //   prisonerDOB = value;
                 // }, true),
                 SizedBox(height: 16.0),
-                const Text(
-                  'Select DOB of Prisoner',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color.fromARGB(255, 109, 108, 108),
+                TextFormField(
+                  readOnly: true,
+                  onTap: () async {
+                    final date = await pickDateDOB();
+                    if (date == null) return;
+
+                    final newDate = DateTime(
+                      date.year,
+                      date.month,
+                      date.day,
+                    );
+
+                    setState(() => dob = newDate);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select DOB of Prisoner',
+                    hintText: '${dob.year}/${dob.month}/${dob.day}',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final date = await pickDateDOB();
-                          if (date == null) return;
 
-                          final newDate = DateTime(
-                            date.year,
-                            date.month,
-                            date.day,
-                          );
-
-                          setState(
-                            () => dob = newDate,
-                          );
-                        },
-                        child: Text('${dob.year}/${dob.month}/${dob.day}'),
-                      ),
-                    ),
-                  ],
-                ),
                 // _buildTextField('Gender', (value) {
                 //   prisonerGender = value;
                 // }, true),
                 const SizedBox(height: 10.0),
-                const Text(
-                  'Select Gender of Prisoner',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color.fromARGB(255, 109, 108, 108),
-                  ),
-                ),
-                SizedBox(height: 10),
-                DropdownButton<String>(
+                DropdownButtonFormField<String>(
                   value: prisonerGender,
                   onChanged: (String? newValue) {
                     setState(() {
                       prisonerGender = newValue!;
                     });
                   },
+                  decoration: InputDecoration(
+                    labelText: 'Select Gender of Prisoner',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
+                  ),
                   items: <String>[
                     'Male',
                     'Female',
@@ -239,6 +214,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                     );
                   }).toList(),
                 ),
+
                 _buildTextField('Inmate ID', (value) {
                   prisonerID = value;
                 }, true),
@@ -251,76 +227,58 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                       color: Colors.deepPurpleAccent),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  'Select Date and Time of Offense',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color.fromARGB(255, 109, 108, 108),
+                TextFormField(
+                  readOnly: true,
+                  onTap: () async {
+                    final date = await pickDate();
+                    if (date == null) return;
+
+                    final newDateTime = DateTime(
+                      date.year,
+                      date.month,
+                      date.day,
+                      datetimeoffense.hour,
+                      datetimeoffense.minute,
+                    );
+
+                    setState(() => datetimeoffense = newDateTime);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Date and Time of Offense',
+                    hintText: '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
                   ),
                 ),
                 SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final date = await pickDate();
-                          if (date == null) return;
+                TextFormField(
+                  readOnly: true,
+                  onTap: () async {
+                    final time = await pickTime();
+                    if (time == null) return;
 
-                          final newDateTime = DateTime(
-                            date.year,
-                            date.month,
-                            date.day,
-                            datetime.hour,
-                            datetime.minute,
-                          );
+                    final newDateTime = DateTime(
+                      datetimeoffense.year,
+                      datetimeoffense.month,
+                      datetimeoffense.day,
+                      time.hour,
+                      time.minute,
+                    );
 
-                          setState(() => {
-                                datetimeoffense = newDateTime,
-                                //dtoffense = '$datetimeoffense',
-                                datetime = newDateTime,
-                              });
-                        },
-                        child: Text(
-                            '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}'),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final time = await pickTime();
-                          if (time == null) return;
-
-                          final newDateTime = DateTime(
-                            datetime.year,
-                            datetime.month,
-                            datetime.day,
-                            time.hour,
-                            time.minute,
-                          );
-                          setState(() => {
-                                datetimeoffense = newDateTime,
-                                //dtoffense = '$datetimeoffense',
-                                datetime = newDateTime,
-                              });
-                        },
-                        child: Text(
-                            '${datetimeoffense.hour}:${datetimeoffense.minute}'),
-                      ),
-                    ),
-                  ],
+                    setState(() => datetimeoffense = newDateTime);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Time of Offense',
+                    hintText: '${datetimeoffense.hour}:${datetimeoffense.minute}',
+                    prefixIcon: Icon(Icons.access_time),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
+
                 _buildTextField('Type of offense', (value) {
                   offenseType = value;
                 }, true),
@@ -342,76 +300,58 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
                 //   arrestDateAndTime = value;
                 // }),
                 SizedBox(height: 16.0),
-                const Text(
-                  'Select Date and Time of Arrest',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Color.fromARGB(255, 109, 108, 108),
+                TextFormField(
+                  readOnly: true,
+                  onTap: () async {
+                    final date = await pickDate();
+                    if (date == null) return;
+
+                    final newDateTime = DateTime(
+                      date.year,
+                      date.month,
+                      date.day,
+                      datetimeoffense.hour,
+                      datetimeoffense.minute,
+                    );
+
+                    setState(() => datetimeoffense = newDateTime);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Date and Time of Arrest',
+                    hintText: '${datetimeoffense.year}/${datetimeoffense.month}/${datetimeoffense.day}',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
                   ),
                 ),
                 SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final date = await pickDate();
-                          if (date == null) return;
+                TextFormField(
+                  readOnly: true,
+                  onTap: () async {
+                    final time = await pickTime();
+                    if (time == null) return;
 
-                          final newDateTime = DateTime(
-                            date.year,
-                            date.month,
-                            date.day,
-                            datetime.hour,
-                            datetime.minute,
-                          );
+                    final newDateTime = DateTime(
+                      datetimeoffense.year,
+                      datetimeoffense.month,
+                      datetimeoffense.day,
+                      time.hour,
+                      time.minute,
+                    );
 
-                          setState(() => {
-                                datetimearrest = newDateTime,
-                                //dtarrest = '$datetimearrest',
-                                datetime = newDateTime,
-                              });
-                        },
-                        child: Text(
-                            '${datetimearrest.year}/${datetimearrest.month}/${datetimearrest.day}'),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final time = await pickTime();
-                          if (time == null) return;
-
-                          final newDateTime = DateTime(
-                            datetime.year,
-                            datetime.month,
-                            datetime.day,
-                            time.hour,
-                            time.minute,
-                          );
-                          setState(() => {
-                                datetimearrest = newDateTime,
-                                //dtarrest = '$datetimearrest',
-                                datetime = newDateTime,
-                              });
-                        },
-                        child: Text(
-                            '${datetimearrest.hour}:${datetimearrest.minute}'),
-                      ),
-                    ),
-                  ],
+                    setState(() => datetimeoffense = newDateTime);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Time of Offense',
+                    hintText: '${datetimeoffense.hour}:${datetimeoffense.minute}',
+                    prefixIcon: Icon(Icons.access_time),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
+
                 _buildTextField('Location of Arrest', (value) {
                   arrestLoc = value;
                 }, true),
