@@ -14,8 +14,6 @@ class _JudgeLoginState extends State<JudgeLogin> {
   final TextEditingController pinController = TextEditingController();
   String errorMessage = '';
 
-  // Define your MongoDB connection URL and collection name
-  //final String mongoUrl = MONGO_CONN_URL;
   final String userCollection = JUDGE_COLLECTION;
 
   Future<bool> _verifyCredentials(String judgeId, String pin) async {

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
-
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import '../dbHelper/constant.dart';
 import '../dbHelper/family_data_model.dart';
 import 'family_homepg.dart';
 import 'family_login_page.dart';
-
-// Define a list of valid Case IDs
-final List<String> validCaseIDs = ['123456', '789012', '345678'];
 
 class FamilySignPage extends StatefulWidget {
   @override
@@ -50,10 +48,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
     return int.tryParse(text) != null && text.length == 6;
   }
 
-  // Function to check if the entered Case ID is valid
-  bool _isValidCaseID(String caseID) {
-    return validCaseIDs.contains(caseID);
-  }
+  List data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -85,23 +80,19 @@ class _FamilySignPageState extends State<FamilySignPage> {
                 ),
               ),
               const SizedBox(height: 19),
-              _buildTextField(
-                _phoneNumberController,
-                'Phone Number',
-                TextInputType.phone,
+              TextFormField(
+                controller: _phoneNumberController,
+                decoration: InputDecoration(labelText: 'Phone Number'),
               ),
               const SizedBox(height: 10),
-              _buildTextField(
-                _passwordController,
-                'Password',
-                TextInputType.text,
-                isPassword: true,
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
               ),
               const SizedBox(height: 10),
-              _buildTextField(
-                _caseIdController,
-                '6 digit Case ID',
-                TextInputType.number,
+              TextFormField(
+                controller: _caseIdController,
+                decoration: InputDecoration(labelText: '6 Digit Case ID'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -152,8 +143,10 @@ class _FamilySignPageState extends State<FamilySignPage> {
 
   // Function to insert data into MongoDB
   void _insertData(String phoneNumber, String password, String caseID) async {
+    await _fetchDetails(caseID);
+    print(data);
     // Check if the Case ID is valid
-    if (_isValidCaseID(caseID)) {
+    if (data.isNotEmpty) {
       final Family family = Family(
         phone: phoneNumber,
         pswd: password,
@@ -172,8 +165,8 @@ class _FamilySignPageState extends State<FamilySignPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('Your registration is successful.'),
+            title: const Text('Success'),
+            content: const Text('Your registration is successful.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -184,6 +177,14 @@ class _FamilySignPageState extends State<FamilySignPage> {
             ],
           );
         },
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FamilyHomePage(
+            data: data,
+          ),
+        ),
       );
     } else {
       // Show an error message to the user
@@ -213,6 +214,14 @@ class _FamilySignPageState extends State<FamilySignPage> {
     }
   }
 
+  Future<void> _fetchDetails(String caseId) async {
+    final query = mongo_dart.where.eq('case_Id', caseId);
+
+    data =
+        await MongoDatabase.db.collection(CASE_COLLECTION).find(query).toList();
+    print(data);
+  }
+
   void _handleLogin() {
     final String phoneNumber = _phoneNumberController.text;
     final String password = _passwordController.text;
@@ -220,12 +229,6 @@ class _FamilySignPageState extends State<FamilySignPage> {
 
     // Insert data into MongoDB and handle validation
     _insertData(phoneNumber, password, caseID);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FamilyHomePage(),
-      ),
-    );
   }
 
   Widget _buildTextField(

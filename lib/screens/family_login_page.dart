@@ -71,7 +71,10 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                 // Navigate to the main dashboard or another page as needed
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FamilyHomePage()),
+                  MaterialPageRoute(
+                      builder: (context) => FamilyHomePage(
+                            data: [],
+                          )),
                 );
               },
               child: const Text('OK'),
@@ -129,17 +132,14 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                 ),
               ),
               SizedBox(height: 20),
-              _buildTextField(
-                _phoneNumberController,
-                'Phone Number',
-                TextInputType.phone,
+              TextFormField(
+                controller: _phoneNumberController,
+                decoration: InputDecoration(labelText: 'Phone Number'),
               ),
               SizedBox(height: 10),
-              _buildTextField(
-                _passwordController,
-                'Password',
-                TextInputType.text,
-                isPassword: true,
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
               ),
               SizedBox(height: 40),
               ElevatedButton(
@@ -164,23 +164,6 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(
-    TextEditingController controller,
-    String label,
-    TextInputType keyboardType, {
-    bool isPassword = false,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
       ),
     );
   }

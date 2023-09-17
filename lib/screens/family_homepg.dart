@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
 
 class FamilyHomePage extends StatefulWidget {
+  final List data; // Add this line
+
+  FamilyHomePage({required this.data});
+
   @override
   _FamilyHomePageState createState() => _FamilyHomePageState();
 }
@@ -53,8 +57,8 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               height: 130,
               width: double.infinity,
               child: InfoCard(
-                caseId: '12345',
-                name: 'Julian',
+                caseId: widget.data[0]['case_Id'].toString(),
+                name: widget.data[0]['prisoner_name'].toString(),
                 status: 'Ongoing',
               ),
             ),
@@ -64,7 +68,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       bottomNavigationBar: SizedBox(
         height: 80,
         child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.account_circle,
@@ -119,7 +123,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 255,255,255),
+      color: Color.fromARGB(255, 255, 255, 255),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
