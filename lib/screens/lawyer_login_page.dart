@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'lawyer_homepg.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import '../dbHelper/mongodb.dart'; // Import your MongoDB configuration
+import '../dbHelper/constant.dart';
+import 'lawyer_homepg.dart'; // Import your lawyer home page
 
 class LawyerLogin extends StatefulWidget {
   @override
@@ -12,35 +14,71 @@ class _LawyerLoginState extends State<LawyerLogin> {
   final TextEditingController pinController = TextEditingController();
   String errorMessage = '';
 
-  final Map<String, String> userData = {
-    'lw123': '123456', // Format: {Prison ID: PIN}
-    'lw656': '456789',
-  };
+  // Define your MongoDB collection name
+  final String userCollection = LAWYER_COLLECTION;
 
-  void _login() {
+  Future<bool> _verifyCredentials(String lawyerId, String pin) async {
+    final collection = MongoDatabase.db.collection(userCollection);
+
+    final query = mongo_dart.where.eq('lid', lawyerId).eq('lpin', pin);
+
+    final users = await collection.find(query).toList();
+
+    await MongoDatabase.db.close();
+
+    return users.isNotEmpty;
+  }
+
+  void _login() async {
     final lawyerId = lawyerIdController.text;
     final pin = pinController.text;
 
-    if (pin.length != 6) {
-      setState(() {
-        errorMessage = 'PIN must be 6 digits';
-      });
-      return;
-    }
+    final isValidCredentials = await _verifyCredentials(lawyerId, pin);
 
-    if (userData.containsKey(lawyerId) && userData[lawyerId] == pin) {
-      // User authenticated, you can navigate to the next screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LawyerHomePage(),
+    // if (pin.length != 6) {
+    //   setState(() {
+    //     errorMessage = 'PIN must be 6 digits';
+    //   });
+    //   return;
+    // }
+
+    if (isValidCredentials) {
+      // Successful login
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Login'),
+          content: const Text('Login successful'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+                // Navigate to the main dashboard or another page as needed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LawyerHomePage()),
+                );
+              },
+              child: const Text('OK'),
+            ),
+          ],
         ),
       );
-      print('Login successful');
     } else {
-      setState(() {
-        errorMessage = 'Invalid lawyer ID or PIN';
-      });
+      // Invalid credentials
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Login'),
+          content: const Text('Invalid lawyer ID or PIN'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 

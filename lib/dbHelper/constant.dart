@@ -4,6 +4,7 @@ const MONGO_CONN_URL =
 const USER_COLLECTION = "Family";
 const JUDGE_COLLECTION = "Judge";
 const LAWYER_COLLECTION = "Lawyer";
+const POLICE_COLLECTION = "Police Authority";
 
 // user="Diya";
 // password="diya@mongo";
