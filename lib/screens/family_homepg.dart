@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../dbHelper/constant.dart';
+import 'package:sih_project/dbHelper/mongodb.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
 class FamilyHomePage extends StatefulWidget {
   final List data;
@@ -13,6 +17,13 @@ class FamilyHomePage extends StatefulWidget {
 
 class _FamilyHomePageState extends State<FamilyHomePage> {
   int _selectedIndex = 0;
+  String phonenum = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getLawyer();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -21,11 +32,23 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
 
     if (index == 2) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatBotScreen(),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatBotScreen(),
+        ),
+      );
     }
+  }
+
+  Future<void> getLawyer() async {
+    final query = mongo_dart.where.eq('lid', widget.data[0].LID);
+
+    final lawyers = await MongoDatabase.db
+        .collection(LAWYER_COLLECTION)
+        .find(query)
+        .toList();
+
+    phonenum = lawyers[0]['phno'];
   }
 
   @override
@@ -44,11 +67,23 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
             SizedBox(
               height: 20,
             ),
-            Text(
-              'Case Details',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Case Details',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: _launchPhoneCall(phonenum),
+                    icon: const Icon(Icons.phone),
+                    color: Colors.deepPurpleAccent,
+                  )
+                ],
               ),
             ),
             SizedBox(
@@ -107,6 +142,15 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         ),
       ),
     );
+  }
+
+  _launchPhoneCall(String phoneNumber) async {
+    final phoneUrl = 'tel:$phoneNumber';
+    if (await canLaunch(phoneUrl)) {
+      await launch(phoneUrl);
+    } else {
+      throw 'Could not launch $phoneUrl';
+    }
   }
 }
 

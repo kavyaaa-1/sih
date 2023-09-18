@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CaseConfirmationPage extends StatefulWidget {
   final String pid;
@@ -12,7 +13,7 @@ class CaseConfirmationPage extends StatefulWidget {
 }
 
 class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
-  String _assignedLawyer = '';
+  List<String> _assignedLawyer = [];
   String _assignedJudge = '';
   String _assignedLawyerId = '';
   String _assignedJudgeId = '';
@@ -27,6 +28,7 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   void _assignLawyerAndJudgeToCase() async {
     // Assign a lawyer and a judge (You can implement your logic here)
     _assignedLawyer = await _assignLawyer();
+
     _assignedJudge = await _assignJudge();
 
     // Update the "assigned" status of the lawyer and judge in MongoDB
@@ -36,7 +38,7 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   }
 
   // Function to assign a lawyer to the case (You can implement your logic here)
-  Future<String> _assignLawyer() async {
+  Future<List<String>> _assignLawyer() async {
     final query = mongo_dart.where.eq('assigned', false);
 
     final lawyers = await MongoDatabase.db
@@ -46,10 +48,10 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
 
     if (lawyers.isNotEmpty) {
       _assignedLawyerId = lawyers[0]['lid'];
-      return lawyers[0]['name'];
+      return [lawyers[0]['name'], lawyers[0]['phno']];
     }
 
-    return '';
+    return [];
   }
 
   // Function to assign a judge to the case (You can implement your logic here)
@@ -146,11 +148,23 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
                     color: Colors.black,
                   ),
                 ),
-                Text(
-                  _assignedLawyer,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        _assignedLawyer[0],
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _launchPhoneCall(_assignedLawyer[1]),
+                        icon: const Icon(Icons.phone),
+                        color: Colors.deepPurpleAccent,
+                      )
+                    ],
                   ),
                 ),
                 const SizedBox(height: 25.0),
@@ -176,5 +190,14 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
         ),
       ),
     );
+  }
+
+  _launchPhoneCall(String phoneNumber) async {
+    final phoneUrl = 'tel:$phoneNumber';
+    if (await canLaunch(phoneUrl)) {
+      await launch(phoneUrl);
+    } else {
+      throw 'Could not launch $phoneUrl';
+    }
   }
 }

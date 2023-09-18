@@ -58,7 +58,7 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
         arrestOfficer != '') {
       isSubmitButtonEnabled = true;
       String case_ID =
-          (await MongoDatabase.db.collection(CASE_COLLECTION).count() + 1)
+          (await MongoDatabase.db.collection(CASE_COLLECTION).count() + 100001)
               .toString();
 
       final data = Case(
