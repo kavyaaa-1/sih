@@ -54,48 +54,46 @@ class _FamilySignPageState extends State<FamilySignPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            )),
+        title: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
-      body: Center(
+      body: SingleChildScrollView( // Wrap the content in SingleChildScrollView
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: 20), // Add a SizedBox for spacing at the top
               Image.asset(
                 'images/family.png',
-                width: 130,
+                width: 120,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20), // Add spacing between the image and text
               const Text(
-                'Enter Details', // Added label "Enter Details"
+                'Enter Details',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 19),
+              SizedBox(height: 19),
               TextFormField(
                 controller: _phoneNumberController,
                 decoration: InputDecoration(labelText: 'Phone Number'),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _caseIdController,
                 decoration: InputDecoration(labelText: '6 Digit Case ID'),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: isLoginButtonEnabled ? _handleLogin : null,
                 style: ElevatedButton.styleFrom(
@@ -116,10 +114,9 @@ class _FamilySignPageState extends State<FamilySignPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               InkWell(
                 onTap: () {
-                  // Navigate to the Sign In page
                   Navigator.push(
                     context,
                     MaterialPageRoute(

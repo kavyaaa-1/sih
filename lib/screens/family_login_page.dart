@@ -120,56 +120,59 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'images/family.png',
-                width: 130,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Family Login',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        // Wrap the content in SingleChildScrollView
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 50), // Add a SizedBox for spacing at the top
+                Image.asset(
+                  'images/family.png',
+                  width: 130,
                 ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: _phoneNumberController,
-                decoration: InputDecoration(labelText: 'Phone Number'),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: isLoginButtonEnabled ? _performLogin : null,
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  minimumSize: Size(200, 60),
-                ),
-                child: const Text(
-                  "Log In",
+                SizedBox(height: 20), // Add spacing between the image and text
+                const Text(
+                  'Family Login',
                   style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _phoneNumberController,
+                  decoration: InputDecoration(labelText: 'Phone Number'),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(labelText: 'Password'),
+                ),
+                SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: isLoginButtonEnabled ? _performLogin : null,
+                  style: ElevatedButton.styleFrom(
+                    primary:
+                        isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    minimumSize: Size(200, 60),
+                  ),
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
