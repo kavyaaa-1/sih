@@ -9,6 +9,7 @@ class CaseDetails {
   final String prisonerName;
   final String caseDescription;
   final List<String> hearingDates;
+  String verdict = '';
 
   CaseDetails({
     required this.caseNo,
@@ -21,19 +22,69 @@ class CaseDetails {
   });
 }
 
-class CaseDetailsPage extends StatelessWidget {
-  final CaseDetails caseInfo = CaseDetails(
-    caseNo: '12345',
-    caseType: 'Criminal Case',
-    lawyerAssigned: 'John Doe',
-    judgeAssigned: 'Judge Smith',
-    prisonerName: 'Alice Johnson',
-    caseDescription: 'Lorem ipsum dolor sit amet...',
-    hearingDates: ['2023-09-10', '2023-09-15', '2023-09-20'],
-  );
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CaseDetailsPage(),
+    );
+  }
+}
+
+class CaseDetailsPage extends StatefulWidget {
+  @override
+  State<CaseDetailsPage> createState() => _CaseDetailsPageState();
+}
+
+class _CaseDetailsPageState extends State<CaseDetailsPage> {
+  late CaseDetails caseInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    caseInfo = CaseDetails(
+      caseNo: 'Case #12345',
+      caseType: 'Criminal Case',
+      lawyerAssigned: 'John Doe',
+      judgeAssigned: 'Judge Smith',
+      prisonerName: 'Alice Johnson',
+      caseDescription: 'Lorem ipsum dolor sit amet...',
+      hearingDates: ['2023-09-10', '2023-09-15', '2023-09-17'],
+    );
+  }
+
+  final TextEditingController _textEditingController = TextEditingController();
+
+  bool canAddHearing = true;
+
+  bool canAddVerdict = true;
+
+  // bool isAddingHearing = false;
+
+  // bool isAddingVerdict = false;
+
+  String newHearingDate = '';
+
+  DateTime datetime = DateTime.now();
+
+  //String newTranscript = '';
+  String newVerdict = '';
 
   @override
   Widget build(BuildContext context) {
+    List<String> date =
+        caseInfo.hearingDates[caseInfo.hearingDates.length - 1].split('-');
+    List<int> intList = date.map((str) => int.parse(str)).toList();
+    DateTime lastDate = DateTime(intList[2], intList[1], intList[0]);
+    if (datetime.isAfter(lastDate)) {
+      canAddHearing = true;
+      canAddVerdict = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Case Details'),
@@ -123,11 +174,22 @@ class CaseDetailsPage extends StatelessWidget {
                         ),
                       ),
                       Text(caseInfo.caseDescription),
+                      if (!canAddVerdict)
+                        SizedBox(height: 16),
+                        Text(
+                          'Case Verdict:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(caseInfo.verdict),
                     ],
                   ),
                 ),
               ),
               Card(
+                elevation: 4,
                 color: Colors.white,
                 margin: EdgeInsets.all(16.0),
                 child: Column(
@@ -142,10 +204,6 @@ class CaseDetailsPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
                     ),
                     Column(
                       children: caseInfo.hearingDates.map((date) {
@@ -184,6 +242,7 @@ class CaseDetailsPage extends StatelessWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
+                                              Navigator.pop(context);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -208,10 +267,102 @@ class CaseDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
+              if (canAddHearing && canAddVerdict)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (canAddHearing)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurpleAccent.withOpacity(0.6),
+                          onPrimary: Colors.white,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        child: const Text("Add Next Hearing Date"),
+                        onPressed: () async {
+                          final newD = await pickDate();
+                          if (newD == null) return;
+                          final newDate = DateTime(
+                            newD.year,
+                            newD.month,
+                            newD.day,
+                          );
+                          setState(() {
+                            canAddHearing = false;
+                            caseInfo.hearingDates.add(
+                                "${newDate.year}-${newDate.month}-${newDate.day}");
+                            lastDate = newDate;
+                          });
+                        },
+                      ),
+                    if (canAddVerdict)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurpleAccent.withOpacity(0.6),
+                          onPrimary: Colors.white,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        child: const Text("Add Verdict"),
+                        onPressed: () {
+                          showInputDialog(context);
+                          setState(() {
+                            canAddVerdict = false;
+                            canAddHearing = false;
+                            caseInfo.verdict = newVerdict;
+                          });
+                        },
+                      ),
+                  ],
+                ),
             ],
           ),
         ),
       ),
     );
   }
+
+  void showInputDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Input verdict'),
+          content: TextField(
+            controller: _textEditingController,
+            decoration: InputDecoration(labelText: 'Enter Text'),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Get the input value from the text field
+                newVerdict = _textEditingController.text;
+
+                // Use inputValue as needed (store it in a variable, etc.)
+                // For example, you can print it or set it in a state variable.
+                // print('Input Value: $inputValue');
+
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+        context: context,
+        initialDate: datetime,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2100),
+      );
 }

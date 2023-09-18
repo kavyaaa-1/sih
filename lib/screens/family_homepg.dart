@@ -21,7 +21,11 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
   @override
   void initState() {
     super.initState();
-    getLawyer();
+    callLawyer();
+  }
+
+  void callLawyer() async {
+    await getLawyer();
   }
 
   void _onItemTapped(int index) {
@@ -40,18 +44,21 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
   }
 
   Future<void> getLawyer() async {
-    final query = mongo_dart.where.eq('lid', widget.data[0].LID);
+    final query = mongo_dart.where.eq('lid', widget.data[0]['LID']);
 
     final lawyers = await MongoDatabase.db
         .collection(LAWYER_COLLECTION)
         .find(query)
         .toList();
 
-    phonenum = lawyers[0]['phno'];
+    setState(() {
+      phonenum = lawyers[0]['phone'];
+    });  
   }
 
   @override
   Widget build(BuildContext context) {
+    print(phonenum);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -70,14 +77,14 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               'Case Details',
               style: TextStyle(
                 fontSize: 30,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold, 
               ),
             ),
             SizedBox(
               height: 20,
             ),
             Container(
-              height: 130,
+              height: 160,
               width: double.infinity,
               child: InfoCard(
                 caseId: widget.data[0]['case_Id'].toString(),
@@ -168,43 +175,46 @@ class InfoCard extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        color: Color.fromARGB(255, 255, 255, 255),
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Case ID: $caseId',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
+      child: Expanded(
+        child: Card(
+          color: Color.fromARGB(255, 255, 255, 255),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Case ID: $caseId',
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(
-                'Name: $name',
-                style: TextStyle(
-                  fontSize: 19,
+                Text(
+                  'Name: $name',
+                  style: TextStyle(
+                    fontSize: 19,
+                  ),
                 ),
-              ),
-              Text(
-                'Status: $status',
-                style: TextStyle(
-                  fontSize: 19,
+                Text(
+                  'Status: $status',
+                  style: TextStyle(
+                    fontSize: 19,
+                  ),
                 ),
-              ),
-              Text(
-                "Lawyer's phone number: $phonenum",
-                style: TextStyle(
-                  fontSize: 19,
+                
+                Text(
+                  "Lawyer's phone number:${phonenum}",
+                  style: TextStyle(
+                    fontSize: 19,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

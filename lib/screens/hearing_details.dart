@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/judge_casedb.dart';
 
 class Hearing {
   final String hearingDate;
@@ -47,56 +46,6 @@ class _HearingDetailsState extends State<HearingDetails> {
         children: [
           SizedBox(
             height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CaseDetailsPage()),
-                  );
-                  // Handle add hearing date button click here
-                  setState(() {
-                    showAddHearingButton = false;
-                    showAddVerdictButton = false;
-                  });
-                },
-                icon: Icon(Icons.add),
-                label: Text(
-                  'Add Hearing Date',
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent.withOpacity(0.6),
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle add verdict button click here
-                  // Set caseInfo.verdictProvided = true
-                  setState(() {
-                    caseHearings.forEach((caseInfo) {
-                      caseInfo.verdictProvided = true;
-                    });
-                    showAddVerdictButton = false;
-                    showAddHearingButton = false;
-                  });
-                },
-                child: Text(
-                  'Provide Verdict',
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent.withOpacity(0.6),
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-              ),
-            ],
           ),
           Expanded(
             child: ListView.builder(

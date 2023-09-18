@@ -47,7 +47,7 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
 
     if (lawyers.isNotEmpty) {
       _assignedLawyerId = lawyers[0]['lid'];
-      return [lawyers[0]['name'], lawyers[0]['phno']];
+      return [lawyers[0]['name'], lawyers[0]['phone']];
     }
 
     return [];
