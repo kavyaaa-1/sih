@@ -1,12 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+
+import '../dbHelper/constant.dart';
+import '../dbHelper/mongodb.dart';
 
 class LawyerHomePage extends StatefulWidget {
+  final String lawyerId;
+  LawyerHomePage({required this.lawyerId});
+
   @override
   _LawyerHomePageState createState() => _LawyerHomePageState();
+}
+class Case {
+  final String caseId;
+  final String caseType;
+  final bool isClosed;
+
+  Case({required this.caseId, required this.caseType, required this.isClosed});
+}
+Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String lawyerId) async {
+  try {
+    await MongoDatabase.db.open();
+
+    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+
+    final Map<String, dynamic>? caseData = await caseCollection.findOne(
+      mongo_dart.where.eq('LID', lawyerId),
+    );
+    print(caseData);
+    return caseData;
+  } finally {
+    await MongoDatabase.db.close();
+  }
 }
 
 class _LawyerHomePageState extends State<LawyerHomePage> {
   String _selectedFilter = 'Ongoing'; // Default selected filter
+  Case? caseInfo;
+
+  void loadCaseInfo() async {
+    final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.lawyerId);
+    setState(() {
+      caseInfo = Case(
+        caseId: fetchedCaseInfo?['case_Id'] ?? ' ',
+        caseType: fetchedCaseInfo?['type'] ?? ' ',
+        isClosed: fetchedCaseInfo?['isClosed'] ?? false,
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadCaseInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +130,9 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
               height: 130, // Adjust the height as desired
               width: double.infinity, // Takes the full width
               child: CaseCard(
-                caseId: '12345',
-                caseType: 'Divorce',
-                progress:
-                    _selectedFilter == 'Ongoing' ? 'In Progress' : 'Completed',
+                caseId: '${caseInfo?.caseId ?? 'Loading...'}',
+                caseType: '${caseInfo?.caseType ?? 'Loading...'}',
+                progress: '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
             ),
             // Add more CaseCard widgets based on the selected filter

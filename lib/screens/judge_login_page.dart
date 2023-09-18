@@ -46,7 +46,7 @@ class _JudgeLoginState extends State<JudgeLogin> {
                 // Navigate to the main dashboard or another page as needed
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => JudgeHomePage()),
+                  MaterialPageRoute(builder: (context) => JudgeHomePage(judgeId: jid)),
                 );
               },
               child: const Text('OK'),

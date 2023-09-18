@@ -23,8 +23,6 @@ class CaseInfo {
   });
 }
 
-List<CaseInfo> _cases = [];
-
 class CaseInfoDashboard extends StatefulWidget {
   final String caseId;
 

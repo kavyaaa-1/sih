@@ -54,7 +54,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
                 // Navigate to the main dashboard or another page as needed
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LawyerHomePage()),
+                  MaterialPageRoute(builder: (context) => LawyerHomePage(lawyerId : lawyerId)),
                 );
               },
               child: const Text('OK'),
