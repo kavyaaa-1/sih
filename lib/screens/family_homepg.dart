@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
@@ -67,23 +66,11 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
             SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Case Details',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: _launchPhoneCall(phonenum),
-                    icon: const Icon(Icons.phone),
-                    color: Colors.deepPurpleAccent,
-                  )
-                ],
+            Text(
+              'Case Details',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(
@@ -96,6 +83,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                 caseId: widget.data[0]['case_Id'].toString(),
                 name: widget.data[0]['prisoner_name'].toString(),
                 status: (widget.data[0]['isClosed']) ? "Closed" : 'Ongoing',
+                phonenum: phonenum,
               ),
             ),
           ],
@@ -144,25 +132,27 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
     );
   }
 
-  _launchPhoneCall(String phoneNumber) async {
-    final phoneUrl = 'tel:$phoneNumber';
-    if (await canLaunch(phoneUrl)) {
-      await launch(phoneUrl);
-    } else {
-      throw 'Could not launch $phoneUrl';
-    }
-  }
+  // _launchPhoneCall(String phoneNumber) async {
+  //   final phoneUrl = 'tel:$phoneNumber';
+  //   if (await canLaunch(phoneUrl)) {
+  //     await launch(phoneUrl);
+  //   } else {
+  //     throw 'Could not launch $phoneUrl';
+  //   }
+  // }
 }
 
 class InfoCard extends StatelessWidget {
   final String caseId;
   final String name;
   final String status;
+  final String phonenum;
 
   InfoCard({
     required this.caseId,
     required this.name,
     required this.status,
+    required this.phonenum,
   });
 
   @override
@@ -204,6 +194,12 @@ class InfoCard extends StatelessWidget {
               ),
               Text(
                 'Status: $status',
+                style: TextStyle(
+                  fontSize: 19,
+                ),
+              ),
+              Text(
+                "Lawyer's phone number: $phonenum",
                 style: TextStyle(
                   fontSize: 19,
                 ),

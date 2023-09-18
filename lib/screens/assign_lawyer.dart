@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CaseConfirmationPage extends StatefulWidget {
   final String pid;
@@ -148,23 +147,19 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
                     color: Colors.black,
                   ),
                 ),
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        _assignedLawyer[0],
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: _launchPhoneCall(_assignedLawyer[1]),
-                        icon: const Icon(Icons.phone),
-                        color: Colors.deepPurpleAccent,
-                      )
-                    ],
+                Text(
+                  'Name : ${_assignedLawyer[0]}',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 15.0),
+                Text(
+                  'Phone number : ${_assignedLawyer[1]}',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 25.0),
@@ -190,14 +185,5 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
         ),
       ),
     );
-  }
-
-  _launchPhoneCall(String phoneNumber) async {
-    final phoneUrl = 'tel:$phoneNumber';
-    if (await canLaunch(phoneUrl)) {
-      await launch(phoneUrl);
-    } else {
-      throw 'Could not launch $phoneUrl';
-    }
   }
 }
