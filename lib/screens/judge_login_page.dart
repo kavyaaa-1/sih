@@ -77,64 +77,61 @@ class _JudgeLoginState extends State<JudgeLogin> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-        title: Text('Judge Login'),
+        //title: Text('Judge Login'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'images/law_3122321.png', // Replace with your image path
-              width: 125.0, // Adjust the image width as needed
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              'Judge Login',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView( // Wrap the content in SingleChildScrollView
+        child: Padding(
+          padding: EdgeInsets.all(25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 40.0), // Add a SizedBox for spacing at the top
+              Image.asset(
+                'images/law_3122321.png', // Replace with your image path
+                width: 130.0, // Adjust the image width as needed
               ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              controller: judgeIdController,
-              decoration: InputDecoration(labelText: 'Judge ID'),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              controller: pinController,
-              decoration: InputDecoration(labelText: 'PIN'),
-              keyboardType: TextInputType.number,
-              obscureText: true,
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: _login,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurpleAccent, // Background color
-              ),
-              child: Text(
-                'Login',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-            if (errorMessage.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.red),
+              SizedBox(height: 20.0), // Add spacing between the image and text
+              Text(
+                'Judge Login',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-          ],
+              SizedBox(height: 20.0),
+              TextFormField(
+                controller: judgeIdController,
+                decoration: InputDecoration(labelText: 'Judge ID'),
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                controller: pinController,
+                decoration: InputDecoration(labelText: 'PIN'),
+                keyboardType: TextInputType.number,
+                obscureText: true,
+              ),
+              SizedBox(height: 30.0),
+              ElevatedButton(
+                onPressed: _login,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepPurpleAccent, // Background color
+                ),
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 25, color: Colors.white),
+                ),
+              ),
+              if (errorMessage.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
