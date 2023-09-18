@@ -4,19 +4,6 @@ import 'judge_login_page.dart';
 import 'lawyer_login_page.dart';
 import 'prison_login_page.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SelectUserTypePage(),
-    );
-  }
-}
-
 class SelectUserTypePage extends StatefulWidget {
   @override
   _SelectUserTypePageState createState() => _SelectUserTypePageState();
@@ -61,6 +48,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         title: Text(""),
+        foregroundColor: Colors.white,
       ),
       body: Center(
         child: Column(

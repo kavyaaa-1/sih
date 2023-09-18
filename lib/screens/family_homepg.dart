@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
 
 class FamilyHomePage extends StatefulWidget {
-  final List data; // Add this line
+  final List data;
 
   FamilyHomePage({required this.data});
 
@@ -59,7 +60,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               child: InfoCard(
                 caseId: widget.data[0]['case_Id'].toString(),
                 name: widget.data[0]['prisoner_name'].toString(),
-                status: 'Ongoing',
+                status: (widget.data[0]['isClosed']) ? "Closed" : 'Ongoing',
               ),
             ),
           ],
@@ -122,37 +123,49 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Color.fromARGB(255, 255, 255, 255),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Case ID: $caseId',
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the new page when the card is tapped
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                CaseInfoDashboard(caseId: caseId), // Replace with your new page
+          ),
+        );
+      },
+      child: Card(
+        color: Color.fromARGB(255, 255, 255, 255),
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Case ID: $caseId',
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              'Name: $name',
-              style: TextStyle(
-                fontSize: 19,
+              Text(
+                'Name: $name',
+                style: TextStyle(
+                  fontSize: 19,
+                ),
               ),
-            ),
-            Text(
-              'Status: $status',
-              style: TextStyle(
-                fontSize: 19,
+              Text(
+                'Status: $status',
+                style: TextStyle(
+                  fontSize: 19,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

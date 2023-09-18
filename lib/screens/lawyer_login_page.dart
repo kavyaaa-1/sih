@@ -85,6 +85,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),

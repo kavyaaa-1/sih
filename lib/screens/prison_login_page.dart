@@ -88,6 +88,7 @@ class _PrisonLoginState extends State<PrisonLogin> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:sih_project/screens/family_homepg.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
@@ -35,6 +36,8 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
     return int.tryParse(text) != null && text.length == 10;
   }
 
+  List data = [];
+
   // Function to verify user credentials
   Future<bool> _verifyCredentials(String phoneNumber, String password) async {
     // Query for admin with matching phone_no and password
@@ -43,8 +46,18 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
 
     final admins = await MongoDatabase.familyCollection.find(query).toList();
 
-    // Return true if valid credentials, false otherwise
-    return admins.isNotEmpty;
+    if (admins.isEmpty) return false;
+
+    String caseID = admins[0]["case_ID"];
+
+    final query2 = mongo_dart.where.eq('case_Id', caseID);
+
+    data = await MongoDatabase.db
+        .collection(CASE_COLLECTION)
+        .find(query2)
+        .toList();
+
+    return data.isNotEmpty;
   }
 
   void _performLogin() async {
@@ -70,7 +83,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => FamilyHomePage(
-                            data: [],
+                            data: data,
                           )),
                 );
               },
@@ -102,10 +115,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          'Family Login',
         ),
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
@@ -137,6 +147,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
               SizedBox(height: 40),
               ElevatedButton(

@@ -40,7 +40,8 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-        title: Text('Home Page'), // Add a title to the app bar
+        title: Text('Home Page'),
+        foregroundColor: Colors.white, // Add a title to the app bar
       ),
       drawer: Drawer(
         child: ListView(

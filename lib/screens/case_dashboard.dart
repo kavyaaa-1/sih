@@ -22,7 +22,9 @@ class CaseInfo {
     required this.caseDescription,
   });
 }
+
 List<CaseInfo> _cases = [];
+
 class CaseInfoDashboard extends StatefulWidget {
   final String caseId;
 
@@ -32,9 +34,7 @@ class CaseInfoDashboard extends StatefulWidget {
   _CaseInfoDashboardState createState() => _CaseInfoDashboardState();
 }
 
-
 Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String caseId) async {
-
   try {
     await MongoDatabase.db.open();
 
@@ -68,7 +68,6 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -78,116 +77,118 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Case No. ${caseInfo?.caseId ?? 'Loading...'}',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16),
-            Card(
-              color: Colors.white,
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Case Type:',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${caseInfo?.caseType ?? 'Loading...'}',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Assigned Lawyer:',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Judge Assigned:',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${caseInfo?.judgeAssigned ?? 'Loading...'}',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Prisoner Name:',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${caseInfo?.prisonerName ?? 'Loading...'}',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'Description of the Case:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(caseInfo?.caseDescription ?? 'Loading...'),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 24), // Add spacing
-            Text(
-              'Bail Prediction * ',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8), // Add spacing
-            Container(
-              height: 200, // Adjust the height as needed
-              child: SpeedometerChart(
-                value: bailPrediction,
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          foregroundColor: Colors.white,
+          title: Text("Case Details"),
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Case No. ${caseInfo?.caseId ?? 'Loading...'}',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Card(
+                  color: Colors.white,
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Case Type:',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${caseInfo?.caseType ?? 'Loading...'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          'Assigned Lawyer:',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          'Judge Assigned:',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${caseInfo?.judgeAssigned ?? 'Loading...'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          'Prisoner Name:',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${caseInfo?.prisonerName ?? 'Loading...'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Description of the Case:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(caseInfo?.caseDescription ?? 'Loading...'),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24), // Add spacing
+                Text(
+                  'Bail Prediction * ',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8), // Add spacing
+                Container(
+                  height: 200, // Adjust the height as needed
+                  child: SpeedometerChart(
+                    value: bailPrediction,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
-
 }
 
 class SpeedometerChart extends StatelessWidget {

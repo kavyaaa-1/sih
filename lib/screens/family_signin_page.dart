@@ -88,6 +88,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -197,7 +198,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
                   Navigator.of(context).pop();
                 },
                 child: Text('OK'),
-              ),//Invalid Case ID,
+              ), //Invalid Case ID,
             ],
           );
         },
@@ -226,23 +227,6 @@ class _FamilySignPageState extends State<FamilySignPage> {
 
     // Insert data into MongoDB and handle validation
     _insertData(phoneNumber, password, caseID);
-  }
-
-  Widget _buildTextField(
-    TextEditingController controller,
-    String label,
-    TextInputType keyboardType, {
-    bool isPassword = false,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
-      ),
-    );
   }
 
   @override

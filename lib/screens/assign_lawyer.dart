@@ -98,7 +98,8 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-        title: Text(''),
+        foregroundColor: Colors.white,
+        title: Text('Assigned Details'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

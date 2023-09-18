@@ -78,6 +78,7 @@ class _JudgeLoginState extends State<JudgeLogin> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         title: Text('Judge Login'),
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.all(25.0),

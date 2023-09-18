@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'hearing_details.dart';
 
-
 class CaseDetails {
   final String caseNo;
   final String caseType;
@@ -39,6 +38,7 @@ class CaseDetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Case Details'),
         backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -171,15 +171,24 @@ class CaseDetailsPage extends StatelessWidget {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text('Hearing Date Details', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                                        content: Text('Selected Date: $date', style: TextStyle(fontSize: 18),),
+                                        title: Text(
+                                          'Hearing Date Details',
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        content: Text(
+                                          'Selected Date: $date',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => HearingDetails(),
+                                                  builder: (context) =>
+                                                      HearingDetails(),
                                                 ),
                                               );
                                             },
@@ -191,7 +200,6 @@ class CaseDetailsPage extends StatelessWidget {
                                   );
                                 },
                               ),
-                              
                             ],
                           ),
                         );
@@ -200,8 +208,6 @@ class CaseDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-
-
             ],
           ),
         ),

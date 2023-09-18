@@ -13,15 +13,6 @@ class Hearing {
   });
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HearingDetails(),
-    );
-  }
-}
-
 class HearingDetails extends StatefulWidget {
   @override
   _HearingDetailsState createState() => _HearingDetailsState();
@@ -32,7 +23,7 @@ class _HearingDetailsState extends State<HearingDetails> {
     Hearing(
       hearingDate: '2023-09-10',
       transcript:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at tellus nec nunc bibendum vulputate. Proin congue elit eu arcu scelerisque, non pharetra ligula tincidunt. Sed euismod vestibulum lorem, ut dapibus turpis interdum vel.',
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at tellus nec nunc bibendum vulputate. Proin congue elit eu arcu scelerisque, non pharetra ligula tincidunt. Sed euismod vestibulum lorem, ut dapibus turpis interdum vel.',
       verdictProvided: false,
     ),
     // Add more hearing cases as needed
@@ -48,25 +39,23 @@ class _HearingDetailsState extends State<HearingDetails> {
         backgroundColor: Colors.deepPurpleAccent,
         title: Text(
           'Hearing Details',
-          style: TextStyle(color: Colors.white),
         ),
+        foregroundColor: Colors.white,
       ),
       body: Column(
-
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
         children: [
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Row(
-
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => CaseDetailsPage()),
+                    MaterialPageRoute(builder: (context) => CaseDetailsPage()),
                   );
                   // Handle add hearing date button click here
                   setState(() {
@@ -75,7 +64,10 @@ class _HearingDetailsState extends State<HearingDetails> {
                   });
                 },
                 icon: Icon(Icons.add),
-                label: Text('Add Hearing Date',style: TextStyle(fontSize: 16),),
+                label: Text(
+                  'Add Hearing Date',
+                  style: TextStyle(fontSize: 16),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.deepPurpleAccent.withOpacity(0.6),
                   onPrimary: Colors.white,
@@ -94,7 +86,10 @@ class _HearingDetailsState extends State<HearingDetails> {
                     showAddHearingButton = false;
                   });
                 },
-                child: Text('Provide Verdict', style: TextStyle(fontSize: 16),),
+                child: Text(
+                  'Provide Verdict',
+                  style: TextStyle(fontSize: 16),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.deepPurpleAccent.withOpacity(0.6),
                   onPrimary: Colors.white,
@@ -135,7 +130,8 @@ class _HearingDetailsState extends State<HearingDetails> {
                           ),
                         ),
                         SizedBox(height: 16.0),
-                        ExpandableTranscriptCard(transcript: caseInfo.transcript),
+                        ExpandableTranscriptCard(
+                            transcript: caseInfo.transcript),
                         SizedBox(height: 16.0),
                         Text(
                           'Verdict Provided: ${caseInfo.verdictProvided ? 'Yes' : 'No'}',
@@ -184,9 +180,8 @@ class _ExpandableTranscriptCardState extends State<ExpandableTranscriptCard> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            trailing: isExpanded
-                ? Icon(Icons.expand_less)
-                : Icon(Icons.expand_more),
+            trailing:
+                isExpanded ? Icon(Icons.expand_less) : Icon(Icons.expand_more),
             onTap: () {
               setState(() {
                 isExpanded = !isExpanded;

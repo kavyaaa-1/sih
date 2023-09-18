@@ -1,18 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LawyerHomePage(),
-    );
-  }
-}
-
 class LawyerHomePage extends StatefulWidget {
   @override
   _LawyerHomePageState createState() => _LawyerHomePageState();
@@ -88,7 +75,9 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             // Display assigned cases based on the selected filter
             Container(
               height: 130, // Adjust the height as desired
@@ -96,7 +85,8 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
               child: CaseCard(
                 caseId: '12345',
                 caseType: 'Divorce',
-                progress: _selectedFilter == 'Ongoing' ? 'In Progress' : 'Completed',
+                progress:
+                    _selectedFilter == 'Ongoing' ? 'In Progress' : 'Completed',
               ),
             ),
             // Add more CaseCard widgets based on the selected filter
