@@ -157,7 +157,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                   onPressed: isLoginButtonEnabled ? _performLogin : null,
                   style: ElevatedButton.styleFrom(
                     primary:
-                        isLoginButtonEnabled ? Colors.deepPurple : Colors.grey,
+                        isLoginButtonEnabled ? Colors.deepPurpleAccent : Colors.grey,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),

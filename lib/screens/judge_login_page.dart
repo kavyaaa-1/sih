@@ -95,7 +95,7 @@ class _JudgeLoginState extends State<JudgeLogin> {
               ),
               SizedBox(height: 20.0), // Add spacing between the image and text
               Text(
-                'Judge Login',
+                'Enter Details',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -117,7 +117,12 @@ class _JudgeLoginState extends State<JudgeLogin> {
               ElevatedButton(
                 onPressed: _login,
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent, // Background color
+                  primary:Colors.deepPurpleAccent,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  minimumSize: Size(200, 60),
                 ),
                 child: Text(
                   'Login',

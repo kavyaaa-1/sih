@@ -84,6 +84,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Lawyer Login'),
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
@@ -101,7 +102,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
               ),
               SizedBox(height: 20.0), // Add spacing between the image and text
               Text(
-                'Lawyer Login',
+                'Enter Details',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -122,9 +123,14 @@ class _LawyerLoginState extends State<LawyerLogin> {
               SizedBox(height: 30.0),
               ElevatedButton(
                 onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent, // Background color
-                ),
+                  style: ElevatedButton.styleFrom(
+                    primary:Colors.deepPurpleAccent,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    minimumSize: Size(200, 60),
+                  ),
                 child: Text(
                   'Login',
                   style: TextStyle(fontSize: 25, color: Colors.white),

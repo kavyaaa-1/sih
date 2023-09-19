@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
-
 import 'package:sih_project/screens/splash.dart';
 import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
@@ -38,7 +37,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       _selectedIndex = index;
     });
 
-    if (index == 2) {
+    if (index == 3) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -75,7 +74,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -146,7 +145,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                 child: Container(
                   width: double
                       .infinity, // Make the Card width match the screen width
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(27.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -215,18 +214,22 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           fontSize: 20,
                         ),
                       ),
-                      Text(
-                        'Description',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold, // Bold for headings
+                      ExpansionTile(
+                        title: Text(
+                          'Description',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '${widget.data[0]['case_desc']}',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                        children: [
+                          Text(
+                            '${widget.data[0]['case_desc']}',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -263,30 +266,40 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.account_circle,
-                size: 40,
+                size: 30,
               ),
               label: 'Dashboard',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.library_books,
-                size: 40,
+                size: 30,
               ),
               label: 'Legal Aid',
+            ),
+            BottomNavigationBarItem( // Add this item for the "Connect" icon
+              icon: Icon(
+                Icons.person_add,
+                size: 30,
+              ),
+              label: 'Connect',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.chat,
-                size: 40,
+                size: 30,
               ),
               label: 'Chat with Us',
             ),
+
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.black,
+          selectedItemColor: Colors.deepPurpleAccent,
           onTap: _onItemTapped,
         ),
       ),
+
     );
   }
 }

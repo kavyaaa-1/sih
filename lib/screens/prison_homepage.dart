@@ -17,7 +17,7 @@ Future<List<Map<String, dynamic>>> fetchCaseInfoFromDatabase(String pid) async {
   final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
   final List<Map<String, dynamic>> caseData =
-      await caseCollection.find(mongo_dart.where.eq('PID', pid)).toList();
+  await caseCollection.find(mongo_dart.where.eq('PID', pid)).toList();
 
   return caseData;
 }
@@ -31,10 +31,10 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
     setState(() {
       _cases = fetchedCaseInfo
           .map((data) => Case(
-                caseId: data['case_Id'] ?? ' ',
-                caseType: data['type'] ?? ' ',
-                isClosed: data['isClosed'] ?? false,
-              ))
+        caseId: data['case_Id'] ?? ' ',
+        caseType: data['type'] ?? ' ',
+        isClosed: data['isClosed'] ?? false,
+      ))
           .toList();
     });
   }
@@ -49,8 +49,8 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurpleAccent,
-        title: Text('Home Page'),
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -63,48 +63,6 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
             icon: Icon(Icons.logout),
           ),
         ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent,
-              ),
-              child: Text(''),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.home,
-              ),
-              title: Text("Home Page"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PrisonDashboard(
-                      pid: widget.pid,
-                    ),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.edit),
-              title: Text("Enter new case details"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CaseInfoForm(
-                            pid: widget.pid,
-                          )),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: Stack(
         children: [
@@ -134,9 +92,9 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                         },
                         child: ListTileWithNavigation(
                           title:
-                              'Case ID: ${caseItem.caseId}', // Display caseId
+                          'Case ID: ${caseItem.caseId}', // Display caseId
                           subtitle:
-                              'Case Type: ${caseItem.caseType} \n Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}', // Display caseType
+                          'Case Type: ${caseItem.caseType} \nStatus: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}', // Display caseType
                         ),
                       );
                     },
@@ -156,8 +114,8 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => CaseInfoForm(
-                              pid: widget.pid,
-                            )),
+                          pid: widget.pid,
+                        )),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -185,6 +143,48 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+            size: 40,),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.psychology,
+              size: 40,
+
+            ),
+            label: 'Rehabilitation Program',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add,
+            size: 40,),
+            label: 'Add Case',
+          ),
+        ],
+        // You can add more items as needed
+        currentIndex: 0,
+        selectedItemColor: Colors.deepPurpleAccent,
+        onTap: (int index) {
+          // Handle bottom navigation item taps here
+          if (index == 0) {
+            // Handle Home
+          } else if (index == 2) {
+            // Handle Add Case
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CaseInfoForm(
+                  pid: widget.pid,
+                ),
+              ),
+            );
+          }
+          // Add more cases for additional items if needed
+        },
       ),
     );
   }
@@ -216,13 +216,14 @@ class ListTileWithNavigation extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: TextStyle(
-            fontSize: 17,
+            fontSize: 20,
           ),
         ),
         trailing: Icon(

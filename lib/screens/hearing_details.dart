@@ -22,7 +22,7 @@ class _HearingDetailsState extends State<HearingDetails> {
     Hearing(
       hearingDate: '2023-09-10',
       transcript:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at tellus nec nunc bibendum vulputate. Proin congue elit eu arcu scelerisque, non pharetra ligula tincidunt. Sed euismod vestibulum lorem, ut dapibus turpis interdum vel.',
+          'In a courtroom filled with anticipation, the case hearing began with the prosecution presenting its evidence. The witness, a key figure in the case, testified under oath, recounting the events of that fateful night. The defense countered with a skilled cross-examination, raising doubts about the accuracy of the witnesss recollection. Tensions escalated as both sides passionately argued their positions. The judge, a stern but fair presence, meticulously reviewed the evidence. After hours of deliberation, the court rendered its verdict, acquitting the defendant. The courtroom erupted in a mix of relief and disappointment, illustrating the complexities of the justice system',
       verdictProvided: false,
     ),
     // Add more hearing cases as needed

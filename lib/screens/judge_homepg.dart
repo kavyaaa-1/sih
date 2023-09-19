@@ -60,42 +60,21 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(
-              '',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.purple,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.account_circle,
-                  size: 35,
-                ),
-                onPressed: () {
-                  // Add your profile icon's onTap functionality here
-                },
-              ),
-              IconButton(
-                onPressed: () async {
-                  await MongoDatabase.db.close();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => splash(),
-                  ));
-                },
-                icon: Icon(Icons.logout),
-              ),
-            ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await MongoDatabase.db.close();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => splash(),
+              ));
+            },
+            icon: Icon(Icons.logout),
           ),
-        ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
@@ -106,10 +85,10 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Assigned Cases',
+                  'Your Cases',
                   style: TextStyle(
                     fontSize: 26,
-                    color: Colors.purple,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -164,7 +143,6 @@ class CaseCard extends StatelessWidget {
     required this.caseType,
     required this.progress,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -185,34 +163,36 @@ class CaseCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+        child: ListTile(
+          title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 8,),
               Text(
                 'Case ID: $caseId',
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 'Case Type: $caseType',
                 style: TextStyle(
-                  fontSize: 19,
+                  fontSize: 20,
                 ),
               ),
               Text(
                 'Progress: $progress',
                 style: TextStyle(
-                  fontSize: 19,
+                  fontSize: 20,
                 ),
               ),
             ],
           ),
+          trailing: Icon(Icons.arrow_forward_ios), // Add the forward arrow icon
         ),
       ),
     );
+
   }
 }

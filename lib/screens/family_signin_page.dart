@@ -54,8 +54,8 @@ class _FamilySignPageState extends State<FamilySignPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.deepPurple,
+        title: const Text('Sign Up'),
+        backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView( // Wrap the content in SingleChildScrollView
@@ -98,7 +98,7 @@ class _FamilySignPageState extends State<FamilySignPage> {
                 onPressed: isLoginButtonEnabled ? _handleLogin : null,
                 style: ElevatedButton.styleFrom(
                   primary: isLoginButtonEnabled
-                      ? Colors.deepPurple
+                      ? Colors.deepPurpleAccent
                       : Colors.purpleAccent,
                   elevation: 0,
                   shape: RoundedRectangleBorder(

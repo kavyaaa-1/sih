@@ -127,74 +127,86 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
                 ),
                 SizedBox(height: 16),
                 Card(
-                  color: Colors.white,
                   elevation: 4,
-                  child: Padding(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Container(
+                    width: double
+                        .infinity, // Make the Card width match the screen width
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Prisoner Name:',
+                          'Prisoner Name',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '${caseInfo?.prisonerName ?? 'Loading...'}',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                           ),
                         ),
                         Text(
-                          'Case Type:',
+                          'Case Type',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '${caseInfo?.caseType ?? 'Loading...'}',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize:20,
                           ),
                         ),
                         Text(
-                          'Assigned Lawyer:',
+                          'Assigned Lawyer',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                           ),
                         ),
                         Text(
-                          'Assigned Judge:',
+                          'Assigned Judge',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '${caseInfo?.judgeAssigned ?? 'Loading...'}',
                           style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Description of the Case:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
-                        Text(caseInfo?.caseDescription ?? 'Loading...'),
+                        ExpansionTile(
+                          title: Text(
+                            'Description',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          children: [
+                            Text(
+                              caseInfo?.caseDescription ?? 'Loading...',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -217,7 +229,10 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
               ],
             ),
           ),
-        ));
+        ),
+
+
+    );
   }
 }
 

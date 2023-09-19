@@ -90,7 +90,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 10),
               Card(
                 elevation: 4,
                 margin: EdgeInsets.all(16.0),
@@ -100,58 +100,67 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Case Type:',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${caseInfo.caseType}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Assigned Lawyer:',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${caseInfo.lawyerAssigned}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
                         'Prisoner Name:',
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         '${caseInfo.prisonerName}',
                         style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Description of the Case:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       ),
-                      Text(caseInfo.caseDescription),
-                      if (!canAddVerdict) SizedBox(height: 16),
+                      Text(
+                        'Case Type:',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '${caseInfo.caseType}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        'Assigned Lawyer:',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '${caseInfo.lawyerAssigned}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      ExpansionTile(
+                        title: Text(
+                          'Description',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        children: [
+                          Text(
+                            caseInfo.caseDescription,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
                       Text(
                         'Case Verdict:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 22,
                         ),
                       ),
                       Text(caseInfo.verdict),
@@ -159,6 +168,55 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                   ),
                 ),
               ),
+              if (canAddHearing && canAddVerdict)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (canAddHearing)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurpleAccent,
+                          onPrimary: Colors.white,
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        child: const Text("Add Next Hearing Date", style: TextStyle(fontSize: 16),),
+                        onPressed: () async {
+                          final newD = await pickDate();
+                          if (newD == null) return;
+                          final newDate = DateTime(
+                            newD.year,
+                            newD.month,
+                            newD.day,
+                          );
+                          setState(() {
+                            canAddHearing = false;
+                            caseInfo.hearingDates.add(
+                                "${newDate.year}-${newDate.month}-${newDate.day}");
+                            lastDate = newDate;
+                          });
+                        },
+                      ),
+                    if (canAddVerdict)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurpleAccent,
+                          onPrimary: Colors.white,
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        child: const Text("Add Verdict", style: TextStyle(fontSize: 16)),
+                        onPressed: () {
+                          showInputDialog(context);
+                          setState(() {
+                            canAddVerdict = false;
+                            canAddHearing = false;
+                            caseInfo.verdict = newVerdict;
+                          });
+                        },
+                      ),
+                  ],
+                ),
               Card(
                 elevation: 4,
                 color: Colors.white,
@@ -238,55 +296,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                   ],
                 ),
               ),
-              if (canAddHearing && canAddVerdict)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    if (canAddHearing)
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.deepPurpleAccent.withOpacity(0.6),
-                          onPrimary: Colors.white,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        ),
-                        child: const Text("Add Next Hearing Date"),
-                        onPressed: () async {
-                          final newD = await pickDate();
-                          if (newD == null) return;
-                          final newDate = DateTime(
-                            newD.year,
-                            newD.month,
-                            newD.day,
-                          );
-                          setState(() {
-                            canAddHearing = false;
-                            caseInfo.hearingDates.add(
-                                "${newDate.year}-${newDate.month}-${newDate.day}");
-                            lastDate = newDate;
-                          });
-                        },
-                      ),
-                    if (canAddVerdict)
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.deepPurpleAccent.withOpacity(0.6),
-                          onPrimary: Colors.white,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        ),
-                        child: const Text("Add Verdict"),
-                        onPressed: () {
-                          showInputDialog(context);
-                          setState(() {
-                            canAddVerdict = false;
-                            canAddHearing = false;
-                            caseInfo.verdict = newVerdict;
-                          });
-                        },
-                      ),
-                  ],
-                ),
+
             ],
           ),
         ),

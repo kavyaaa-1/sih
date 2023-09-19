@@ -96,7 +96,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ChatBot'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
       body: Column(

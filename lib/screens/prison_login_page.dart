@@ -127,9 +127,14 @@ class _PrisonLoginState extends State<PrisonLogin> {
               SizedBox(height: 30.0),
               ElevatedButton(
                 onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent, // Background color
-                ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.deepPurpleAccent,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    minimumSize: Size(200, 60),
+                  ),
                 child: Text(
                   'Login',
                   style: TextStyle(fontSize: 25, color: Colors.white),
