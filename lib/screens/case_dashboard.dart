@@ -56,7 +56,7 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
     final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.caseId);
     setState(() {
       caseInfo = CaseInfo(
-        caseId: fetchedCaseInfo?['case_Id'] ?? ' ',
+        caseId: widget.caseId,
         caseType: fetchedCaseInfo?['type'] ?? ' ',
         lawyerAssigned: fetchedCaseInfo?['lawyer'] ?? ' ',
         judgeAssigned: fetchedCaseInfo?['judge'] ?? ' ',
@@ -87,7 +87,7 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Case No. ${caseInfo?.caseId ?? 'Loading...'}',
+                  'Case No. ${widget.caseId}',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/screens/case_dashboard.dart';
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
@@ -159,37 +160,50 @@ class CaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Case ID: $caseId',
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to another page when the card is tapped
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              // Replace `AnotherPage` with the actual page you want to navigate to
+              return CaseInfoDashboard(caseId: caseId);
+            },
+          ),
+        );
+      },
+      child: Card(
+        color: Colors.white,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Case ID: $caseId',
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              'Case Type: $caseType',
-              style: TextStyle(
-                fontSize: 19,
+              Text(
+                'Case Type: $caseType',
+                style: TextStyle(
+                  fontSize: 19,
+                ),
               ),
-            ),
-            Text(
-              'Progress: $progress',
-              style: TextStyle(
-                fontSize: 19,
+              Text(
+                'Progress: $progress',
+                style: TextStyle(
+                  fontSize: 19,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
