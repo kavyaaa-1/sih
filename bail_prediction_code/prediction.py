@@ -118,7 +118,7 @@ base_models = [
 ]
 
 # Define the meta-model (stacker)
-meta_model = LogisticRegression()
+meta_model = LogisticRegression() 
 
 # Create the stacking classifier
 stacking_model = StackingClassifier(estimators=base_models, final_estimator=meta_model)
