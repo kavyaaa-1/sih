@@ -31,7 +31,6 @@ Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String lawyerId) async {
     final Map<String, dynamic>? caseData = await caseCollection.findOne(
       mongo_dart.where.eq('LID', lawyerId),
     );
-    print(caseData);
     return caseData;
   } finally {
     await MongoDatabase.db.close();

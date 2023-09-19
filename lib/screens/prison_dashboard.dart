@@ -4,6 +4,8 @@ import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
 import 'case_dashboard.dart';
 import 'select_user_type.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+
 
 class PrisonDashboard extends StatefulWidget {
   final String pid;
@@ -12,28 +14,43 @@ class PrisonDashboard extends StatefulWidget {
   _PrisonDashboardState createState() => _PrisonDashboardState();
 }
 
+Future<List<Map<String, dynamic>>> fetchCaseInfoFromDatabase(String pid) async {
+  try {
+    await MongoDatabase.db.open();
+
+    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+
+    final List<Map<String, dynamic>> caseData = await caseCollection
+        .find(mongo_dart.where.eq('PID', pid))
+        .toList();
+
+    return caseData;
+  } finally {
+    await MongoDatabase.db.close();
+  }
+}
+
+
+
 class _PrisonDashboardState extends State<PrisonDashboard> {
   List<Case> _cases = [];
+
+  void loadCaseInfo() async {
+    final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.pid);
+
+    setState(() {
+      _cases = fetchedCaseInfo.map((data) => Case(
+        caseId: data['case_Id'] ?? ' ',
+        caseType: data['type'] ?? ' ',
+        isClosed: data['isClosed'] ?? false,
+      )).toList();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    fetchCases();
-  }
-
-  Future<void> fetchCases() async {
-    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
-    final List<Map<String, dynamic>> cases =
-        await caseCollection.find().toList();
-
-    setState(() {
-      _cases = cases.map((Map<String, dynamic> caseData) {
-        final caseId = caseData['case_Id'];
-        final caseType = caseData['type'] ?? ' ';
-        final isClosed = caseData['isClosed'] ?? false;
-        return Case(caseId, caseType, isClosed);
-      }).toList();
-    });
+    loadCaseInfo();
   }
 
   @override
@@ -104,36 +121,34 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
-                SizedBox(height: 20.0),
-                Expanded(
-                    child: ListView.builder(
-                  itemCount: _cases.length,
-                  itemBuilder: (context, index) {
-                    final caseItem = _cases[index];
-                    String casestatus =
-                        'Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}';
 
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigate to CaseDashboard and pass the case ID
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CaseInfoDashboard(caseId: caseItem.caseId),
-                          ),
-                        );
-                      },
-                      child: ListTileWithNavigation(
-                        title: 'Case ID: ${caseItem.caseId}', // Display caseId
-                        subtitle:
-                            'Case Type: ${caseItem.caseType}\n Status: ${casestatus}', // Display caseType
-                      ),
-                    );
-                  },
-                )),
+      Expanded(
+        child: ListView.builder(
+          itemCount: _cases.length,
+          itemBuilder: (context, index) {
+            final caseItem = _cases[index];
+            return GestureDetector(
+              onTap: () {
+                // Navigate to CaseDashboard and pass the case ID
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CaseInfoDashboard(caseId: caseItem.caseId),
+                  ),
+                );
+              },
+              child: ListTileWithNavigation(
+                title: 'Case ID: ${caseItem.caseId ?? 'Loading...'}', // Display caseId
+                subtitle:
+                'Case Type: ${caseItem.caseType ?? 'Loading...'} \n Status: ${caseItem.isClosed ?? false ? 'Closed' : 'Ongoing'}', // Display caseType
+              ),
+            );
+          },
+        ),
+      ),
               ],
             ),
           ),
@@ -187,7 +202,7 @@ class Case {
   final String caseType;
   final bool isClosed;
 
-  Case(this.caseId, this.caseType, this.isClosed);
+  Case({required this.caseId, required this.caseType, required this.isClosed});
 }
 
 class ListTileWithNavigation extends StatelessWidget {
