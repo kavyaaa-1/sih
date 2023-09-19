@@ -38,7 +38,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
       caseType: widget.data?['type'],
       lawyerAssigned: 'Smita Jain',
       prisonerName: widget.data?['prisoner_name'],
-      caseDescription: widget.data?['case_desc'],
+      caseDescription: widget.data?['case_desc'], 
       hearingDates: ['2023-09-10', '2023-09-15', '2023-09-17'],
     );
   }

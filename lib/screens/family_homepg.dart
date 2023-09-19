@@ -6,6 +6,8 @@ import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import 'legal_aid_orgs.dart';
+
 class FamilyHomePage extends StatefulWidget {
   final List data;
 
@@ -36,6 +38,15 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if(index == 1){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LegalAidListPage(),
+        ),
+      );
+    }
 
     if (index == 3) {
       Navigator.push(
@@ -276,6 +287,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                 size: 30,
               ),
               label: 'Legal Aid',
+              
             ),
             BottomNavigationBarItem( // Add this item for the "Connect" icon
               icon: Icon(

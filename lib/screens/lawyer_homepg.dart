@@ -4,8 +4,8 @@ import 'package:sih_project/screens/splash.dart';
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
-import 'case_dashboard.dart';
 import 'chatbot_screen.dart';
+import 'lawyer_casedb.dart';
 
 class LawyerHomePage extends StatefulWidget {
   final String lawyerId;
@@ -200,7 +200,7 @@ class CaseCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) {
               // Replace `AnotherPage` with the actual page you want to navigate to
-              return CaseInfoDashboard(caseId: caseId);
+              return LawyerCaseDashboard(caseId: caseId);
             },
           ),
         );
