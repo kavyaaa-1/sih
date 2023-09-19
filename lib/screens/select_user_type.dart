@@ -49,6 +49,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
         backgroundColor: Colors.deepPurpleAccent,
         title: Text(""),
         foregroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(

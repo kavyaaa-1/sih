@@ -3,6 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
+import 'select_user_type.dart';
 
 class JudgeHomePage extends StatefulWidget {
   final String judgeId;
@@ -12,7 +13,6 @@ class JudgeHomePage extends StatefulWidget {
   _JudgeHomePageState createState() => _JudgeHomePageState();
 }
 
-
 class Case {
   final String caseId;
   final String caseType;
@@ -20,6 +20,7 @@ class Case {
 
   Case({required this.caseId, required this.caseType, required this.isClosed});
 }
+
 Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String judgeId) async {
   try {
     await MongoDatabase.db.open();
@@ -46,7 +47,7 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
       caseInfo = Case(
         caseId: fetchedCaseInfo?['case_Id'] ?? ' ',
         caseType: fetchedCaseInfo?['type'] ?? ' ',
-          isClosed: fetchedCaseInfo?['isClosed'] ?? false,
+        isClosed: fetchedCaseInfo?['isClosed'] ?? false,
       );
     });
   }
@@ -84,6 +85,14 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
                 onPressed: () {
                   // Add your profile icon's onTap functionality here
                 },
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => SelectUserTypePage(),
+                  ));
+                },
+                icon: Icon(Icons.logout),
               ),
             ],
           ),
@@ -134,9 +143,9 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
               child: CaseCard(
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',
-                progress: '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
+                progress:
+                    '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
-
             ),
             // Add more CaseCard widgets based on the selected filter
           ],

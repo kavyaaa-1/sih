@@ -3,6 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
+import 'select_user_type.dart';
 
 class LawyerHomePage extends StatefulWidget {
   final String lawyerId;
@@ -11,6 +12,7 @@ class LawyerHomePage extends StatefulWidget {
   @override
   _LawyerHomePageState createState() => _LawyerHomePageState();
 }
+
 class Case {
   final String caseId;
   final String caseType;
@@ -18,6 +20,7 @@ class Case {
 
   Case({required this.caseId, required this.caseType, required this.isClosed});
 }
+
 Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String lawyerId) async {
   try {
     await MongoDatabase.db.open();
@@ -83,6 +86,14 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                   // Add your profile icon's onTap functionality here
                 },
               ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => SelectUserTypePage(),
+                  ));
+                },
+                icon: Icon(Icons.logout),
+              ),
             ],
           ),
         ),
@@ -132,7 +143,8 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
               child: CaseCard(
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',
-                progress: '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
+                progress:
+                    '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
             ),
             // Add more CaseCard widgets based on the selected filter

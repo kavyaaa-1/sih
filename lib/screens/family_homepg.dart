@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
+import 'package:sih_project/screens/select_user_type.dart';
 import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+
 
 class FamilyHomePage extends StatefulWidget {
   final List data;
@@ -53,7 +55,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
 
     setState(() {
       phonenum = lawyers[0]['phone'];
-    });  
+    });
   }
 
   @override
@@ -64,6 +66,16 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => SelectUserTypePage(),
+              ));
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -77,7 +89,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               'Case Details',
               style: TextStyle(
                 fontSize: 30,
-                fontWeight: FontWeight.bold, 
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(
@@ -206,7 +218,6 @@ class InfoCard extends StatelessWidget {
                     fontSize: 19,
                   ),
                 ),
-                
                 Text(
                   "Lawyer's phone number:${phonenum}",
                   style: TextStyle(

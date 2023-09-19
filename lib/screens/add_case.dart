@@ -96,6 +96,15 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CaseConfirmationPage(
+                        pid: widget.pid,
+                        caseId: case_ID,
+                      ),
+                    ),
+                  );
                 },
                 child: Text('OK'),
               ),
@@ -105,15 +114,6 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
       );
 
       // Navigate to the next page or perform any other action
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CaseConfirmationPage(
-            pid: widget.pid,
-            caseId: case_ID,
-          ),
-        ),
-      );
     } else {
       // Show an error message to the user
       showDialog(

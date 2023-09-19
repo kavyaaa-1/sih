@@ -24,10 +24,10 @@ def index():
     return 'Welcome to the Text Summarizer API'
 
 
-@app.route('/summarize', methods=['POST'])
-def summarize_text():
+@app.route('/summarize/<str:data>', methods=['GET'])
+def summarize_text(data):
     try:
-        data = request.get_json()
+        #data = request.get_json()
         text_to_summarize = data['text']
         
         model = Summarizer()

@@ -3,6 +3,7 @@ import 'package:sih_project/screens/add_case.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import '../dbHelper/constant.dart';
 import 'case_dashboard.dart';
+import 'select_user_type.dart';
 
 class PrisonDashboard extends StatefulWidget {
   final String pid;
@@ -41,7 +42,17 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         title: Text('Home Page'),
-        foregroundColor: Colors.white, // Add a title to the app bar
+        foregroundColor: Colors.white, 
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => SelectUserTypePage(),
+              ));
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
