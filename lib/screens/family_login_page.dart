@@ -135,7 +135,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                 ),
                 SizedBox(height: 20), // Add spacing between the image and text
                 const Text(
-                  'Family Login',
+                  'Enter Details',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,

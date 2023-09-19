@@ -87,6 +87,7 @@ class _PrisonLoginState extends State<PrisonLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Prison Authority Login"),
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
       ),
@@ -105,7 +106,7 @@ class _PrisonLoginState extends State<PrisonLogin> {
               ),
               SizedBox(height: 20.0), // Add spacing between the image and text
               Text(
-                'Prison Login',
+                'Enter Details',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,

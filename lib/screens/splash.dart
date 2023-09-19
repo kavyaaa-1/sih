@@ -18,20 +18,23 @@ class _splashState extends State<splash> {
   }
 
   _navigatetohome() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context)=>SelectUserTypePage()));
+    WidgetsFlutterBinding.ensureInitialized();
+    await MongoDatabase.connect();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SelectUserTypePage()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(101, 31, 254, 1.0), // Set the background color
+      backgroundColor:
+          Color.fromRGBO(101, 31, 254, 1.0), // Set the background color
       body: Center(
         child: Container(
           width: 300, // Set the width as per your requirements
           height: 300, // Set the height as per your requirements
-          child: Image.asset("images/logo.png"), // Replace with your image asset path
+          child: Image.asset(
+              "images/logo.png"), // Replace with your image asset path
         ),
       ),
     );

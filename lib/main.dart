@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/select_user_type.dart';
 import 'package:sih_project/screens/splash.dart';
 
 void main() {

@@ -5,7 +5,6 @@ class CaseDetails {
   final String caseNo;
   final String caseType;
   final String lawyerAssigned;
-  final String judgeAssigned;
   final String prisonerName;
   final String caseDescription;
   final List<String> hearingDates;
@@ -15,7 +14,6 @@ class CaseDetails {
     required this.caseNo,
     required this.caseType,
     required this.lawyerAssigned,
-    required this.judgeAssigned,
     required this.prisonerName,
     required this.caseDescription,
     required this.hearingDates,
@@ -23,6 +21,8 @@ class CaseDetails {
 }
 
 class CaseDetailsPage extends StatefulWidget {
+  final Map<String, dynamic>? data;
+  CaseDetailsPage({required this.data});
   @override
   State<CaseDetailsPage> createState() => _CaseDetailsPageState();
 }
@@ -34,12 +34,11 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
   void initState() {
     super.initState();
     caseInfo = CaseDetails(
-      caseNo: 'Case #12345',
-      caseType: 'Criminal Case',
-      lawyerAssigned: 'John Doe',
-      judgeAssigned: 'Judge Smith',
-      prisonerName: 'Alice Johnson',
-      caseDescription: 'Lorem ipsum dolor sit amet...',
+      caseNo: widget.data?['case_Id'],
+      caseType: widget.data?['type'],
+      lawyerAssigned: 'Smita Jain',
+      prisonerName: widget.data?['prisoner_name'],
+      caseDescription: widget.data?['case_desc'],
       hearingDates: ['2023-09-10', '2023-09-15', '2023-09-17'],
     );
   }
@@ -127,19 +126,6 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                         ),
                       ),
                       Text(
-                        'Judge Assigned:',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${caseInfo.judgeAssigned}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
                         'Prisoner Name:',
                         style: TextStyle(
                           fontSize: 19,
@@ -152,7 +138,6 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 16),
                       Text(
                         'Description of the Case:',
                         style: TextStyle(

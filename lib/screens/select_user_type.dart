@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_signin_page.dart';
-import '../dbHelper/mongodb.dart';
 import 'judge_login_page.dart';
 import 'lawyer_login_page.dart';
 import 'prison_login_page.dart';
@@ -14,8 +13,6 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
   String selectedUserType = ""; // Variable to store the selected user type
 
   void onUserTypeSelected(String userType) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await MongoDatabase.connect();
     setState(() {
       selectedUserType = userType;
     });

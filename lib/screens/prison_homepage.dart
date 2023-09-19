@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/add_case.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
+import 'package:sih_project/screens/splash.dart';
 import '../dbHelper/constant.dart';
 import 'case_dashboard.dart';
-import 'select_user_type.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
 class PrisonDashboard extends StatefulWidget {
@@ -57,7 +57,7 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
             onPressed: () async {
               await MongoDatabase.db.close();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => SelectUserTypePage(),
+                builder: (context) => splash(),
               ));
             },
             icon: Icon(Icons.logout),
@@ -134,9 +134,9 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                         },
                         child: ListTileWithNavigation(
                           title:
-                              'Case ID: ${caseItem.caseId ?? 'Loading...'}', // Display caseId
+                              'Case ID: ${caseItem.caseId}', // Display caseId
                           subtitle:
-                              'Case Type: ${caseItem.caseType ?? 'Loading...'} \n Status: ${caseItem.isClosed ?? false ? 'Closed' : 'Ongoing'}', // Display caseType
+                              'Case Type: ${caseItem.caseType} \n Status: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}', // Display caseType
                         ),
                       );
                     },

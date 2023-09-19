@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/screens/splash.dart';
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
 import 'case_dashboard.dart';
-import 'select_user_type.dart';
 
 class LawyerHomePage extends StatefulWidget {
   final String lawyerId;
@@ -84,7 +84,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                 onPressed: () async {
                   await MongoDatabase.db.close();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => SelectUserTypePage(),
+                    builder: (context) => splash(),
                   ));
                 },
                 icon: Icon(Icons.logout),

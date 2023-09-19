@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
-import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/judge_casedb.dart';
+import 'package:sih_project/screens/splash.dart';
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
-import 'select_user_type.dart';
 
 class JudgeHomePage extends StatefulWidget {
   final String judgeId;
@@ -14,6 +13,8 @@ class JudgeHomePage extends StatefulWidget {
   @override
   _JudgeHomePageState createState() => _JudgeHomePageState();
 }
+
+Map<String, dynamic>? caseData = Map();
 
 class Case {
   final String caseId;
@@ -26,9 +27,10 @@ class Case {
 Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String judgeId) async {
   final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
-  final Map<String, dynamic>? caseData = await caseCollection.findOne(
+  caseData = await caseCollection.findOne(
     mongo_dart.where.eq('JID', judgeId),
   );
+
   print(caseData);
   return caseData;
 }
@@ -86,7 +88,7 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
                 onPressed: () async {
                   await MongoDatabase.db.close();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => SelectUserTypePage(),
+                    builder: (context) => splash(),
                   ));
                 },
                 icon: Icon(Icons.logout),
@@ -172,7 +174,7 @@ class CaseCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) {
               // Replace `AnotherPage` with the actual page you want to navigate to
-              return CaseDetailsPage();
+              return CaseDetailsPage(data: caseData);
             },
           ),
         );

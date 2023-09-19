@@ -90,6 +90,9 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
       assignedJudge = judgeResult[0]["name"];
     }
 
+    print(assignedLawyer);
+    print(assignedJudge);
+
     setState(() {});
 
     return (assignedJudge.isNotEmpty && assignedLawyer.isNotEmpty);
@@ -132,6 +135,19 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
+                          'Prisoner Name:',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${caseInfo?.prisonerName ?? 'Loading...'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
                           'Case Type:',
                           style: TextStyle(
                             fontSize: 19,
@@ -158,7 +174,7 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
                           ),
                         ),
                         Text(
-                          'Judge Assigned:',
+                          'Assigned Judge:',
                           style: TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.bold,
@@ -166,19 +182,6 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
                         ),
                         Text(
                           '${caseInfo?.judgeAssigned ?? 'Loading...'}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          'Prisoner Name:',
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${caseInfo?.prisonerName ?? 'Loading...'}',
                           style: TextStyle(
                             fontSize: 16,
                           ),

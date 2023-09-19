@@ -82,14 +82,6 @@ class _HearingDetailsState extends State<HearingDetails> {
                         ExpandableTranscriptCard(
                             transcript: caseInfo.transcript),
                         SizedBox(height: 16.0),
-                        Text(
-                          'Verdict Provided: ${caseInfo.verdictProvided ? 'Yes' : 'No'}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            //fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16.0),
                       ],
                     ),
                   ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sih_project/screens/case_dashboard.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
-import 'package:sih_project/screens/select_user_type.dart';
+
+import 'package:sih_project/screens/splash.dart';
 import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
@@ -26,11 +26,11 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
   @override
   void initState() {
     super.initState();
-    callLawyer();
+    callLawyerJudge();
   }
 
-  void callLawyer() async {
-    await getLawyer();
+  void callLawyerJudge() async {
+    await getLawyerJudge();
   }
 
   void _onItemTapped(int index) {
@@ -48,7 +48,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
     }
   }
 
-  Future<void> getLawyer() async {
+  Future<void> getLawyerJudge() async {
     final query = mongo_dart.where.eq('lid', widget.data[0]['LID']);
 
     final lawyers = await MongoDatabase.db
@@ -56,12 +56,19 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         .find(query)
         .toList();
 
+    final query1 = mongo_dart.where.eq('jid', widget.data[0]['JID']);
+
+    final judge = await MongoDatabase.db
+        .collection(JUDGE_COLLECTION)
+        .find(query1)
+        .toList();
+
     setState(() {
       phonenum = lawyers.isNotEmpty ? lawyers[0]['phone'] : '';
       lawyer_name = lawyers.isNotEmpty ? lawyers[0]['name'] : '';
+      judge_name = judge.isNotEmpty ? judge[0]['name'] : "";
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +82,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
             onPressed: () async {
               await MongoDatabase.db.close();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => SelectUserTypePage(),
+                builder: (context) => splash(),
               ));
             },
             icon: Icon(Icons.logout),
@@ -105,7 +112,8 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                 decoration: ShapeDecoration(
                   color: widget.data[0]['isClosed'] ? Colors.red : Colors.green,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(35.0), // Adjust the border radius as needed
+                    borderRadius: BorderRadius.circular(
+                        35.0), // Adjust the border radius as needed
                   ),
                 ),
                 child: InkWell(
@@ -113,7 +121,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                     // Handle button click here
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Adjust padding as needed
+                    padding: EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 16.0), // Adjust padding as needed
                     child: Text(
                       widget.data[0]['isClosed'] ? 'Closed' : 'Ongoing',
                       style: TextStyle(
@@ -134,7 +144,8 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Container(
-                  width: double.infinity, // Make the Card width match the screen width
+                  width: double
+                      .infinity, // Make the Card width match the screen width
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +176,6 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           fontSize: 20,
                         ),
                       ),
-
                       Text(
                         'Judge Assigned',
                         style: TextStyle(
@@ -222,8 +232,6 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                   ),
                 ),
               ),
-
-
 
               SizedBox(
                 height: 20,
