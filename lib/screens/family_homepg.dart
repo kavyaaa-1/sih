@@ -6,7 +6,6 @@ import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
-
 class FamilyHomePage extends StatefulWidget {
   final List data;
 
@@ -68,7 +67,8 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await MongoDatabase.db.close();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => SelectUserTypePage(),
               ));
@@ -219,7 +219,7 @@ class InfoCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Lawyer's phone number:${phonenum}",
+                  "Lawyer's Contact: ${phonenum}",
                   style: TextStyle(
                     fontSize: 19,
                   ),

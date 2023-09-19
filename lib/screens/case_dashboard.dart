@@ -32,20 +32,19 @@ class CaseInfoDashboard extends StatefulWidget {
   _CaseInfoDashboardState createState() => _CaseInfoDashboardState();
 }
 
-Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String caseId) async {
-  try {
-    await MongoDatabase.db.open();
+List fetchedCaseInfo = [];
+String assignedLawyer = "";
+String assignedJudge = "";
 
-    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+Future<List> fetchCaseInfoFromDatabase(String caseId) async {
+  final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
-    final Map<String, dynamic>? caseData = await caseCollection.findOne(
-      mongo_dart.where.eq('case_Id', caseId),
-    );
-    print(caseData);
-    return caseData;
-  } finally {
-    await MongoDatabase.db.close();
-  }
+  return await caseCollection
+      .find(
+        mongo_dart.where.eq('case_Id', caseId),
+      )
+      .toList();
+  //print(fetchedCaseInfo);
 }
 
 class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
@@ -53,17 +52,47 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
   double bailPrediction = 75; // Replace with actual bail prediction value
 
   void loadCaseInfo() async {
-    final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.caseId);
+    fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.caseId);
+    final istrue = await getAssignedInfo();
+    print(fetchedCaseInfo);
+    print(istrue);
+
     setState(() {
       caseInfo = CaseInfo(
-        caseId: widget.caseId,
-        caseType: fetchedCaseInfo?['type'] ?? ' ',
-        lawyerAssigned: fetchedCaseInfo?['lawyer'] ?? ' ',
-        judgeAssigned: fetchedCaseInfo?['judge'] ?? ' ',
-        prisonerName: fetchedCaseInfo?['prisoner_name'] ?? ' ',
-        caseDescription: fetchedCaseInfo?['case_desc'] ?? ' ',
+        caseId: fetchedCaseInfo[0]?['case_Id'] ?? ' ',
+        caseType: fetchedCaseInfo[0]?['type'] ?? ' ',
+        lawyerAssigned: assignedLawyer,
+        judgeAssigned: assignedJudge,
+        prisonerName: fetchedCaseInfo[0]?['prisoner_name'] ?? ' ',
+        caseDescription: fetchedCaseInfo[0]?['case_desc'] ?? ' ',
       );
     });
+  }
+
+  Future<bool> getAssignedInfo() async {
+    final query1 = mongo_dart.where.eq("lid", fetchedCaseInfo[0]?['LID']);
+    final lawyerResult = await MongoDatabase.db
+        .collection(LAWYER_COLLECTION)
+        .find(query1)
+        .toList();
+
+    if (lawyerResult.isNotEmpty) {
+      assignedLawyer = lawyerResult[0]["name"];
+    }
+
+    final query2 = mongo_dart.where.eq("jid", fetchedCaseInfo[0]?['JID']);
+    final judgeResult = await MongoDatabase.db
+        .collection(JUDGE_COLLECTION)
+        .find(query2)
+        .toList();
+
+    if (judgeResult.isNotEmpty) {
+      assignedJudge = judgeResult[0]["name"];
+    }
+
+    setState(() {});
+
+    return (assignedJudge.isNotEmpty && assignedLawyer.isNotEmpty);
   }
 
   @override

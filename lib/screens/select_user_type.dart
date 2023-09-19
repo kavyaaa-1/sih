@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/family_signin_page.dart';
+import '../dbHelper/mongodb.dart';
 import 'judge_login_page.dart';
 import 'lawyer_login_page.dart';
 import 'prison_login_page.dart';
@@ -12,7 +13,9 @@ class SelectUserTypePage extends StatefulWidget {
 class _SelectUserTypePageState extends State<SelectUserTypePage> {
   String selectedUserType = ""; // Variable to store the selected user type
 
-  void onUserTypeSelected(String userType) {
+  void onUserTypeSelected(String userType) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await MongoDatabase.connect();
     setState(() {
       selectedUserType = userType;
     });
@@ -45,61 +48,62 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
-        title: Text(""),
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 1), // Add space at the top
-              child: Text(
-                "Select User Type",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: UserTypeGrid(
-                onUserTypeSelected: onUserTypeSelected,
-                selectedUserType: selectedUserType,
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              width: 200,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.deepPurpleAccent,
-              ),
-              child: ElevatedButton(
-                onPressed: navigateToSelectedPage,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          title: Text(""),
+          foregroundColor: Colors.white,
+          automaticallyImplyLeading: false,
         ),
-      ),
-    );
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 1), // Add space at the top
+                  child: Text(
+                    "Select User Type",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: UserTypeGrid(
+                    onUserTypeSelected: onUserTypeSelected,
+                    selectedUserType: selectedUserType,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  width: 200,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  child: ElevatedButton(
+                    onPressed: navigateToSelectedPage,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      "Next",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 

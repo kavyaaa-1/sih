@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/select_user_type.dart';
-import 'dbHelper/mongodb.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
+void main() {
   runApp(const MyApp());
 }
 

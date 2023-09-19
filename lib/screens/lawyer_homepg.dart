@@ -23,18 +23,12 @@ class Case {
 }
 
 Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String lawyerId) async {
-  try {
-    await MongoDatabase.db.open();
+  final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
-    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
-
-    final Map<String, dynamic>? caseData = await caseCollection.findOne(
-      mongo_dart.where.eq('LID', lawyerId),
-    );
-    return caseData;
-  } finally {
-    await MongoDatabase.db.close();
-  }
+  final Map<String, dynamic>? caseData = await caseCollection.findOne(
+    mongo_dart.where.eq('LID', lawyerId),
+  );
+  return caseData;
 }
 
 class _LawyerHomePageState extends State<LawyerHomePage> {
@@ -87,7 +81,8 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                 },
               ),
               IconButton(
-                onPressed: () {
+                onPressed: () async {
+                  await MongoDatabase.db.close();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => SelectUserTypePage(),
                   ));

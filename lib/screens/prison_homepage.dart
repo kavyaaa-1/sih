@@ -6,7 +6,6 @@ import 'case_dashboard.dart';
 import 'select_user_type.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 
-
 class PrisonDashboard extends StatefulWidget {
   final String pid;
   PrisonDashboard({required this.pid});
@@ -15,22 +14,13 @@ class PrisonDashboard extends StatefulWidget {
 }
 
 Future<List<Map<String, dynamic>>> fetchCaseInfoFromDatabase(String pid) async {
-  try {
-    await MongoDatabase.db.open();
+  final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
-    final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
+  final List<Map<String, dynamic>> caseData =
+      await caseCollection.find(mongo_dart.where.eq('PID', pid)).toList();
 
-    final List<Map<String, dynamic>> caseData = await caseCollection
-        .find(mongo_dart.where.eq('PID', pid))
-        .toList();
-
-    return caseData;
-  } finally {
-    await MongoDatabase.db.close();
-  }
+  return caseData;
 }
-
-
 
 class _PrisonDashboardState extends State<PrisonDashboard> {
   List<Case> _cases = [];
@@ -39,11 +29,13 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
     final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.pid);
 
     setState(() {
-      _cases = fetchedCaseInfo.map((data) => Case(
-        caseId: data['case_Id'] ?? ' ',
-        caseType: data['type'] ?? ' ',
-        isClosed: data['isClosed'] ?? false,
-      )).toList();
+      _cases = fetchedCaseInfo
+          .map((data) => Case(
+                caseId: data['case_Id'] ?? ' ',
+                caseType: data['type'] ?? ' ',
+                isClosed: data['isClosed'] ?? false,
+              ))
+          .toList();
     });
   }
 
@@ -59,10 +51,11 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         title: Text('Home Page'),
-        foregroundColor: Colors.white, 
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await MongoDatabase.db.close();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => SelectUserTypePage(),
               ));
@@ -123,32 +116,32 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                 SizedBox(
                   height: 50,
                 ),
-
-      Expanded(
-        child: ListView.builder(
-          itemCount: _cases.length,
-          itemBuilder: (context, index) {
-            final caseItem = _cases[index];
-            return GestureDetector(
-              onTap: () {
-                // Navigate to CaseDashboard and pass the case ID
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CaseInfoDashboard(caseId: caseItem.caseId),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _cases.length,
+                    itemBuilder: (context, index) {
+                      final caseItem = _cases[index];
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to CaseDashboard and pass the case ID
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CaseInfoDashboard(caseId: caseItem.caseId),
+                            ),
+                          );
+                        },
+                        child: ListTileWithNavigation(
+                          title:
+                              'Case ID: ${caseItem.caseId ?? 'Loading...'}', // Display caseId
+                          subtitle:
+                              'Case Type: ${caseItem.caseType ?? 'Loading...'} \n Status: ${caseItem.isClosed ?? false ? 'Closed' : 'Ongoing'}', // Display caseType
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-              child: ListTileWithNavigation(
-                title: 'Case ID: ${caseItem.caseId ?? 'Loading...'}', // Display caseId
-                subtitle:
-                'Case Type: ${caseItem.caseType ?? 'Loading...'} \n Status: ${caseItem.isClosed ?? false ? 'Closed' : 'Ongoing'}', // Display caseType
-              ),
-            );
-          },
-        ),
-      ),
+                ),
               ],
             ),
           ),

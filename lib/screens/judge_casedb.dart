@@ -22,19 +22,6 @@ class CaseDetails {
   });
 }
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CaseDetailsPage(),
-    );
-  }
-}
-
 class CaseDetailsPage extends StatefulWidget {
   @override
   State<CaseDetailsPage> createState() => _CaseDetailsPageState();
@@ -174,16 +161,15 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                         ),
                       ),
                       Text(caseInfo.caseDescription),
-                      if (!canAddVerdict)
-                        SizedBox(height: 16),
-                        Text(
-                          'Case Verdict:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                      if (!canAddVerdict) SizedBox(height: 16),
+                      Text(
+                        'Case Verdict:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
-                        Text(caseInfo.verdict),
+                      ),
+                      Text(caseInfo.verdict),
                     ],
                   ),
                 ),

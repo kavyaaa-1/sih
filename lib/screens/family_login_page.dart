@@ -150,6 +150,7 @@ class _FamilyLogInPageState extends State<FamilyLogInPage> {
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: 'Password'),
+                  obscureText: true,
                 ),
                 SizedBox(height: 40),
                 ElevatedButton(
