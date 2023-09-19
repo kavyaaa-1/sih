@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/select_user_type.dart';
+import 'package:sih_project/screens/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/', // Define your initial route
       routes: {
-        '/': (context) => SelectUserTypePage(),
+        '/': (context) => splash(),
       },
     );
   }
