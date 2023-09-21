@@ -88,7 +88,7 @@ class LegalAidListPage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: ListView.builder(
           itemCount: legalAidOrganizations.length,
           itemBuilder: (context, index) {
@@ -132,8 +132,8 @@ class CaseCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Color.fromARGB(255, 227, 220, 247),
-        elevation: 4,
+        color: Colors.white,
+        elevation: 6,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

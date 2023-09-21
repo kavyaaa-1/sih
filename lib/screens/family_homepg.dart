@@ -5,7 +5,7 @@ import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-
+import 'dictionary.dart';
 import 'legal_aid_orgs.dart';
 
 class FamilyHomePage extends StatefulWidget {
@@ -39,7 +39,15 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       _selectedIndex = index;
     });
 
-    if(index == 1){
+    if(index == 0){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          //builder: (context) => LegalAidListPage(),
+          builder: (context) => SearchPage(),
+        ),
+      );
+    }if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -48,7 +56,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       );
     }
 
-    if (index == 3) {
+    if (index == 2) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -163,73 +171,73 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                       Text(
                         'Case ID',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold, // Bold for headings
                         ),
                       ),
                       Text(
                         '${widget.data[0]['case_Id']}',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
                         'Case Type',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold, // Bold for headings
                         ),
                       ),
                       Text(
                         '${widget.data[0]['type']}',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
                         'Judge Assigned',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold, // Bold for headings
                         ),
                       ),
                       Text(
                         judge_name,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
                         'Lawyer Assigned',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold, // Bold for headings
                         ),
                       ),
                       Text(
                         lawyer_name,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       Text(
                         'Lawyer Phone',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold, // Bold for headings
                         ),
                       ),
                       Text(
                         phonenum,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       ExpansionTile(
                         title: Text(
                           'Description',
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -237,7 +245,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           Text(
                             '${widget.data[0]['case_desc']}',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 17,
                             ),
                           ),
                         ],
@@ -274,16 +282,16 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         height: 80,
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.account_circle,
+            //     size: 30,
+            //   ),
+            //   label: 'Dashboard',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.account_circle,
-                size: 30,
-              ),
-              label: 'Dashboard',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.library_books,
+                Icons.book,
                 size: 30,
               ),
               label: 'Legal Aid',
@@ -307,7 +315,6 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
           ],
           currentIndex: _selectedIndex,
           unselectedItemColor: Colors.black,
-          selectedItemColor: Colors.deepPurpleAccent,
           onTap: _onItemTapped,
         ),
       ),
