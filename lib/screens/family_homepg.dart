@@ -92,9 +92,18 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                // Handle opening the menu
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -108,10 +117,10 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Container(
+          color: Colors.deepPurpleAccent,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 10,
@@ -119,125 +128,105 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               Text(
                 'Your Case',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Ink(
-                decoration: ShapeDecoration(
-                  color: widget.data[0]['isClosed'] ? Colors.red : Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        35.0), // Adjust the border radius as needed
-                  ),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    // Handle button click here
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 12.0,
-                        horizontal: 16.0), // Adjust padding as needed
-                    child: Text(
-                      widget.data[0]['isClosed'] ? 'Closed' : 'Ongoing',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white, // Text color
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
               Card(
-                elevation: 4,
+                color: Colors.white,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(45.0),
+                    topRight: Radius.circular(45.0),
+                  ),
                 ),
                 child: Container(
-                  width: double
-                      .infinity, // Make the Card width match the screen width
-                  padding: const EdgeInsets.all(27.0),
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Case ID',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold, // Bold for headings
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12.0,
+                            horizontal: 16.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.data[0]['isClosed']
+                                ? Colors.orange
+                                : Colors.orange,
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          child: Text(
+                            widget.data[0]['isClosed'] ? 'Closed' : 'Ongoing',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
+                      SizedBox(height: 10,),
                       Text(
-                        '${widget.data[0]['case_Id']}',
+                        'Case ID: ${widget.data[0]['case_Id']}',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Case Type',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold, // Bold for headings
-                        ),
-                      ),
-                      Text(
-                        '${widget.data[0]['type']}',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
+                      SizedBox(height: 10,),
                       Text(
                         'Judge Assigned',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold, // Bold for headings
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         judge_name,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                       Text(
                         'Lawyer Assigned',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold, // Bold for headings
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         lawyer_name,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                       Text(
                         'Lawyer Phone',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold, // Bold for headings
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         phonenum,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                       ExpansionTile(
                         title: Text(
                           'Description',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -245,83 +234,114 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           Text(
                             '${widget.data[0]['case_desc']}',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 19,
                             ),
                           ),
                         ],
                       ),
+                      SizedBox(height: 20,),
+                      SingleChildScrollView(
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: 355,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(8.0), // Adjust the radius as needed
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                                      height: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: _BailPredictionGraph(
+                                          value: bailPrediction,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Bail\nPrediction',
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          // Add other text or widgets here
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
+
+
                     ],
                   ),
                 ),
               ),
-
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Bail Prediction*',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 200, // Adjust the height as needed
-                child: _BailPredictionGraph(
-                  value: bailPrediction,
-                ),
-              ), // Add your bail prediction graph widget here
             ],
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.account_circle,
-            //     size: 30,
-            //   ),
-            //   label: 'Dashboard',
-            // ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.book,
-                size: 30,
-              ),
-              label: 'Legal Aid',
-              
-            ),
-            BottomNavigationBarItem( // Add this item for the "Connect" icon
-              icon: Icon(
-                Icons.person_add,
-                size: 30,
-              ),
-              label: 'Connect',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat,
-                size: 30,
-              ),
-              label: 'Chat with Us',
-            ),
 
-          ],
-          currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.black,
-          onTap: _onItemTapped,
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.deepPurpleAccent, // Set the background color to white
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.book,
+              size: 35,
+            ),
+            label: 'Legal Aid',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_add,
+              size: 35,
+            ),
+            label: 'Connect',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.chat,
+              size: 35,
+            ),
+            label: 'Chat with Us',
+          ),
+        ],
+        // Increase the label font size here
+
       ),
+
 
     );
   }
+
 }
+
+
+
 
 class _BailPredictionGraph extends StatelessWidget {
   final double value;
@@ -339,27 +359,28 @@ class _BailPredictionGraph extends StatelessWidget {
             GaugeRange(
               startValue: 0,
               endValue: 30,
-              color: Colors.red, // Customize the color
+              color: Color.fromRGBO(144, 114, 227, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
             GaugeRange(
               startValue: 30,
               endValue: 70,
-              color: Colors.yellow, // Customize the color
+              color: Color.fromRGBO(83, 53, 168, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
             GaugeRange(
               startValue: 70,
               endValue: 100,
-              color: Colors.green, // Customize the color
+              color: Color.fromRGBO(36, 18, 98, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
           ],
           pointers: <GaugePointer>[
             NeedlePointer(
+              needleColor: Colors.white,
               value: value,
               enableAnimation: true,
               animationType: AnimationType.ease,
@@ -378,7 +399,7 @@ class _BailPredictionGraph extends StatelessWidget {
                 child: Text(
                   '$value%',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

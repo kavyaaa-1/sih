@@ -27,57 +27,57 @@ class MyApp extends StatelessWidget {
 
 class LegalAidListPage extends StatelessWidget {
   final List<LegalAidOrganization> legalAidOrganizations = [
-  LegalAidOrganization(
-    name: 'Legal Aid Society',
-    phone: '+1 (123) 456-7890',
-    email: 'legalaid@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Pro Bono Legal Services',
-    phone: '+1 (456) 789-1230',
-    email: 'probono@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Justice for All',
-    phone: '+1 (789) 123-4567',
-    email: 'justiceforall@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Community Legal Services',
-    phone: '+1 (567) 890-1234',
-    email: 'communitylegal@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Rights Advocates',
-    phone: '+1 (234) 567-8901',
-    email: 'rightsadvocates@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Equal Justice Initiative',
-    phone: '+1 (987) 654-3210',
-    email: 'equaljustice@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Access to Justice Foundation',
-    phone: '+1 (321) 654-9870',
-    email: 'accesstojustice@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Human Rights Legal Center',
-    phone: '+1 (876) 543-2109',
-    email: 'humanrightslegal@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Civil Liberties Union',
-    phone: '+1 (543) 210-9876',
-    email: 'civilliberties@example.com',
-  ),
-  LegalAidOrganization(
-    name: 'Justice League',
-    phone: '+1 (109) 876-5432',
-    email: 'justiceleague@example.com',
-  ),
-];
+    LegalAidOrganization(
+      name: 'Legal Aid Society',
+      phone: '+1 (123) 456-7890',
+      email: 'legalaid@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Pro Bono Legal Services',
+      phone: '+1 (456) 789-1230',
+      email: 'probono@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Justice for All',
+      phone: '+1 (789) 123-4567',
+      email: 'justiceforall@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Community Legal Services',
+      phone: '+1 (567) 890-1234',
+      email: 'communitylegal@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Rights Advocates',
+      phone: '+1 (234) 567-8901',
+      email: 'rightsadvocates@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Equal Justice Initiative',
+      phone: '+1 (987) 654-3210',
+      email: 'equaljustice@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Access to Justice Foundation',
+      phone: '+1 (321) 654-9870',
+      email: 'accesstojustice@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Human Rights Legal Center',
+      phone: '+1 (876) 543-2109',
+      email: 'humanrightslegal@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Civil Liberties Union',
+      phone: '+1 (543) 210-9876',
+      email: 'civilliberties@example.com',
+    ),
+    LegalAidOrganization(
+      name: 'Justice League',
+      phone: '+1 (109) 876-5432',
+      email: 'justiceleague@example.com',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class LegalAidListPage extends StatelessWidget {
           itemCount: legalAidOrganizations.length,
           itemBuilder: (context, index) {
             final organization = legalAidOrganizations[index];
-            
+
             return CaseCard(
               name: organization.name,
               email: organization.email,
@@ -133,7 +133,7 @@ class CaseCard extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        elevation: 6,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

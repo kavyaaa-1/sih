@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/splash.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
+    textTheme: GoogleFonts.poppinsTextTheme( // Replace with your desired Google Font
+    Theme.of(context).textTheme,),
         useMaterial3: true,
       ),
       initialRoute: '/', // Define your initial route

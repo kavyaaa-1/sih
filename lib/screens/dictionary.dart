@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-
+        foregroundColor: Colors.white,
       ),
       body: Column(
         children: <Widget>[
