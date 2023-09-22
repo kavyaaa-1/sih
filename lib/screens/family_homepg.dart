@@ -320,7 +320,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
               Icons.book,
               size: 35,
             ),
-            label: 'Legal Aid',
+            label: 'Resources',
           ),
           BottomNavigationBarItem(
             icon: Icon(

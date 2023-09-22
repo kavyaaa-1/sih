@@ -5,11 +5,14 @@ class Faq extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
         title: Text('FAQs'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -75,7 +78,7 @@ class FAQTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 1,
       margin: EdgeInsets.symmetric(vertical: 8),
       child: ExpansionTile(
         title: Text(
@@ -88,7 +91,7 @@ class FAQTile extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(answer),
+            child: Text(answer, style: TextStyle(fontSize: 17),),
           ),
         ],
       ),

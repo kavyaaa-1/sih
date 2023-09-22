@@ -19,14 +19,14 @@ class LegalAidPage extends StatelessWidget {
       ),
       body: GridView.count(
         crossAxisCount: 1,
-        padding: EdgeInsets.all(16.0), // Add padding around the GridView
+        padding: EdgeInsets.all(12.0), // Add padding around the GridView
         childAspectRatio: 2.56, // Adjust aspect ratio for tile height
         children: [
           //SizedBox(height: 10,),
           _buildTile(context, 'Legal Glossary', SearchPage(), 'images/dictionary.png'),
-          _buildTile(context, 'Legal FAQ', Faq(), 'images/faq.png'),
-          _buildTile(context, 'Access to Rights', Rights(), 'images/civil-right-movement.png'),
-          _buildTile(context, 'Visitation Information', Visitation(),'images/visitor.png'),
+          _buildTile(context, 'FAQs', Faq(), 'images/faq.png'),
+          _buildTile(context, 'Your Rights', Rights(), 'images/civil-right-movement.png'),
+          _buildTile(context, 'Visiting Info', Visitation(),'images/visitor.png'),
           _buildTile(context, 'Legal Documents', LegalDocuments(), 'images/folder.png'),
         ],
       ),
@@ -42,18 +42,23 @@ class LegalAidPage extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(8.0), // Add margin to create spacing between tiles
+        margin: EdgeInsets.all(10.0), // Add margin to create spacing between tiles
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0), // Rounded corners
+          color: Colors.deepPurpleAccent.withOpacity(0.07),
+          borderRadius: BorderRadius.circular(20.0),
+          // border: Border.all(
+          //   color: Colors.deepPurpleAccent.withOpacity(0.5), // Border color with opacity
+          //   width:1, // Border width
+          // ),// Rounded corners
 
         ),
         child: Row(
           children: [
             // Left column with image
             Container(
-
-              width: 150, // Set the width for the image container
-              height: 150, // Set the height for the image container
+              margin: EdgeInsets.all(10.0),
+              width: 120, // Set the width for the image container
+              height: 120, // Set the height for the image container
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0), // Rounded top-left corner
@@ -66,20 +71,25 @@ class LegalAidPage extends StatelessWidget {
               ),
             ),
             // Right column with text
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(16.0), // Add padding to the text container
-                child: Center(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+        Expanded(
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+
             ),
+          ),
+        ),
+
+
           ],
         ),
       ),

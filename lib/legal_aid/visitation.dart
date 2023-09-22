@@ -7,7 +7,10 @@ class Visitation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visitation Information'),
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
+        title: Text('Visiting Information'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -80,7 +83,7 @@ class VisitationInfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 1,
       margin: EdgeInsets.symmetric(vertical: 8),
       child: ExpansionTile(
         title: Text(
@@ -93,7 +96,7 @@ class VisitationInfoTile extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(content),
+            child: Text(content, style: TextStyle(fontSize: 17),),
           ),
         ],
       ),

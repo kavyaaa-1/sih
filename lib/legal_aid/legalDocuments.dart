@@ -1,5 +1,3 @@
-// legalDocuments.dart
-
 import 'package:flutter/material.dart';
 
 class LegalDocuments extends StatelessWidget {
@@ -17,19 +15,29 @@ class LegalDocuments extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
         title: Text('Legal Templates'),
+        centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: legalDocuments.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(legalDocuments[index]),
-            onTap: () {
-              // Navigate to the selected legal document template
-              // You can add navigation logic here
-            },
-          );
-        },
+      body: Column(
+        children: [
+          SizedBox(height: 25), // Add some spacing here
+          Expanded(
+            child: ListView.builder(
+              itemCount: legalDocuments.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(legalDocuments[index], style: TextStyle(fontSize: 20)),
+                  onTap: () {
+                    // Navigate to the selected legal document template
+                    // You can add navigation logic here
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
