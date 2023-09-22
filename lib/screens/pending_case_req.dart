@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
+import 'chatbot_screen.dart';
 
 class Case {
   final String caseId;
@@ -44,6 +45,22 @@ Future<bool> acceptCase(String caseId, String lawyerId) async {
 
 class _PendingCaseReqState extends State<PendingCaseReq> {
   Future<List> fetchedData = fetchCaseInfoFromDatabase();
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatBotScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +118,32 @@ class _PendingCaseReqState extends State<PendingCaseReq> {
           ],
         ),
       ),
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomNavigationBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.library_books,
+                size: 40,
+              ),
+              label: 'Legal Aid',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat,
+                size: 40,
+              ),
+              label: 'Chat with Us',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+      ),
     );
   }
 }
@@ -125,12 +168,12 @@ class CaseCard extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Case Details'),
+              title: Text('Case Details', style: TextStyle(fontWeight: FontWeight.bold),),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Case ID: $caseId'),
+                  //Text('Case ID: $caseId'),
                   Text('Case Type: $caseType'),
                   Text('Description: $caseDesc'),
                 ],
@@ -167,7 +210,7 @@ class CaseCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 4,
+        elevation: 1,
         margin: EdgeInsets.all(8), // Adjust the margin as needed
         child: Padding(
           padding: EdgeInsets.all(16), // Adjust the padding as needed
