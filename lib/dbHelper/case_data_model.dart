@@ -23,6 +23,7 @@ class Case {
   String? PID;
   String? LID;
   String? JID;
+  bool assigned;
 
   Case(
       {required this.case_Id,
@@ -41,27 +42,28 @@ class Case {
       required this.isClosed,
       required this.PID,
       required this.LID,
-      required this.JID});
+      required this.JID,
+      required this.assigned});
 
   factory Case.fromJson(Map<String, dynamic> json) => Case(
-        case_Id: json['case_Id'],
-        case_desc: json['case_desc'],
-        type: json['type'],
-        loc: json['loc'],
-        offense_date: json['offense_date'],
-        inmate_ID: json['inmate_ID'],
-        prisoner_name: json['prisoner_name'],
-        DOB: json['DOB'],
-        gender: json['gender'],
-        date_arrest: DateTime.parse(json['date_arrest']),
-        arresting_officer: json['arresting_officer'],
-        arrest_loc: json['arrest_loc'],
-        evidence: json['evidence'],
-        PID: json['PID'],
-        LID: json['LID'],
-        JID: json['JID'],
-        isClosed: json['isClosed'],
-      );
+      case_Id: json['case_Id'],
+      case_desc: json['case_desc'],
+      type: json['type'],
+      loc: json['loc'],
+      offense_date: json['offense_date'],
+      inmate_ID: json['inmate_ID'],
+      prisoner_name: json['prisoner_name'],
+      DOB: json['DOB'],
+      gender: json['gender'],
+      date_arrest: DateTime.parse(json['date_arrest']),
+      arresting_officer: json['arresting_officer'],
+      arrest_loc: json['arrest_loc'],
+      evidence: json['evidence'],
+      PID: json['PID'],
+      LID: json['LID'],
+      JID: json['JID'],
+      isClosed: json['isClosed'],
+      assigned: json['assigned']);
 
   Map<String, dynamic> toJson() => {
         'case_Id': case_Id,
@@ -81,5 +83,6 @@ class Case {
         "JID": JID,
         "LID": LID,
         "isClosed": isClosed,
+        "assigned": assigned,
       };
 }

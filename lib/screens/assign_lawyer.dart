@@ -12,9 +12,9 @@ class CaseConfirmationPage extends StatefulWidget {
 }
 
 class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
-  List<String> _assignedLawyer = [];
   String _assignedJudge = '';
-  String _assignedLawyerId = '';
+  String _assignedLawyer = 'A lawyer will be assigned soon.';
+  String _phone = "";
   String _assignedJudgeId = '';
 
   @override
@@ -26,9 +26,9 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   // Function to assign a lawyer and a judge to the case.
   void _assignLawyerAndJudgeToCase() async {
     // Assign a lawyer and a judge (You can implement your logic here)
-    _assignedLawyer = await _assignLawyer();
+    await _assignLawyer();
 
-    _assignedJudge = await _assignJudge();
+    await _assignJudge();
 
     // Update the "assigned" status of the lawyer and judge in MongoDB
     await _updateAssignedStatus();
@@ -37,20 +37,27 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   }
 
   // Function to assign a lawyer to the case (You can implement your logic here)
-  Future<List<String>> _assignLawyer() async {
-    final query = mongo_dart.where.eq('assigned', false);
-
-    final lawyers = await MongoDatabase.db
-        .collection(LAWYER_COLLECTION)
-        .find(query)
+  Future<void> _assignLawyer() async {
+    final caseDataList = await MongoDatabase.db
+        .collection(CASE_COLLECTION)
+        .find(mongo_dart.where.eq('case_Id', widget.caseId))
         .toList();
 
-    if (lawyers.isNotEmpty) {
-      _assignedLawyerId = lawyers[0]['lid'];
-      return [lawyers[0]['name'], lawyers[0]['phone']];
+    if (caseDataList.isNotEmpty) {
+      final caseData =
+          caseDataList.first; // Get the first (and presumably only) case data
+      if (caseData["LID"] != null && caseData["LID"].isNotEmpty) {
+        final lawyer = await MongoDatabase.db
+            .collection(LAWYER_COLLECTION)
+            .find(mongo_dart.where.eq('lid', caseData["LID"]))
+            .toList();
+        if (lawyer.isNotEmpty) {
+          final lawyerData = lawyer.first;
+          _assignedLawyer = lawyerData["name"];
+          _phone = lawyerData["phone"];
+        }
+      }
     }
-
-    return [];
   }
 
   // Function to assign a judge to the case (You can implement your logic here)
@@ -72,12 +79,6 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
 
   // Function to update the "assigned" status of a user in MongoDB
   Future<void> _updateAssignedStatus() async {
-    final query1 = mongo_dart.where.eq('lid', _assignedLawyerId);
-
-    await MongoDatabase.db.collection(LAWYER_COLLECTION).update(query1, {
-      '\$set': {'assigned': true}, // Update "assigned" status to true
-    });
-
     final query2 = mongo_dart.where.eq('jid', _assignedJudgeId);
 
     await MongoDatabase.db.collection(JUDGE_COLLECTION).update(query2, {
@@ -88,7 +89,6 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
     await MongoDatabase.db.collection(CASE_COLLECTION).update(query3, {
       '\$set': {
         'PID': widget.pid,
-        'LID': _assignedLawyerId,
         'JID': _assignedJudgeId
       }, // Update "assigned" status to true
     });
@@ -148,7 +148,7 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
                   ),
                 ),
                 Text(
-                  'Name : ${_assignedLawyer[0]}',
+                  'Name : $_assignedLawyer',
                   style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.black,
@@ -156,7 +156,7 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
                 ),
                 const SizedBox(height: 15.0),
                 Text(
-                  'Phone number : ${_assignedLawyer[1]}',
+                  'Phone number : $_phone',
                   style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.black,
