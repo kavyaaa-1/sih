@@ -78,7 +78,8 @@ class _CaseInfoFormState extends State<CaseInfoForm> {
           isClosed: false,
           PID: "",
           LID: "",
-          JID: "");
+          JID: "",
+          assigned: false);
 
       // Insert data into the MongoDB collection
       await MongoDatabase.db.open();

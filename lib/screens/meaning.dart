@@ -26,7 +26,7 @@ class _MeaningPageState extends State<MeaningPage> {
       print(data);
       setState(() {
         // Parse the meaning from the API data
-        if (data is Map && data.containsKey("meanings")) {
+        if (data.containsKey("meanings")) {
           final meanings = data["meanings"] as List<dynamic>;
           if (meanings.isNotEmpty) {
             final firstMeaning = meanings[0];
@@ -65,11 +65,13 @@ class _MeaningPageState extends State<MeaningPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             Text(
               widget.searchTerm,
               style: TextStyle(
-                fontSize:50,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -96,7 +98,8 @@ class _MeaningPageState extends State<MeaningPage> {
 }
 
 Future<Map<String, dynamic>> fetchData(String word) async {
-  final response = await http.get(Uri.parse('https://api.dictionaryapi.dev/api/v2/entries/en/$word'));
+  final response = await http
+      .get(Uri.parse('https://api.dictionaryapi.dev/api/v2/entries/en/$word'));
 
   if (response.statusCode == 200) {
     // If the server returns a 200 OK response, parse the JSON data
