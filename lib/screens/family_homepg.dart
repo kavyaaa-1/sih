@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sih_project/screens/chatbot_screen.dart';
+import 'package:sih_project/screens/family_connect.dart';
 import 'package:sih_project/screens/splash.dart';
 import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import '../legal_aid/homepg.dart';
-import 'legal_aid_orgs.dart';
 
 class FamilyHomePage extends StatefulWidget {
   final List data;
@@ -52,7 +52,7 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => LegalAidListPage(),
+          builder: (context) => LetsConnect(),
         ),
       );
     }

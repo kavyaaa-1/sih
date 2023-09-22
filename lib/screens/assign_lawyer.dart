@@ -14,7 +14,7 @@ class CaseConfirmationPage extends StatefulWidget {
 class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   String _assignedJudge = '';
   String _assignedLawyer = 'A lawyer will be assigned soon.';
-  String _phone = "";
+  String _phone = '';
   String _assignedJudgeId = '';
 
   @override
@@ -102,85 +102,74 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
         foregroundColor: Colors.white,
         title: Text('Assigned Details'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 25.0),
+              const Text(
+                'CASE ID',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.black,
                 ),
-              ],
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 25.0),
-                const Text(
-                  'CASE ID',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: Colors.black,
-                  ),
+              ),
+              Text(
+                widget.caseId,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black,
                 ),
-                Text(
-                  widget.caseId,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
+              ),
+              const SizedBox(height: 25.0),
+              const Text(
+                'ASSIGNED LAWYER',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 25.0),
-                const Text(
-                  'ASSIGNED LAWYER',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: Colors.black,
-                  ),
+              ),
+              Text(
+                'Name : $_assignedLawyer\nPhone number : $_phone',
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black,
                 ),
-                Text(
-                  'Name : $_assignedLawyer',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
+              ),
+              const SizedBox(height: 25.0),
+              const Text(
+                'ASSIGNED JUDGE',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 15.0),
-                Text(
-                  'Phone number : $_phone',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
+              ),
+              Text(
+                _assignedJudge,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 25.0),
-                const Text(
-                  'ASSIGNED JUDGE',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  _assignedJudge,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 25.0),
-              ],
-            ),
+              ),
+              const SizedBox(height: 25.0),
+            ],
           ),
         ),
       ),

@@ -1,94 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:sih_project/screens/connect_with_lawyer.dart';
+import 'package:sih_project/screens/legal_aid_orgs.dart';
 
-class ConnectToPage extends StatelessWidget {
+class LetsConnect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Connect To'),
-        ),
-        body: ConnectToTiles(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
+        title: Text("Let's Connect"),
+        centerTitle: true,
+      ),
+      body: GridView.count(
+        crossAxisCount: 1,
+        padding: EdgeInsets.all(12.0), // Add padding around the GridView
+        childAspectRatio: 2.56, // Adjust aspect ratio for tile height
+        children: [
+          //SizedBox(height: 10,),
+          _buildTile(
+              context, 'Your Lawyer', ConnectWithLawyer(), 'images/lawyer.png'),
+          _buildTile(context, 'Legal Aid Organizations', LegalAidListPage(),
+              'images/legal_aid_org.png'),
+          _buildTile(context, 'Legal Clinics', LegalAidListPage(),
+              'images/legal_clinic.png'),
+          _buildTile(
+              context, 'UTRCs for Bail', LegalAidListPage(), 'images/UTRC.png'),
+        ],
       ),
     );
   }
-}
 
-class ConnectToTiles extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      padding: EdgeInsets.all(16.0),
-      children: [
-        ConnectToTile(
-          title: 'Your Lawyer',
-          icon: Icons.account_circle,
-          onTap: () {
-            // Add navigation logic to Pro Bono Lawyers page
-          },
+  Widget _buildTile(
+      BuildContext context, String title, Widget page, String img) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Container(
+        margin:
+            EdgeInsets.all(10.0), // Add margin to create spacing between tiles
+        decoration: BoxDecoration(
+          color: Colors.deepPurpleAccent.withOpacity(0.07),
+          borderRadius: BorderRadius.circular(20.0),
+          // border: Border.all(
+          //   color: Colors.deepPurpleAccent.withOpacity(0.5), // Border color with opacity
+          //   width:1, // Border width
+          // ),// Rounded corners
         ),
-        ConnectToTile(
-          title: 'Legal Clinics',
-          icon: Icons.local_hospital,
-          onTap: () {
-            // Add navigation logic to Legal Clinics page
-          },
-        ),
-        ConnectToTile(
-          title: 'Legal Aid Organizations',
-          icon: Icons.business,
-          onTap: () {
-            // Add navigation logic to Legal Aid Organizations page
-          },
-        ),
-        ConnectToTile(
-          title: 'UTRCs for Bail Process',
-          icon: Icons.directions_run,
-          onTap: () {
-            // Add navigation logic to UTRCs for Bail Process page
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class ConnectToTile extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final Function onTap;
-
-  ConnectToTile({
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(),
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Row(
           children: [
-            Icon(
-              icon,
-              size: 60.0,
-              color: Colors.deepPurple,
+            // Left column with image
+            Container(
+              margin: EdgeInsets.all(10.0),
+              width: 120, // Set the width for the image container
+              height: 120, // Set the height for the image container
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0), // Rounded top-left corner
+                  bottomLeft:
+                      Radius.circular(20.0), // Rounded bottom-left corner
+                ),
+                image: DecorationImage(
+                  image: AssetImage(img), // Use your image asset here
+                  //fit: BoxFit.cover, // Adjust the fit as needed
+                ),
+              ),
             ),
-            SizedBox(height: 12.0),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+            // Right column with text
+            Expanded(
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

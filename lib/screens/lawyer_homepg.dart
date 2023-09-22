@@ -34,7 +34,7 @@ Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String lawyerId) async {
 }
 
 class _LawyerHomePageState extends State<LawyerHomePage> {
-  String _selectedFilter = 'Ongoing'; // Default selected filter
+  //String _selectedFilter = 'Ongoing'; // Default selected filter
   Case? caseInfo;
   int _selectedIndex = 0;
 
@@ -155,12 +155,15 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                       children: [
                         Icon(
                           Icons.notifications, // Use the notification bell icon
-                          color: Colors.white,  // Customize the icon color
+                          color: Colors.white, // Customize the icon color
                         ),
-                        SizedBox(width: 10), // Add some space between the icon and text
+                        SizedBox(
+                            width:
+                                10), // Add some space between the icon and text
                         Text(
                           "New Case Requests",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                       ],
                     ),
@@ -170,7 +173,6 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
                 ),
-
               )
             ],
           ),

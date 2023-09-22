@@ -38,7 +38,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
       caseType: widget.data?['type'],
       lawyerAssigned: 'Smita Jain',
       prisonerName: widget.data?['prisoner_name'],
-      caseDescription: widget.data?['case_desc'], 
+      caseDescription: widget.data?['case_desc'],
       hearingDates: ['2023-09-10', '2023-09-15', '2023-09-17'],
     );
   }
@@ -73,93 +73,90 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Case Details'),
-        backgroundColor: Colors.deepPurpleAccent,
-        foregroundColor: Colors.white,
-          centerTitle: true
-      ),
+          title: Text('Case Details'),
+          backgroundColor: Colors.deepPurpleAccent,
+          foregroundColor: Colors.white,
+          centerTitle: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Case ID: ${caseInfo.caseNo}',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Case ID: ${caseInfo.caseNo}',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 6),
-                      Text(
-                        caseInfo?.caseType ?? 'Loading...',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      caseInfo?.caseType ?? 'Loading...',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Divider(
-                        color: Colors
-                            .grey, // You can specify the color of the line
-                        thickness:
-                        1, // You can adjust the thickness of the line
-                        height:
-                        20, // You can set the height or space above and below the line
+                    ),
+                    Divider(
+                      color:
+                          Colors.grey, // You can specify the color of the line
+                      thickness: 1, // You can adjust the thickness of the line
+                      height:
+                          20, // You can set the height or space above and below the line
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Prisoner Name',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Prisoner Name',
+                    ),
+                    Text(
+                      '${caseInfo?.prisonerName ?? 'Loading...'}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Assigned Lawyer',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    ExpansionTile(
+                      title: Text(
+                        'Case Description',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        '${caseInfo?.prisonerName ?? 'Loading...'}',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Assigned Lawyer',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-
-                      ExpansionTile(
-                        title: Text(
-                          'Case Description',
+                      children: [
+                        Text(
+                          caseInfo?.caseDescription ?? 'Loading...',
                           style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
-                        children: [
-                          Text(
-                            caseInfo?.caseDescription ?? 'Loading...',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
+                  ],
                 ),
               ),
               if (canAddHearing && canAddVerdict)
@@ -172,9 +169,12 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                           primary: Colors.orange,
                           onPrimary: Colors.white,
                           padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         ),
-                        child: const Text("Add Next Hearing Date", style: TextStyle(fontSize: 16),),
+                        child: const Text(
+                          "Add Next Hearing Date",
+                          style: TextStyle(fontSize: 16),
+                        ),
                         onPressed: () async {
                           final newD = await pickDate();
                           if (newD == null) return;
@@ -197,9 +197,10 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                           primary: Colors.orange,
                           onPrimary: Colors.white,
                           padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         ),
-                        child: const Text("Add Verdict", style: TextStyle(fontSize: 16)),
+                        child: const Text("Add Verdict",
+                            style: TextStyle(fontSize: 16)),
                         onPressed: () {
                           showInputDialog(context);
                           setState(() {
@@ -290,7 +291,6 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

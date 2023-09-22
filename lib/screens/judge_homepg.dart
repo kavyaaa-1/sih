@@ -37,7 +37,7 @@ Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String judgeId) async {
 }
 
 class _JudgeHomePageState extends State<JudgeHomePage> {
-  String _selectedFilter = 'Ongoing'; // Default selected filter
+  //String _selectedFilter = 'Ongoing'; // Default selected filter
   Case? caseInfo;
   int _selectedIndex = 0;
 
@@ -131,7 +131,7 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
 
           Row(
             mainAxisAlignment:
-            MainAxisAlignment.end, // Align the container to the right
+                MainAxisAlignment.end, // Align the container to the right
             children: [
               // Remove the "New Case Request" Container and related code here
             ],
@@ -148,7 +148,7 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',
                 progress:
-                '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
+                    '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
             ),
             decoration: BoxDecoration(

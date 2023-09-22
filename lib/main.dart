@@ -11,12 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp     (
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
-        textTheme: GoogleFonts.poppinsTextTheme( // Replace with your desired Google Font
-    Theme.of(context).textTheme,),
+        textTheme: GoogleFonts.poppinsTextTheme(
+          // Replace with your desired Google Font
+          Theme.of(context).textTheme,
+        ),
         useMaterial3: true,
       ),
       initialRoute: '/', // Define your initial route
