@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/screens/pending_case_req.dart';
 import 'package:sih_project/screens/splash.dart';
 
 import '../dbHelper/constant.dart';
@@ -74,9 +75,18 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                // Handle opening the menu
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -89,48 +99,78 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Your Cases',
-                  style: TextStyle(
-                    fontSize: 26,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.deepPurpleAccent,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50.0),
+                bottomRight: Radius.circular(50.0),
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Your Cases',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.end, // Align the container to the right
+            children: [
+              InkWell(
+                onTap: () {
+                  // Handle the navigation to another page here
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        // Replace with the desired page you want to navigate to
+                        return PendingCaseReq(
+                          lawyerId: widget.lawyerId,
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.all(16.0),
+                  height: 50,
+                  width: 180,
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "New Case Requests",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade300,
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
                 ),
-                DropdownButton<String>(
-                  value: _selectedFilter,
-                  items: <String>[
-                    'Ongoing',
-                    'Past',
-                  ].map((String filter) {
-                    return DropdownMenuItem<String>(
-                      value: filter,
-                      child: Text(filter),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedFilter = newValue!;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            // Display assigned cases based on the selected filter
-            Container(
-              height: 130, // Adjust the height as desired
-              width: double.infinity, // Takes the full width
+              )
+            ],
+          ),
+          // Display assigned cases based on the selected filter
+          Container(
+            margin: EdgeInsets.all(16.0),
+            height: 160, // Adjust the height as desired
+            width: double.infinity, // Takes the full width
+            child: Padding(
+              padding: EdgeInsets.all(16.0), // Add your desired padding here
               child: CaseCard(
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',
@@ -138,22 +178,25 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                     '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
             ),
-            // Add more CaseCard widgets based on the selected filter
-          ],
-        ),
-      ),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.orange.shade300,
+                width: 1.0, // Adjust the border width as needed
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            ),
+          ),
 
+          // Add more CaseCard widgets based on the selected filter
+        ],
+      ),
       bottomNavigationBar: SizedBox(
         height: 80,
         child: BottomNavigationBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_circle,
-                size: 40,
-              ),
-              label: 'Dashboard',
-            ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.library_books,
@@ -168,11 +211,8 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
               ),
               label: 'Chat with Us',
             ),
-
           ],
           currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.black,
-          selectedItemColor: Colors.deepPurpleAccent,
           onTap: _onItemTapped,
         ),
       ),
@@ -199,7 +239,7 @@ class CaseCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              // Replace `AnotherPage` with the actual page you want to navigate to
+              // Replace AnotherPage with the actual page you want to navigate to
               return LawyerCaseDashboard(caseId: caseId);
             },
           ),
@@ -207,7 +247,7 @@ class CaseCard extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        elevation: 4,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -215,7 +255,9 @@ class CaseCard extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8,),
+              SizedBox(
+                height: 8,
+              ),
               Text(
                 'Case ID: $caseId',
                 style: TextStyle(

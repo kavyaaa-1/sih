@@ -17,7 +17,7 @@ Future<List<Map<String, dynamic>>> fetchCaseInfoFromDatabase(String pid) async {
   final caseCollection = MongoDatabase.db.collection(CASE_COLLECTION);
 
   final List<Map<String, dynamic>> caseData =
-  await caseCollection.find(mongo_dart.where.eq('PID', pid)).toList();
+      await caseCollection.find(mongo_dart.where.eq('PID', pid)).toList();
 
   return caseData;
 }
@@ -31,10 +31,10 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
     setState(() {
       _cases = fetchedCaseInfo
           .map((data) => Case(
-        caseId: data['case_Id'] ?? ' ',
-        caseType: data['type'] ?? ' ',
-        isClosed: data['isClosed'] ?? false,
-      ))
+                caseId: data['case_Id'] ?? ' ',
+                caseType: data['type'] ?? ' ',
+                isClosed: data['isClosed'] ?? false,
+              ))
           .toList();
     });
   }
@@ -49,9 +49,18 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.deepPurpleAccent,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                // Handle opening the menu
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -71,12 +80,23 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Text(
+                  "Cases",
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
                 Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
                     itemCount: _cases.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      // Add a 10-pixel gap between the cards
+                      return SizedBox(height: 10);
+                    },
                     itemBuilder: (context, index) {
                       final caseItem = _cases[index];
                       return GestureDetector(
@@ -90,11 +110,20 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
                             ),
                           );
                         },
-                        child: ListTileWithNavigation(
-                          title:
-                          'Case ID: ${caseItem.caseId}', // Display caseId
-                          subtitle:
-                          'Case Type: ${caseItem.caseType} \nStatus: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}', // Display caseType
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color:
+                                  Colors.orange.shade200, // Orange border color
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: ListTileWithNavigation(
+                            title: 'Case ID: ${caseItem.caseId}',
+                            subtitle:
+                                'Case Type: ${caseItem.caseType}\nStatus: ${caseItem.isClosed ? 'Closed' : 'Ongoing'}',
+                          ),
                         ),
                       );
                     },
@@ -103,77 +132,32 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
               ],
             ),
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Padding(
-              padding: EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CaseInfoForm(
-                          pid: widget.pid,
-                        )),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurpleAccent,
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      "Add new case",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-            size: 40,),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(
               Icons.psychology,
               size: 40,
-
             ),
             label: 'Rehabilitation Program',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add,
-            size: 40,),
+            icon: Icon(
+              Icons.add,
+              size: 40,
+            ),
             label: 'Add Case',
           ),
         ],
-        // You can add more items as needed
         currentIndex: 0,
-        selectedItemColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.deepPurpleAccent,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
         onTap: (int index) {
-          // Handle bottom navigation item taps here
           if (index == 0) {
-            // Handle Home
-          } else if (index == 2) {
-            // Handle Add Case
+          } else if (index == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -183,7 +167,6 @@ class _PrisonDashboardState extends State<PrisonDashboard> {
               ),
             );
           }
-          // Add more cases for additional items if needed
         },
       ),
     );
@@ -210,7 +193,7 @@ class ListTileWithNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 0,
       margin: EdgeInsets.symmetric(vertical: 7),
       child: ListTile(
         title: Text(

@@ -107,139 +107,180 @@ class _CaseInfoDashboardState extends State<CaseInfoDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent,
           foregroundColor: Colors.white,
           title: Text("Case Details"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Case No. ${widget.caseId}',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
+          centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                SizedBox(height: 16),
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Container(
-                    width: double
-                        .infinity, // Make the Card width match the screen width
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Prisoner Name',
+                child: Container(
+                  width: double
+                      .infinity, // Make the Card width match the screen width
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Case ID: ${widget.caseId}',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        caseInfo?.caseType ?? 'Loading...',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors
+                            .grey, // You can specify the color of the line
+                        thickness:
+                            1, // You can adjust the thickness of the line
+                        height:
+                            20, // You can set the height or space above and below the line
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Prisoner Name',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '${caseInfo?.prisonerName ?? 'Loading...'}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Assigned Lawyer',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Assigned Judge',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '${caseInfo?.judgeAssigned ?? 'Loading...'}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      ExpansionTile(
+                        title: Text(
+                          'Case Description',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          '${caseInfo?.prisonerName ?? 'Loading...'}',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'Case Type',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${caseInfo?.caseType ?? 'Loading...'}',
-                          style: TextStyle(
-                            fontSize:20,
-                          ),
-                        ),
-                        Text(
-                          'Assigned Lawyer',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'Assigned Judge',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${caseInfo?.judgeAssigned ?? 'Loading...'}',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        ExpansionTile(
-                          title: Text(
-                            'Description',
+                        children: [
+                          Text(
+                            caseInfo?.caseDescription ?? 'Loading...',
                             style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      SingleChildScrollView(
+                        child: Row(
                           children: [
-                            Text(
-                              caseInfo?.caseDescription ?? 'Loading...',
-                              style: TextStyle(
-                                fontSize: 20,
+                            Container(
+                              height: 200,
+                              width: 350,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Adjust the radius as needed
                               ),
-                            ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 1, horizontal: 5),
+                                      height: 200,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: _BailPredictionGraph(
+                                          value: bailPrediction,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 60),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Bail\nPrediction',
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          // Add other text or widgets here
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 24), // Add spacing
-                Text(
-                  'Bail Prediction * ',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8), // Add spacing
-                Container(
-                  height: 200, // Adjust the height as needed
-                  child: SpeedometerChart(
-                    value: bailPrediction,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-
-
+      ),
     );
   }
 }
 
-class SpeedometerChart extends StatelessWidget {
+class _BailPredictionGraph extends StatelessWidget {
   final double value;
 
-  SpeedometerChart({required this.value});
+  _BailPredictionGraph({required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -252,27 +293,28 @@ class SpeedometerChart extends StatelessWidget {
             GaugeRange(
               startValue: 0,
               endValue: 30,
-              color: Colors.red, // Customize the color
+              color: Color.fromRGBO(144, 114, 227, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
             GaugeRange(
               startValue: 30,
               endValue: 70,
-              color: Colors.yellow, // Customize the color
+              color: Color.fromRGBO(83, 53, 168, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
             GaugeRange(
               startValue: 70,
               endValue: 100,
-              color: Colors.green, // Customize the color
+              color: Color.fromRGBO(36, 18, 98, 1.0), // Customize the color
               startWidth: 10,
               endWidth: 10,
             ),
           ],
           pointers: <GaugePointer>[
             NeedlePointer(
+              needleColor: Colors.white,
               value: value,
               enableAnimation: true,
               animationType: AnimationType.ease,
@@ -291,7 +333,7 @@ class SpeedometerChart extends StatelessWidget {
                 child: Text(
                   '$value%',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
