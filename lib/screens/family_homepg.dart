@@ -5,6 +5,7 @@ import '../dbHelper/constant.dart';
 import 'package:sih_project/dbHelper/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import '../legal_aid/homepg.dart';
 import 'dictionary.dart';
 import 'legal_aid_orgs.dart';
 
@@ -39,15 +40,16 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
       _selectedIndex = index;
     });
 
-    if(index == 0){
+    if (index == 0) {
       Navigator.push(
         context,
         MaterialPageRoute(
           //builder: (context) => LegalAidListPage(),
-          builder: (context) => SearchPage(),
+          builder: (context) => LegalAidPage(),
         ),
       );
-    }if (index == 1) {
+    }
+    if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -174,7 +176,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         'Case ID: ${widget.data[0]['case_Id']}',
                         style: TextStyle(
@@ -182,7 +186,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         'Judge Assigned',
                         style: TextStyle(
@@ -239,7 +245,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       SingleChildScrollView(
                         child: Row(
                           children: [
@@ -248,14 +256,16 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                               width: 355,
                               decoration: BoxDecoration(
                                 color: Colors.orange,
-                                borderRadius: BorderRadius.circular(8.0), // Adjust the radius as needed
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Adjust the radius as needed
                               ),
                               child: Row(
                                 children: [
                                   Expanded(
                                     flex: 1,
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 1, horizontal: 5),
                                       height: 200,
                                       child: Align(
                                         alignment: Alignment.center,
@@ -268,7 +278,8 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 60),
                                       child: Column(
                                         children: [
                                           Text(
@@ -286,12 +297,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
                                 ],
                               ),
                             )
-
                           ],
                         ),
                       ),
-
-
                     ],
                   ),
                 ),
@@ -300,9 +308,9 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.deepPurpleAccent, // Set the background color to white
+        backgroundColor:
+            Colors.deepPurpleAccent, // Set the background color to white
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
@@ -331,17 +339,10 @@ class _FamilyHomePageState extends State<FamilyHomePage> {
           ),
         ],
         // Increase the label font size here
-
       ),
-
-
     );
   }
-
 }
-
-
-
 
 class _BailPredictionGraph extends StatelessWidget {
   final double value;

@@ -1,69 +1,58 @@
+// main.dart
+
 import 'package:flutter/material.dart';
-// import 'page2.dart';
-// import 'page3.dart';
+import 'package:sih_project/legal_aid/dictionary.dart';
+import 'legalDocuments.dart';
+import 'faq.dart';
+import 'rights.dart';
+import 'visitation.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Menu',
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
+class LegalAidPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menu'),
+        title: Text('Legal Aid'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0), // Adjust the margin as needed
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceEvenly, // Space evenly between tiles
-          crossAxisAlignment: CrossAxisAlignment
-              .stretch, // Stretch tiles to fill the screen width
-          children: <Widget>[
-            Expanded(
-              child: TileWidget(
-                  color: Color(0xff8336f4), text: 'Indian Penal Code'),
-            ),
-            SizedBox(height: 16), // Add spacing here
-            Expanded(
-              child: TileWidget(color: Color(0xff8336f4), text: 'CrPC'),
-            ),
-            SizedBox(height: 16), // Add spacing here
-            Expanded(
-              child: TileWidget(color: Color(0xff8336f4), text: 'Evidence Act'),
-            ),
-          ],
-        ),
+      body: GridView.count(
+        crossAxisCount: 1,
+        padding: EdgeInsets.all(16.0), // Add padding around the GridView
+        childAspectRatio: 3.0, // Adjust aspect ratio for tile height
+        children: [
+          _buildTile(context, 'Legal Glossary', SearchPage()),
+          _buildTile(context, 'Legal FAQ', Faq()),
+          _buildTile(context, 'Access to Rights', Rights()),
+          _buildTile(context, 'Visitation Information', Visitation()),
+          _buildTile(context, 'Legal Documents', LegalDocuments()),
+          // Add similar lines for additional tiles if needed
+        ],
       ),
     );
   }
-}
 
-class TileWidget extends StatelessWidget {
-  final Color color;
-  final String text;
-
-  TileWidget({required this.color, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 20, color: Colors.white),
+  Widget _buildTile(BuildContext context, String title, Widget page) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Container(
+        margin:
+            EdgeInsets.all(8.0), // Add margin to create spacing between tiles
+        decoration: BoxDecoration(
+          color: Colors.deepPurpleAccent, // Background color
+          borderRadius: BorderRadius.circular(10.0), // Rounded corners
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
