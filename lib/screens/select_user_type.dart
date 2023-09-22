@@ -60,7 +60,7 @@ class _SelectUserTypePageState extends State<SelectUserTypePage> {
                   padding: EdgeInsets.only(top: 1), // Add space at the top
                   child: Text(
                     "Select User Type",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -170,12 +170,12 @@ class UserTypeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 6,
+      elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(42),
         side: isSelected
-            ? BorderSide(color: Theme.of(context).primaryColor, width: 2.0)
-            : BorderSide.none,
+            ? BorderSide(color: Theme.of(context).primaryColor, width: 3.0)
+            : BorderSide(color: Colors.grey,  width: 2.0),
       ),
       child: InkWell(
         onTap: () {

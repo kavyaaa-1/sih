@@ -5,6 +5,7 @@ import 'package:sih_project/screens/splash.dart';
 
 import '../dbHelper/constant.dart';
 import '../dbHelper/mongodb.dart';
+import 'chatbot_screen.dart';
 
 class JudgeHomePage extends StatefulWidget {
   final String judgeId;
@@ -38,6 +39,7 @@ Future<Map<String, dynamic>?> fetchCaseInfoFromDatabase(String judgeId) async {
 class _JudgeHomePageState extends State<JudgeHomePage> {
   String _selectedFilter = 'Ongoing'; // Default selected filter
   Case? caseInfo;
+  int _selectedIndex = 0;
 
   void loadCaseInfo() async {
     final fetchedCaseInfo = await fetchCaseInfoFromDatabase(widget.judgeId);
@@ -56,14 +58,38 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
     loadCaseInfo();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatBotScreen(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                // Handle opening the menu
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -76,57 +102,91 @@ class _JudgeHomePageState extends State<JudgeHomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Your Cases',
-                  style: TextStyle(
-                    fontSize: 26,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                DropdownButton<String>(
-                  value: _selectedFilter,
-                  items: <String>[
-                    'Ongoing',
-                    'Past',
-                  ].map((String filter) {
-                    return DropdownMenuItem<String>(
-                      value: filter,
-                      child: Text(filter),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedFilter = newValue!;
-                    });
-                  },
-                ),
-              ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.deepPurpleAccent,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50.0),
+                bottomRight: Radius.circular(50.0),
+              ),
             ),
-            SizedBox(
-              height: 20,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Your Cases',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            // Display assigned cases based on the selected filter
-            Container(
-              height: 130, // Adjust the height as desired
-              width: double.infinity, // Takes the full width
+          ),
+
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.end, // Align the container to the right
+            children: [
+              // Remove the "New Case Request" Container and related code here
+            ],
+          ),
+
+          // Display assigned cases based on the selected filter
+          Container(
+            margin: EdgeInsets.all(12.0),
+            height: 160, // Adjust the height as desired
+            width: double.infinity, // Takes the full width
+            child: Padding(
+              padding: EdgeInsets.all(12.0), // Add your desired padding here
               child: CaseCard(
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',
                 progress:
-                    '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
+                '${caseInfo?.isClosed ?? false ? 'Closed' : 'Ongoing'}',
               ),
             ),
-            // Add more CaseCard widgets based on the selected filter
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.orange.shade300,
+                width: 1.0, // Adjust the border width as needed
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            ),
+          ),
+
+          // Add more CaseCard widgets based on the selected filter
+        ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomNavigationBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.library_books,
+                size: 40,
+              ),
+              label: 'Legal Aid',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat,
+                size: 40,
+              ),
+              label: 'Chat with Us',
+            ),
           ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
       ),
     );
@@ -159,7 +219,7 @@ class CaseCard extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        elevation: 4,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -167,7 +227,9 @@ class CaseCard extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8,),
+              SizedBox(
+                height: 8,
+              ),
               Text(
                 'Case ID: $caseId',
                 style: TextStyle(
@@ -193,6 +255,5 @@ class CaseCard extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
