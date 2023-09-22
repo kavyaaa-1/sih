@@ -43,7 +43,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
       _selectedIndex = index;
     });
 
-    if (index == 2) {
+    if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -147,13 +147,22 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                 child: Container(
                   margin: EdgeInsets.all(16.0),
                   height: 50,
-                  width: 180,
+                  width: 220,
                   alignment: Alignment.center,
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "New Case Requests",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.notifications, // Use the notification bell icon
+                          color: Colors.white,  // Customize the icon color
+                        ),
+                        SizedBox(width: 10), // Add some space between the icon and text
+                        Text(
+                          "New Case Requests",
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -161,16 +170,17 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
                 ),
+
               )
             ],
           ),
           // Display assigned cases based on the selected filter
           Container(
-            margin: EdgeInsets.all(16.0),
+            margin: EdgeInsets.all(12.0),
             height: 160, // Adjust the height as desired
             width: double.infinity, // Takes the full width
             child: Padding(
-              padding: EdgeInsets.all(16.0), // Add your desired padding here
+              padding: EdgeInsets.all(12.0), // Add your desired padding here
               child: CaseCard(
                 caseId: '${caseInfo?.caseId ?? 'Loading...'}',
                 caseType: '${caseInfo?.caseType ?? 'Loading...'}',

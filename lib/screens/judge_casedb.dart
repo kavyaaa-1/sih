@@ -76,6 +76,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
         title: Text('Case Details'),
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
+          centerTitle: true
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -83,64 +84,67 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Case No. ${caseInfo.caseNo}',
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              Card(
-                elevation: 4,
-                margin: EdgeInsets.all(16.0),
-                child: Padding(
+                Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Prisoner Name:',
+                        'Case ID: ${caseInfo.caseNo}',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        caseInfo?.caseType ?? 'Loading...',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors
+                            .grey, // You can specify the color of the line
+                        thickness:
+                        1, // You can adjust the thickness of the line
+                        height:
+                        20, // You can set the height or space above and below the line
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Prisoner Name',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '${caseInfo.prisonerName}',
+                        '${caseInfo?.prisonerName ?? 'Loading...'}',
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
+                      SizedBox(height: 5),
                       Text(
-                        'Case Type:',
+                        'Assigned Lawyer',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '${caseInfo.caseType}',
+                        '${caseInfo?.lawyerAssigned ?? 'Loading...'}',
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
-                      Text(
-                        'Assigned Lawyer:',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${caseInfo.lawyerAssigned}',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                      SizedBox(height: 5),
+
                       ExpansionTile(
                         title: Text(
-                          'Description',
+                          'Case Description',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -148,24 +152,14 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                         ),
                         children: [
                           Text(
-                            caseInfo.caseDescription,
+                            caseInfo?.caseDescription ?? 'Loading...',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Case Verdict:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                      ),
-                      Text(caseInfo.verdict),
                     ],
-                  ),
                 ),
               ),
               if (canAddHearing && canAddVerdict)
@@ -175,7 +169,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                     if (canAddHearing)
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.deepPurpleAccent,
+                          primary: Colors.orange,
                           onPrimary: Colors.white,
                           padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -200,7 +194,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                     if (canAddVerdict)
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.deepPurpleAccent,
+                          primary: Colors.orange,
                           onPrimary: Colors.white,
                           padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -218,7 +212,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                   ],
                 ),
               Card(
-                elevation: 4,
+                elevation: 1,
                 color: Colors.white,
                 margin: EdgeInsets.all(16.0),
                 child: Column(
@@ -237,7 +231,7 @@ class _CaseDetailsPageState extends State<CaseDetailsPage> {
                     Column(
                       children: caseInfo.hearingDates.map((date) {
                         return Card(
-                          elevation: 4, // Add elevation for shadow
+                          elevation: 1, // Add elevation for shadow
                           shadowColor: Colors.grey,
                           margin: EdgeInsets.all(8.0),
                           child: Column(

@@ -71,7 +71,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               decoration: BoxDecoration(
                 color: message.isMe
                     ? Color.fromARGB(255, 193, 163, 250)
-                    : Colors.deepPurple, // Change colors as desired
+                    : Colors.deepPurpleAccent, // Change colors as desired
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.all(10),
