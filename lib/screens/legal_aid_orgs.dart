@@ -122,22 +122,27 @@ class CaseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Navigate to another page when the card is tapped
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              // Replace `AnotherPage` with the actual page you want to navigate to
-              return LegalAidListPage();
-            },
-          ),
-        );
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       // Replace `AnotherPage` with the actual page you want to navigate to
+        //       return LegalAidListPage();
+        //     },
+        //   ),
+        // );
       },
       child: Card(
         color: Colors.white,
         elevation: 1,
+        //shadowColor: Colors.deepPurpleAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
+          side: const BorderSide(
+            color: Colors.deepPurpleAccent,
+          ),
         ),
         child: ListTile(
+          hoverColor: Color.fromARGB(255, 231, 223, 255),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -174,7 +179,7 @@ class CaseCard extends StatelessWidget {
               ),
             ],
           ),
-          trailing: Icon(Icons.arrow_forward_ios), // Add the forward arrow icon
+          // trailing: Icon(Icons.arrow_forward_ios), // Add the forward arrow icon
         ),
       ),
     );

@@ -1,7 +1,7 @@
 // main.dart
 
 import 'package:flutter/material.dart';
-import 'package:sih_project/legal_aid/dictionary.dart';
+import '../screens/legal_glossary.dart';
 import 'legalDocuments.dart';
 import 'faq.dart';
 import 'rights.dart';
@@ -23,7 +23,7 @@ class LegalAidPage extends StatelessWidget {
         childAspectRatio: 2.56, // Adjust aspect ratio for tile height
         children: [
           //SizedBox(height: 10,),
-          _buildTile(context, 'Legal Glossary', SearchPage(), 'images/dictionary.png'),
+          _buildTile(context, 'Legal Glossary', LegalDictionaryPage(), 'images/dictionary.png'),
           _buildTile(context, 'FAQs', Faq(), 'images/faq.png'),
           _buildTile(context, 'Your Rights', Rights(), 'images/civil-right-movement.png'),
           _buildTile(context, 'Visiting Info', Visitation(),'images/visitor.png'),

@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Text Summarizer'),
+          title: Text('Bail Predictor'),
         ),
         body: SummarizerApp(),
       ),
@@ -26,24 +26,39 @@ class SummarizerApp extends StatefulWidget {
 
 class _SummarizerAppState extends State<SummarizerApp> {
   TextEditingController textController = TextEditingController();
-  String summary = "";
+  var score;
 
   // Function to send the text and get the summary
   Future<void> summarizeText() async {
     String inputText = textController.text;
-    var response = await http.post(
-      Uri.parse('http://127.0.0.1:5000/summarize'),
-      body: jsonEncode(<String, String>{
-        'text': inputText,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      setState(() {
-        summary = jsonDecode(response.body)['summary'];
-      });
-    } else {
-      print('Error: ${response.reasonPhrase}');
+    try {
+      var response = await http.post(
+        Uri.parse('https://sih-api.azurewebsites.net/predict'),
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept' : '*/*',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+        },
+        body: jsonEncode(<String, String>{
+          'user_input': inputText,
+        }),
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        if (jsonResponse.containsKey('confidence_score')) {
+          setState(() {
+            score = jsonResponse['confidence_score'];
+          });
+        } else {
+          print('Response does not contain confidence_score.');
+        }
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -57,7 +72,7 @@ class _SummarizerAppState extends State<SummarizerApp> {
             controller: textController,
             maxLines: 10,
             decoration: InputDecoration(
-              labelText: 'Enter the text to be summarized:',
+              labelText: 'Enter the text:',
               border: OutlineInputBorder(),
             ),
           ),
@@ -65,14 +80,15 @@ class _SummarizerAppState extends State<SummarizerApp> {
         ElevatedButton(
           onPressed: () async {
             await summarizeText();
+            //print(score);
           },
-          child: Text('Generate Summary'),
+          child: Text('Generate Score'),
         ),
-        if (summary != '')
+        if (score != null)
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              "Generated Summary:\n$summary",
+              "Generated Score:\n$score",
               style: TextStyle(fontSize: 16),
             ),
           ),
