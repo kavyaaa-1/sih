@@ -6,7 +6,9 @@ import '../dbHelper/constant.dart';
 class CaseConfirmationPage extends StatefulWidget {
   final String pid;
   final String caseId;
+
   CaseConfirmationPage({required this.pid, required this.caseId});
+
   @override
   _CaseConfirmationPageState createState() => _CaseConfirmationPageState();
 }
@@ -98,77 +100,98 @@ class _CaseConfirmationPageState extends State<CaseConfirmationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.deepPurpleAccent,
         foregroundColor: Colors.white,
-        title: Text('Assigned Details'),
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
-          ),
+          color: Colors.deepPurpleAccent,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 25.0),
-              const Text(
-                'CASE ID',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  color: Colors.black,
-                ),
+              SizedBox(
+                height: 10,
               ),
               Text(
-                widget.caseId,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 25.0),
-              const Text(
-                'ASSIGNED LAWYER',
+                'Assigned Details',
                 style: TextStyle(
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
-              Text(
-                'Name : $_assignedLawyer\nPhone number : $_phone',
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
+              SizedBox(
+                height: 20,
+              ),
+              Card(
+                color: Color.fromARGB(255, 244, 243, 247),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(45.0),
+                    topRight: Radius.circular(45.0),
+                  ),
+                ),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(height: 25.0),
+                      Text(
+                        'CASE ID',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        widget.caseId,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 25.0),
+                      Text(
+                        'ASSIGNED LAWYER',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        'Name: $_assignedLawyer\nPhone number: $_phone',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 25.0),
+                      Text(
+                        'ASSIGNED JUDGE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        _assignedJudge,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 200.0),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 25.0),
-              const Text(
-                'ASSIGNED JUDGE',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                _assignedJudge,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 25.0),
             ],
           ),
         ),

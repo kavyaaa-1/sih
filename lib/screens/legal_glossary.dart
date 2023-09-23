@@ -27,12 +27,14 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
   String meaning = "Loading...";
   String searchTerm = '';
   int _currentPage = 0;
+  bool hasSearched = false;
 
   void _fetchMeaning(String searchTerm) async {
     try {
       final data = await fetchData(searchTerm);
       print(data);
       setState(() {
+        hasSearched = true;
         // Parse the meaning from the API data
         if (data.containsKey("meanings")) {
           final meanings = data["meanings"] as List<dynamic>;
@@ -115,13 +117,14 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
                   ),
                 ),
                 child: Container(
+                  color: Colors.white10,
                   width: double.infinity,
                   padding: const EdgeInsets.all(24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
-                        elevation: 7, // Add elevation to the card
+                        elevation: 7,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -167,7 +170,6 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
                                   "Explore Legal Jargon: Find Definitions Effortlessly.",
                                   style: TextStyle(
                                     fontSize: 20,
-                                    //fontWeight: FontWeight.bold,
                                     fontStyle: FontStyle.italic,
                                     color: Color.fromARGB(255, 51, 51, 51),
                                   ),
@@ -192,7 +194,6 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
                                   "Legal Lingo Unveiled: Your Quick Reference Guide.",
                                   style: TextStyle(
                                     fontSize: 20,
-                                    // fontWeight: FontWeight.bold,
                                     fontStyle: FontStyle.italic,
                                     color: Color.fromARGB(255, 51, 51, 51),
                                   ),
@@ -223,58 +224,51 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
                       Row(
                         children: [
                           wordContainer("bailiff", 50),
-                          wordContainer("sentencing guidelines", 150),
+                          wordContainer("sentencing", 80),
                           wordContainer("alibi", 50),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          wordContainer("deposition", 75),
                           wordContainer("tort", 40),
                         ],
                       ),
-                      const SizedBox(height: 15),
-                      Card(
+                      const SizedBox(height: 20),
+                      Visibility(
+                        // Wrap the meaning container with Visibility widget
+                        visible:
+                            hasSearched, // Show only if a search has been performed
                         child: Container(
                           padding: const EdgeInsets.all(19.0),
-                          height: 300,
-                          width: 355,
                           decoration: BoxDecoration(
                             color: Colors.orange,
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                          child: Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 25,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 25,
+                              ),
+                              Text(
+                                searchTerm,
+                                style: const TextStyle(
+                                  fontSize: 55,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
-                                  searchTerm,
-                                  style: const TextStyle(
-                                    fontSize: 55,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                "DEFINITION",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const SizedBox(height: 20),
-                                const Text(
-                                  "DEFINITION",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                meaning,
+                                style: TextStyle(
+                                  fontSize: 18,
                                 ),
-                                SizedBox(height: 20),
-                                Text(
-                                  meaning,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -320,9 +314,8 @@ class _LegalDictionaryPageState extends State<LegalDictionaryPage> {
           margin: EdgeInsets.symmetric(horizontal: 4.0),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _currentPage == index
-                ? Colors.deepPurpleAccent
-                : Colors.grey, // Change the indicator color when active
+            color:
+                _currentPage == index ? Colors.deepPurpleAccent : Colors.grey,
           ),
         );
       }),
@@ -335,14 +328,12 @@ Future<Map<String, dynamic>> fetchData(String word) async {
       .get(Uri.parse('https://api.dictionaryapi.dev/api/v2/entries/en/$word'));
 
   if (response.statusCode == 200) {
-    // If the server returns a 200 OK response, parse the JSON data
     final data = json.decode(response.body);
     if (data is List) {
-      return data.first; // Use the first entry if multiple entries are returned
+      return data.first;
     }
     return data;
   } else {
-    // If the server did not return a 200 OK response, throw an exception
     throw Exception('Failed to load data');
   }
 }

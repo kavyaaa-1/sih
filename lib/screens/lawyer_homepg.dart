@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo_dart;
+import 'package:sih_project/legal_aid/lawyer_aid.dart';
 import 'package:sih_project/screens/pending_case_req.dart';
 import 'package:sih_project/screens/splash.dart';
 
@@ -42,6 +43,15 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LawyerAid(),
+        ),
+      );
+    }
 
     if (index == 1) {
       Navigator.push(
