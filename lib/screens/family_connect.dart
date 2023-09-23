@@ -19,7 +19,7 @@ class LetsConnect extends StatelessWidget {
         children: [
           //SizedBox(height: 10,),
           _buildTile(
-              context, 'Your Lawyer', ConnectWithLawyer(), 'images/lawyer.png'),
+              context, 'Your Lawyer', ConnectWithLawyer(), 'images/lawyer_2710026.png'),
           _buildTile(context, 'Legal Aid Organizations', LegalAidListPage(),
               'images/legal_aid_org.png'),
           _buildTile(context, 'Legal Clinics', LegalAidListPage(),

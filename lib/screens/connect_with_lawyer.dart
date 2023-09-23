@@ -4,11 +4,13 @@ class ConnectWithLawyer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent,
+        foregroundColor: Colors.white,
+      ),
       body: Stack(
         children: [
           Container(
-            color: Colors.deepPurple,
             width: double.infinity,
             height: double.infinity,
           ),
@@ -16,10 +18,15 @@ class ConnectWithLawyer extends StatelessWidget {
             child: Container(
               width: 400,
               height: 600,
+              margin: EdgeInsets.all(20.0),
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.grey, // Border color
+                  width: 1.0, // Border width
+                ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -27,16 +34,19 @@ class ConnectWithLawyer extends StatelessWidget {
                   Text(
                     "Connect with Your Lawyer",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 20),
-                  Image.asset(
-                    'images/lawyer.png', // Replace with your image asset
-                    width: 200,
-                    height: 200,
+                  ClipOval(
+                    child: Image.asset(
+                      'images/elegant-man-with-crossed-amrs.jpg', // Replace with your image asset
+                      width: 240, // Adjust the size as needed
+                      height: 240, // Adjust the size as needed
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   SizedBox(height: 20),
                   Text(
@@ -107,7 +117,7 @@ class CircularButton extends StatelessWidget {
     return Column(
       children: [
         FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 244, 171, 62),
+          backgroundColor: Colors.orange,
           foregroundColor: Colors.white,
           onPressed: onPressed,
           child: Icon(icon),
@@ -119,4 +129,10 @@ class CircularButton extends StatelessWidget {
       ],
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: ConnectWithLawyer(),
+  ));
 }
