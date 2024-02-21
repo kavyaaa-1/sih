@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+void main() {
+  runApp(ChatBotScreen());
+}
+
 class ChatBotScreen extends StatefulWidget {
   @override
   _ChatBotScreenState createState() => _ChatBotScreenState();
@@ -57,7 +61,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
           crossAxisAlignment:
-          message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               message.isMe ? 'You' : 'Bot',
@@ -134,7 +138,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                     size: 35, // Adjust the icon size as desired
                   ),
                 )
-
               ],
             ),
           )
